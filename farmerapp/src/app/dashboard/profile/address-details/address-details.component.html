@@ -1,0 +1,39 @@
+<form class="form-container" [formGroup]="addressDetailsForm" (ngSubmit)="saveAddressDetailsForm(addressDetailsForm)">
+    <div class="form-group">
+        <label for="addressLine1">Line 1</label>
+        <input type="text" class="form-control" id="addressLine1" formControlName="addressLine1" placeholder="Enter Line 1">
+    </div>
+    <div class="form-group">
+        <label for="addressLine2">Line 2</label>
+        <input type="text" class="form-control" id="addressLine2" formControlName="addressLine2" placeholder="Enter Line 2">
+    </div>
+    <div class="form-group">
+        <label for="locality">Locality</label>
+        <input type="text" class="form-control" id="locality" formControlName="locality"
+            placeholder="Enter Locality">
+    </div>
+    <div class="form-group">
+        <label for="cityName">City</label>
+        <input type="text" class="form-control" id="cityName" formControlName="cityName"
+            placeholder="Enter city">
+    </div>
+    <div class="form-group">
+        <label for="stateName">Tahsil</label>
+        <input type="text" class="form-control" id="tahsilName" formControlName="tahsilName"
+            placeholder="Enter Tahsil">
+    </div>
+    <div class="form-group">
+        <label for="stateName">State</label>
+        <input type="text" class="form-control" id="stateName" formControlName="stateName"
+            placeholder="Enter State">
+    </div>
+    <div class="form-group">
+        <label for="pincode">Pincode</label>
+        <input type="text" class="form-control" id="pincode" formControlName="pincode"
+            placeholder="Enter Pincode">
+    </div>
+
+    <div class="add-bottom-button-container d-flex align-items-center mb-4">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>

@@ -1,0 +1,76 @@
+<mat-toolbar>
+    <h1 mat-dialog-title>{{formTitle}}</h1>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="closeDialog()" tabindex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="productDetailsform" (ngSubmit)="saveProduct(productDetailsform)">
+        <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" class="form-control" formControlName="productName" data-toggle="tooltip"
+                data-placement="right" title="Enter Product Name">
+            <!-- <div class="alert alert-danger" *ngIf="(ProductName.touched) && (ProductName.invalid)"
+                style="margin-top: 5px;">
+                <span *ngIf="ProductName.errors.required">Product Name is Required</span>
+            </div> -->
+        </div>
+
+        <div class="form-group">
+            <label for="productCategoryId">Product Category</label>
+            <select class="form-control" formControlName="productCategoryId" data-toggle="tooltip" data-placement="right"
+                title="Select Product category">
+                <option value="null">--Select Category--</option>
+                <option value="C1">C1</option>
+                <option value="C2">C2</option>
+                <option value="C3">C3</option>
+                <option value="C4">C4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="productGradeId">Product Grade</label>
+            <select class="form-control" formControlName="productGradeId" data-toggle="tooltip" data-placement="right"
+                title="Select Product Branch">
+                <option value="null">--Select Grade--</option>
+                <option value="G1">G1</option>
+                <option value="G2">G2</option>
+                <option value="G3">G3</option>
+                <option value="G4">G4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="name">Product Description</label>
+            <input type="text" class="form-control" formControlName="description" data-toggle="tooltip"
+                data-placement="right" title="Enter Product Description">
+            <!-- <div class="alert alert-danger" *ngIf="(ProductDescription.touched) && (ProductDescription.invalid)"
+                style="margin-top: 5px;">
+                <span *ngIf="ProductDescription.errors.required">Product Description is Required</span>
+            </div> -->
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" formControlName="city" data-toggle="tooltip" data-placement="right"
+                title="Enter City">
+        </div>
+        <!-- <div class="form-group">
+            <label for="availableOn">Available On</label>
+            <mat-datepicker-toggle [for]="availableOn" class="dateIcon"></mat-datepicker-toggle>
+            <mat-datepicker #availableOn></mat-datepicker>
+        </div> -->
+        <div class="form-group">
+            <label for="sellingRate">Selling Rate</label>
+            <input type="text" class="form-control" formControlName="sellingRate" data-toggle="tooltip"
+                data-placement="right" title="Enter Selling Rate">
+        </div>
+
+        <!-- <button type="submit" class="btn btn-success">Submit</button> -->
+
+        <div class="add-bottom-button-container d-flex align-items-center mb-4">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+
+    </form>
+</mat-dialog-content>

@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+    <h1 mat-dialog-title>{{formTitle}}</h1>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="closeDialog()" tabindex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-toolbar>
+    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==0" (click)="updateProfileIndex(0)">My
+        Details</a>
+    <!-- <span class="fill-remaining-space"></span> -->
+    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==1" (click)="updateProfileIndex(1)">Bank
+        Details</a>
+    <!-- <span class="fill-remaining-space"></span> -->
+    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==2" (click)="updateProfileIndex(2)">Address
+        Details</a>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+    <app-user-details *ngIf="profileIndex == 0" (closeProfileDialogForMe)="closeDialog()"></app-user-details>
+    <app-bank-details *ngIf="profileIndex == 1" (closeProfileDialogForMe)="closeDialog()"></app-bank-details>
+    <app-address-details *ngIf="profileIndex == 2" (closeProfileDialogForMe)="closeDialog()"></app-address-details>
+
+</mat-dialog-content>
