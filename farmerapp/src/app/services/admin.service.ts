@@ -9,17 +9,17 @@ import { UserDetails } from '../classes/user-details';
   providedIn: 'root'
 })
 export class AdminService {
-  serverUrl: any = "http://localhost:8080/user/";
-  loginEndpoint: any = "validate";
-  signupEndpoint: any = "signup"
+  serverUrl: any = "http://localhost:8080";
+  loginEndpoint: any = "/v1/user/validate";
+  signupEndpoint: any = "/v1/user/signup"
 
   constructor(
     private httpCllient: HttpClient,
     private router: Router
   ) { }
 
-  validateLogin(emailid: string, password: string): Observable<any> {
-    var parameters = "emailid=" + emailid + "&password=" + password;
+  validateLogin(userName: string, password: string): Observable<any> {
+    var parameters = "userName=" + userName + "&password=" + password;
     var url = this.serverUrl + this.loginEndpoint + "?" + parameters;
 
     return this.httpCllient.get(url);

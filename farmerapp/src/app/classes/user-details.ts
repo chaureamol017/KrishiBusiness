@@ -6,4 +6,5 @@ export class UserDetails {
 	lastName: string;
     emailId : string;
     mobile : string;
+	role: string;
 }

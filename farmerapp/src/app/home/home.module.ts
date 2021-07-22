@@ -1,32 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RouterModule, Routes } from '@angular/router';
-import { MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatDividerModule, MatSidenavModule } from '@angular/material';
 import { DashboardModule } from '../dashboard/dashboard.module';
-import { SignupComponent } from './signup/signup.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
-const routes: Routes = [{
-    path: 'login',
-    component: LoginComponent
-  }];
+// const routes: Routes = [{
+//     path: 'login',
+//     component: LoginComponent
+//   }];
 
 @NgModule({
-  declarations: [HomeComponent, LoginComponent, SignupComponent],
+  declarations: [HomeComponent],
   imports: [
-    RouterModule.forRoot(routes, { useHash: true }),
+    // RouterModule.forRoot(routes, { useHash: true }),
     CommonModule,
     
     FormsModule,
     ReactiveFormsModule,
-    
+
+    MatButtonModule,
+    MatDividerModule,
     MatIconModule,
     MatToolbarModule,
-    MatButtonModule,
-    DashboardModule
+    MatSidenavModule,
+
+    DashboardModule,
   ]
 })
 export class HomeModule { }

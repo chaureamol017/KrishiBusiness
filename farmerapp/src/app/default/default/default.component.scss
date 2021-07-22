@@ -1,0 +1,56 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  mat-drawer {
+    width: 350px;
+  }
+  
+  mat-drawer-container {
+    height: 100%;
+  }
+  
+  mat-drawer-content {
+    padding: 20px;
+  }
+  
+  .default-dashboard {
+    div.main {
+      width: 100%;
+    }
+    div.heading {
+      border: 1px solid black;
+      border-radius: 5px;
+      width: 1175px;
+      margin: left;
+      color: maroon;
+    }
+    div.leftside {
+      width: 50%;
+      height: 100px;
+      float: left;
+    }
+    div.rightside {
+      margin-left: 50%;
+      height: 100px;
+    }
+    div.desc {
+      border: 1px solid black;
+      border-radius: 5px;
+      width: 600px;
+      margin: left;
+      background-color: #abebc6;
+    }
+    div.services {
+      border: 1px solid black;
+      border-radius: 5px;
+      width: 600px;
+      margin: left;
+      background-color: #abebc6;
+    }
+    h3 {
+      color: maroon;
+    }
+  }
+  

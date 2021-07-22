@@ -16,6 +16,7 @@ import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminService } from './services/admin.service';
 import { ProfileComponent } from './dashboard/profile/profile.component';
+import { DefaultModule } from './default/default.module';
 
 @NgModule({
   declarations: [
@@ -28,9 +29,10 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
 
     HttpClientModule ,
     
+    DefaultModule,
     HomeModule,
     DashboardModule,
-    ProductModule
+    ProductModule,
   ],
   entryComponents: [
     ProfileComponent,
