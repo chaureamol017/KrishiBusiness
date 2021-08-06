@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserSignup } from 'src/app/model/user-signup';
+import { AdminApiService } from 'src/app/services/admin-api.service';
 import { AdminService } from 'src/app/services/admin.service';
-import { UserSignup } from 'src/app/classes/user-signup';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   signupForm;
 
   constructor(
     private adminService: AdminService,
+    private adminApiService: AdminApiService,
   ) { }
 
   ngOnInit() {
@@ -43,7 +45,7 @@ export class SignupComponent implements OnInit {
       signupDetails.mobile = formValues.mobile;
       signupDetails.password = formValues.password;
 
-      this.adminService.signUp(signupDetails)
+      this.adminApiService.signUp(signupDetails)
         .subscribe(
           responseData => {
             if (responseData.success) {

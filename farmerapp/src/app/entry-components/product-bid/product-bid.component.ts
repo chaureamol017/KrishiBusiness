@@ -1,16 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatDialogRef } from '@angular/material';
-import { ProductbidService } from 'src/app/services/productbid.service';
+import { MatPaginator, MatTableDataSource, MatDialogRef } from '@angular/material';
+import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
 
 @Component({
-  selector: 'app-bidlist',
-  templateUrl: './bidlist.component.html',
-  styleUrls: [
-    './bidlist.component.scss',
-    '../../../common/commonStyle.scss'
-  ]
+  selector: 'app-product-bid',
+  templateUrl: './product-bid.component.html',
+  styleUrls: ['./product-bid.component.scss']
 })
-export class BidlistComponent implements OnInit {
+export class ProductBidComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   listData: MatTableDataSource<any>;
@@ -24,8 +21,8 @@ export class BidlistComponent implements OnInit {
   dataSource = [];
 
   constructor(
-    private productBidService: ProductbidService,
-    private dialogRef: MatDialogRef<BidlistComponent>
+    private productBidApiService: ProductBidApiService,
+    private dialogRef: MatDialogRef<ProductBidComponent>
   ) { }
 
   ngOnInit() {
@@ -53,7 +50,7 @@ export class BidlistComponent implements OnInit {
   }
   getProductBidForBuyer() {
     var productId = this.selectedData.productId;
-    this.productBidService.getProductBid(productId).subscribe(
+    this.productBidApiService.getProductBid(productId).subscribe(
       responseData => {
         this.handleSuccessResponseForGet(responseData);
       },
@@ -62,9 +59,10 @@ export class BidlistComponent implements OnInit {
       }
     );
   }
+
   getProductBidForFarmer() {
     var productId = this.selectedData.productId;
-    this.productBidService.getProductBid(productId).subscribe(
+    this.productBidApiService.getProductBid(productId).subscribe(
       responseData => {
         this.handleSuccessResponseForGet(responseData);
       },
@@ -77,7 +75,6 @@ export class BidlistComponent implements OnInit {
   handleSuccessResponseForGet(responseData) {
     if (responseData.success) {
       var productDetails = eval("(" + responseData.data + ")");
-
       // this.dataSource.;
       productDetails.forEach(element => {
         this.dataSource.push(element);

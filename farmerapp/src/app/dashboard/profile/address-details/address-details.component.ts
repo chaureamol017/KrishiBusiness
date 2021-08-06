@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
   selector: 'app-address-details',
@@ -13,7 +13,7 @@ export class AddressDetailsComponent implements OnInit {
   addressDetailsForm;
 
   constructor(
-    private userService: UserService
+    private userApiService: UserApiService
   ) {
 
     this.createAddressDetailsFormControl("", "", "", "", "", "", "", "");
@@ -36,7 +36,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   getAddressDetails() {
-    this.userService.getAddressDetails()
+    this.userApiService.getAddressDetails()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -63,7 +63,7 @@ export class AddressDetailsComponent implements OnInit {
       pincode: (addressDetails.pincode) ? addressDetails.pincode : ""
     };
 
-    this.userService.saveAddressDetails(addressDetailsData).subscribe(
+    this.userApiService.saveAddressDetails(addressDetailsData).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },

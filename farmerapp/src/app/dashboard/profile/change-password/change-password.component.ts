@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
   selector: 'app-change-password',
@@ -15,7 +15,7 @@ export class ChangePasswordComponent implements OnInit {
   selectedData: any;
   formTitle: any = "Change Password";
   constructor(
-    private userService: UserService,
+    private userApiService: UserApiService,
     private dialogRef: MatDialogRef<ChangePasswordComponent>,
   ) { }
 
@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit {
       } else if (newPassword != rePassword) {
         alert("New password and Re-Passwordshold be equal");
       } else {
-        this.userService.changePassword(oldPassword, newPassword).subscribe(
+        this.userApiService.changePassword(oldPassword, newPassword).subscribe(
           responseData => {
             this.handleSuccessResponse(responseData);
           },

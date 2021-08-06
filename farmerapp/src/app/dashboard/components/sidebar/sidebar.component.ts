@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { UserDetails } from 'src/app/classes/user-details';
+import { UserDetails } from 'src/app/model/user-details';
 
 @Component({
   selector: 'app-sidebar',

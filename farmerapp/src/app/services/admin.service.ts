@@ -1,34 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { UserSignup } from '../classes/user-signup';
 import { Router } from '@angular/router';
-import { UserDetails } from '../classes/user-details';
+import { UserDetails } from '../model/user-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  serverUrl: any = "http://localhost:8080";
-  loginEndpoint: any = "/v1/user/validate";
-  signupEndpoint: any = "/v1/user/signup"
+  constructor(private router: Router) { }
 
-  constructor(
-    private httpCllient: HttpClient,
-    private router: Router
-  ) { }
+  onValidateCall(loggedInUser: UserDetails) {
+    localStorage.setItem("userId", loggedInUser.userId);
+    localStorage.setItem("role", loggedInUser.role);
+    localStorage.setItem("emailId", loggedInUser.emailId);
+    localStorage.setItem("mobile", loggedInUser.mobile);
+    localStorage.setItem("firstName", loggedInUser.firstName);
+    localStorage.setItem("middleName", loggedInUser.middleName);
+    localStorage.setItem("lastName", loggedInUser.lastName);
 
-  validateLogin(userName: string, password: string): Observable<any> {
-    var parameters = "userName=" + userName + "&password=" + password;
-    var url = this.serverUrl + this.loginEndpoint + "?" + parameters;
-
-    return this.httpCllient.get(url);
-  }
-
-  signUp(signUpDetails: UserSignup): Observable<any> {
-    var url = this.serverUrl + this.signupEndpoint;
-
-    return this.httpCllient.post(url, signUpDetails);
+    this.router.navigate(['MyHome']);
   }
 
   logOut() {

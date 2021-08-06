@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProductbidService } from 'src/app/services/productbid.service';
+import { MatDialogRef } from '@angular/material';
+import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
 
 @Component({
-  selector: 'app-addbid',
-  templateUrl: './addbid.component.html',
-  styleUrls: [
-    './addbid.component.scss',
-    '../../../common/commonStyle.scss'
-  ]
+  selector: 'app-add-edit-product-bid',
+  templateUrl: './add-edit-product-bid.component.html',
+  styleUrls: ['./add-edit-product-bid.component.scss']
 })
-export class AddbidComponent implements OnInit {
+export class AddEditProductBidComponent implements OnInit {
+
 
   productBidform;
   selectedData: any;
   selectedProductName: any;
   formTitle: any = "Bid For";
   constructor(
-    private productbidService: ProductbidService,
-    private dialogRef: MatDialogRef<AddbidComponent>
+    private productBidApiService: ProductBidApiService,
+    private dialogRef: MatDialogRef<AddEditProductBidComponent>
   ) { }
 
   ngOnInit() {
@@ -51,7 +49,7 @@ export class AddbidComponent implements OnInit {
       productId: (this.selectedData.productId) ? this.selectedData.productId : "",
       biddingRate: (productBidDetails.bidAmount) ? productBidDetails.bidAmount : "",
     }
-    this.productbidService.saveProductBid(product).subscribe(
+    this.productBidApiService.saveProductBid(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },

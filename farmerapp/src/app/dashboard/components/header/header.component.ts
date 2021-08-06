@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatDialogConfig, MatDialog } from '@angular/material';
 import { ChangePasswordComponent } from '../../profile/change-password/change-password.component';
 import { ProfileComponent } from '../../profile/profile.component';
 import { AdminService } from 'src/app/services/admin.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-header',
@@ -18,8 +18,7 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private dialog: MatDialog,
+  constructor(private dialogService: DialogService,
     private adminService: AdminService,
     ) { }
 
@@ -32,30 +31,13 @@ export class HeaderComponent implements OnInit {
   
   openMyProfile() {
     var selectedData = {};
-    this.openDialogWithConfig(ProfileComponent, selectedData, true, true);
+    this.dialogService.openDialogAtRight(ProfileComponent, selectedData, true);
   }
-  changePassword (){
+  changePassword () {
     var selectedData = {};
-    this.openDialogWithConfig(ChangePasswordComponent, selectedData, false, false);
+    this.dialogService.openDialog(ChangePasswordComponent, selectedData, false);
   }
-  logOut (){
+  logOut () {
     this.adminService.logOut();
-  }
-  
-  openDialogWithConfig(dialogComponent, selectedData, isEdit, viewAtRight) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    if (viewAtRight) {
-      dialogConfig.width = "60%";
-      dialogConfig.height = "100%";
-      dialogConfig.position = { top: '0', right: '0' };
-    } else {
-      dialogConfig.width = "40%";
-    }
-    dialogConfig.data = {
-      selectedData: selectedData,
-      isEdit: isEdit
-    }
-    this.dialog.open(dialogComponent, dialogConfig);
   }
 }

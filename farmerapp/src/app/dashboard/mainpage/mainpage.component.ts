@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDetails } from 'src/app/classes/user-details';
+import { UserDetails } from 'src/app/model/user-details';
 
 @Component({
   selector: 'app-mainpage',

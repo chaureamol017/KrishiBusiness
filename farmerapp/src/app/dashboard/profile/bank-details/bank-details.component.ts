@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
   selector: 'app-bank-details',
@@ -13,7 +13,7 @@ export class BankDetailsComponent implements OnInit {
   bankDetailsForm;
 
   constructor(
-    private userService: UserService
+    private userApiService: UserApiService
   ) {
     this.createBankDetailsFormControl("", "", "", "");
   }
@@ -33,7 +33,7 @@ export class BankDetailsComponent implements OnInit {
 
   getBankDetails() {
 
-    this.userService.getBankDetails()
+    this.userApiService.getBankDetails()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -59,7 +59,7 @@ export class BankDetailsComponent implements OnInit {
       ifscCode: ifscCode
     };
 
-    this.userService.saveBankDetails(bankDetailsData)
+    this.userApiService.saveBankDetails(bankDetailsData)
       .subscribe(
         responseData => {
           this.handleSuccessResponse(responseData);

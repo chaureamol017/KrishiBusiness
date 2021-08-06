@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { ProductService } from 'src/app/services/product.service';
-// import { Product } from '../../classes/product';
+import { ProductApiService } from 'src/app/services/product-api.service';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: [
-    './product.component.scss',
-    '../../common/commonStyle.scss'
-  ]
+  styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
 
   constructor(
-    private productService: ProductService,
+    private productApiService: ProductApiService,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ProductComponent>
   ) { }
@@ -72,7 +68,7 @@ export class ProductComponent implements OnInit {
       sellingRate: (productDetails.sellingRate) ? productDetails.sellingRate : "",
       productQuanity: (productDetails.productQuanity) ? productDetails.productQuanity : ""
     }
-    this.productService.saveProduct(product).subscribe(
+    this.productApiService.saveProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -95,4 +91,3 @@ export class ProductComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-

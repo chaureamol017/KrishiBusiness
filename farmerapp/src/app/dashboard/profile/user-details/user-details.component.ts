@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 @Component({
   selector: 'app-user-details',
@@ -13,7 +13,7 @@ export class UserDetailsComponent implements OnInit {
   userDetailsForm;
 
   constructor(
-    private userService: UserService
+    private userApiService: UserApiService
   ) {
     var firstName = localStorage.getItem("firstName") ? localStorage.getItem("firstName") : "";
     var middleName = localStorage.getItem("middleName") ? localStorage.getItem("middleName") : "";
@@ -50,7 +50,7 @@ export class UserDetailsComponent implements OnInit {
     this.saveUserDetails(userDetailsData);
   }
   saveUserDetails(userDetailsData) {
-    this.userService.saveBankDetails(userDetailsData)
+    this.userApiService.saveBankDetails(userDetailsData)
       .subscribe(
         responseData => {
           this.handleSuccessResponse(responseData);

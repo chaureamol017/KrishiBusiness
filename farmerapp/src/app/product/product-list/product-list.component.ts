@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {
-  MatDialog, MatDialogConfig,
   MatTableDataSource, MatSort, MatPaginator
 } from '@angular/material';
-import { ProductComponent } from '../product/product.component';
-import { AddbidComponent } from '../bidproduct/addbid/addbid.component';
-import { UserDetails } from 'src/app/classes/user-details';
-import { BidlistComponent } from '../bidproduct/bidlist/bidlist.component';
-import { ProductService } from 'src/app/services/product.service';
+import { UserDetails } from 'src/app/model/user-details';
+import { DialogService } from 'src/app/services/dialog.service';
+import { ProductComponent } from 'src/app/entry-components/product/product.component';
+import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
+import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
+import { ProductApiService } from 'src/app/services/product-api.service';
 
 @Component({
   selector: 'app-product-list',
@@ -29,9 +29,8 @@ export class ProductListComponent implements OnInit {
 
   dataSource = [];
 
-  constructor(
-    private dialog: MatDialog,
-    private productService: ProductService
+  constructor(private dialogService: DialogService,
+    private productApiService: ProductApiService
   ) {
 
   }
@@ -66,7 +65,7 @@ export class ProductListComponent implements OnInit {
   
   }
   getProductsForFarmer() {
-    this.productService.getProducts()
+    this.productApiService.getProducts()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -77,7 +76,7 @@ export class ProductListComponent implements OnInit {
       );
   }
   getProductsForBuyer() {
-    this.productService.getAllUnsoldProducts()
+    this.productApiService.getAllUnsoldProducts()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -91,7 +90,7 @@ export class ProductListComponent implements OnInit {
   deleteProduct(row) {
     if (confirm("Are you sure you want ot delete  record?")) {
       var productId = row.productId;
-      this.productService.deleteProduct(productId)
+      this.productApiService.deleteProduct(productId)
         .subscribe(
           responseData => {
             this.handleSuccessResponseForDelete(responseData);
@@ -113,7 +112,6 @@ export class ProductListComponent implements OnInit {
       });
 
       this.initializeAllComponents();
-
     } else {
       alert("Error ocurred while processing.")
     }
@@ -141,41 +139,23 @@ export class ProductListComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
-  addProduct(selectedData) {
-    this.openDialogWithConfig(ProductComponent, {}, false, true);
+  addProduct() {
+    this.dialogService.openDialog(ProductComponent, {}, false);
   }
 
   editProduct(row) {
-    this.openDialogWithConfig(ProductComponent, row, true, true);
-  }
-
-
-  viewBidProduct(selectedData, isEdit) {
-    this.openDialogWithConfig(BidlistComponent, selectedData, isEdit, true);
+    this.dialogService.openDialogAtRight(ProductComponent, row, true);
   }
 
   addBidProduct(selectedData) {
-    this.openDialogWithConfig(AddbidComponent, selectedData, false, false);
+    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, false);
   }
 
   editBidProduct(selectedData) {
-    this.openDialogWithConfig(AddbidComponent, selectedData, true, false);
+    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, true);
   }
 
-  openDialogWithConfig(dialogComponent, selectedData, isEdit, viewAtRight) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    if (viewAtRight) {
-      dialogConfig.width = "60%";
-      dialogConfig.height = "100%";
-      dialogConfig.position = { top: '0', right: '0' };
-    } else {
-      dialogConfig.width = "40%";
-    }
-    dialogConfig.data = {
-      selectedData: selectedData,
-      isEdit: isEdit
-    }
-    this.dialog.open(dialogComponent, dialogConfig);
+  viewBidProduct(selectedData, isEdit) {
+    this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
   }
 }
