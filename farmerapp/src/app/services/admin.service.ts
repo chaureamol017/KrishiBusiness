@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDetails } from '../model/user-details';
+import { UserSignup } from '../model/user-signup';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,18 @@ export class AdminService {
     localStorage.removeItem("lastName");
 
     this.router.navigate(['']);
+  }
+
+  createSignUpDetailsFromFormValues(formValues: any) : UserSignup {
+    var signupDetails = new UserSignup();
+    signupDetails.role = formValues.role;
+    signupDetails.firstName = formValues.firstName;
+    signupDetails.middleName = formValues.middleName;
+    signupDetails.lastName = formValues.lastName;
+    signupDetails.emailId = formValues.emailId;
+    signupDetails.mobile = formValues.mobile;
+    signupDetails.password = formValues.password;
+
+      return signupDetails;
   }
 }

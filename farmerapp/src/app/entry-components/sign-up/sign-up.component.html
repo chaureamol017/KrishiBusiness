@@ -1,39 +1,49 @@
-<form class="form-container" [formGroup]="signupForm" (ngSubmit)="signupUser(signupForm)" >
-    <div class="form-group">
-        <label class="form-label" for="role">Registration For</label>
-        <select class="form-control" id="role" formControlName="role" data-toggle="tooltip"
-            data-placement="right" title="Select Registration For">
-            <option value="null">-- Please Select --</option>
-            <option value="BUYER">Buyer</option>
-            <option value="FARMER">Farmer</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter First Name">
-    </div>
-    <div class="form-group">
-        <label for="middleName">Middle Name</label>
-        <input type="text" class="form-control" id="middleName" formControlName="middleName" placeholder="Enter Middle Name">
-    </div>
-    <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter Last Name">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" formControlName="emailId"
-            aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-            else.</small>
-    </div>
-    <div class="form-group">
-        <label for="signupUserPassword">Password</label>
-        <input type="password" class="form-control" id="signupUserPassword" formControlName="password" placeholder="password">
-    </div>
-    <div class="form-group">
-        <label for="signupUserConfirmPassword">Re-Password</label>
-        <input type="password" class="form-control" id="signupUserConfirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
-    </div>
-    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-</form>
+<mat-toolbar color="primary">
+    <h1 mat-dialog-title> {{ formTitle }} </h1>
+    <span class="fill-remaining-space"></span>
+    <button class="btn-dialog-close" mat-stroked-button (click)="closeDialog()" tabindex="-1">
+        <mat-icon>clear</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+    <form class="form-container" [formGroup]="signupForm" (ngSubmit)="signupUser(signupForm)" >
+        <div class="form-group">
+            <label class="form-label" for="role">Registration For</label>
+            <select class="form-control" id="role" formControlName="role" data-toggle="tooltip"
+                data-placement="right" title="Select Registration For">
+                <option value="null">-- Please Select --</option>
+                <option value="BUYER">Buyer</option>
+                <option value="FARMER">Farmer</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter First Name">
+        </div>
+        <div class="form-group">
+            <label for="middleName">Middle Name</label>
+            <input type="text" class="form-control" id="middleName" formControlName="middleName" placeholder="Enter Middle Name">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter Last Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" formControlName="emailId"
+                aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                else.</small>
+        </div>
+        <div class="form-group">
+            <label for="signupUserPassword">Password</label>
+            <input type="password" class="form-control" id="signupUserPassword" formControlName="password" placeholder="password">
+        </div>
+        <div class="form-group">
+            <label for="signupUserConfirmPassword">Re-Password</label>
+            <input type="password" class="form-control" id="signupUserConfirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+</mat-dialog-content>

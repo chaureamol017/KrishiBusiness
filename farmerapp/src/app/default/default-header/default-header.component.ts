@@ -6,10 +6,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 @Component({
   selector: 'app-default-header',
   templateUrl: './default-header.component.html',
-  styleUrls: [
-    './default-header.component.scss',
-    '../../common/commonStyle.scss'
-  ]
+  styleUrls: ['./default-header.component.scss']
 })
 export class DefaultHeaderComponent implements OnInit {
   appName: any = "Krishi Business";

@@ -6,8 +6,7 @@ import { UserApiService } from 'src/app/services/user-api.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss',
-    '../../../common/commonStyle.scss']
+  styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
 

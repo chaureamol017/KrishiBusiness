@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
 
 @Component({
@@ -11,12 +12,13 @@ import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
 export class AddEditProductBidComponent implements OnInit {
 
 
-  productBidform;
+  productBidform: FormGroup;
   selectedData: any;
   selectedProductName: any;
   formTitle: any = "Bid For";
   constructor(
     private productBidApiService: ProductBidApiService,
+    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<AddEditProductBidComponent>
   ) { }
 
@@ -27,15 +29,9 @@ export class AddEditProductBidComponent implements OnInit {
 
     if (refData.isEdit) {
       var selectedBidData = refData.selectedBidData;
-      this.productBidform = new FormGroup({
-        productBidId: new FormControl(selectedBidData.productBidId, [Validators.required]),
-        bidAmount: new FormControl(selectedBidData.bidAmount, [Validators.required])
-      });
+      this.productBidform = this.validationService.getEditProductBidFormGroup(selectedBidData);
     } else {
-      this.productBidform = new FormGroup({
-        productBidId: new FormControl('', [Validators.required]),
-        bidAmount: new FormControl('', [Validators.required])
-      });
+      this.productBidform = this.validationService.getAddProductBidFormGroup();
     }
   }
   

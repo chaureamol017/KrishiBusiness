@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
 import { UserSignup } from 'src/app/model/user-signup';
 import { AdminApiService } from 'src/app/services/admin-api.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { FormValidationService } from 'src/app/services/form-validation.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,24 +12,20 @@ import { AdminService } from 'src/app/services/admin.service';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-  signupForm;
+  formTitle: any = "Sign up";
+  signupForm: FormGroup;
 
   constructor(
     private adminService: AdminService,
     private adminApiService: AdminApiService,
+    private formValidationService: FormValidationService,
+    private dialogRef: MatDialogRef<SignUpComponent>
   ) { }
 
   ngOnInit() {
-    this.signupForm = new FormGroup({
-      role: new FormControl('', [Validators.required]),
-      firstName: new FormControl('', [Validators.required]),
-      middleName: new FormControl(''),
-      lastName: new FormControl('', [Validators.required]),
-      emailId: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    });
+    this.signupForm = this.formValidationService.getSignUpFormGroup();
   }
+
   signupUser(signupData) {
     var formValues = signupData.value;
 
@@ -36,14 +34,7 @@ export class SignUpComponent implements OnInit {
     } else if (formValues.password != formValues.confirmPassword) {
       alert("Password does not match.")
     } else {
-      var signupDetails = new UserSignup();
-      signupDetails.role = formValues.role;
-      signupDetails.firstName = formValues.firstName;
-      signupDetails.middleName = formValues.middleName;
-      signupDetails.lastName = formValues.lastName;
-      signupDetails.emailId = formValues.emailId;
-      signupDetails.mobile = formValues.mobile;
-      signupDetails.password = formValues.password;
+      var signupDetails = this.adminService.createSignUpDetailsFromFormValues(formValues);
 
       this.adminApiService.signUp(signupDetails)
         .subscribe(
@@ -56,5 +47,9 @@ export class SignUpComponent implements OnInit {
           }
         )
     }
+  }
+  
+  closeDialog() {
+    this.dialogRef.close();
   }
 }

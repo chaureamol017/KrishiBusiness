@@ -4,11 +4,7 @@ import { MatDialogRef } from '@angular/material';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: [
-    './profile.component.scss',
-    '../../common/commonStyle.scss',
-    // '../../../common/commonStyle.scss',
-  ]
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   formTitle: any = "My Profile";

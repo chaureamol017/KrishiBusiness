@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -11,8 +13,9 @@ import { ProductApiService } from 'src/app/services/product-api.service';
 export class ProductComponent implements OnInit {
 
   constructor(
+    private productService: ProductService,
     private productApiService: ProductApiService,
-    private formBuilder: FormBuilder,
+    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<ProductComponent>
   ) { }
 
@@ -25,49 +28,18 @@ export class ProductComponent implements OnInit {
       var selectedData = refData.selectedData;
 
       this.formTitle = "Edit Product";
-      this.productDetailsform = new FormGroup({
-        productId: new FormControl(selectedData.productId, [Validators.required]),
-        productName: new FormControl(selectedData.productName, [Validators.required]),
-        description: new FormControl(selectedData.description),
-        productCategoryId: new FormControl(selectedData.categoryid),
-        productGradeId: new FormControl(selectedData.gradeid),
-        city: new FormControl(selectedData.city),
-        availableOn: new FormControl(selectedData.availableOn),
-        sellingRate: new FormControl(selectedData.sellingRate),
-      });
-
+      this.productDetailsform = this.validationService.getEditProductFormGroup(selectedData);
     } else {
       this.formTitle = "Add Product";
-      this.productDetailsform = new FormGroup({
-        productId: new FormControl('', [Validators.required]),
-        productName: new FormControl('', [Validators.required]),
-        description: new FormControl(),
-        productCategoryId: new FormControl(),
-        productGradeId: new FormControl(),
-        city: new FormControl(),
-        availableOn: new FormControl(),
-        sellingRate: new FormControl(),
-      });
+      this.productDetailsform = this.validationService.getAddProductFormGroup();
     }
 
   }
 
-
   saveProduct(saveProduct) {
     var productDetails = saveProduct.value;
-    var userId: string = localStorage.getItem("userId");
 
-    var product = {
-      productId: (productDetails.productId) ? productDetails.productId : "",
-      userId: userId,
-      productName: (productDetails.productName) ? productDetails.productName : "",
-      productCategoryId: (productDetails.productCategoryId) ? productDetails.productCategoryId : "",
-      productGradeId: (productDetails.productGradeId) ? productDetails.productGradeId : "",
-      description: (productDetails.description) ? productDetails.description : "",
-      city: (productDetails.city) ? productDetails.city : "",
-      sellingRate: (productDetails.sellingRate) ? productDetails.sellingRate : "",
-      productQuanity: (productDetails.productQuanity) ? productDetails.productQuanity : ""
-    }
+    var product = this.productService.getProductForSave(productDetails);
     this.productApiService.saveProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);

@@ -12,10 +12,7 @@ import { ProductApiService } from 'src/app/services/product-api.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: [
-    './product-list.component.scss',
-    '../../common/commonStyle.scss'
-  ]
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
   @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();

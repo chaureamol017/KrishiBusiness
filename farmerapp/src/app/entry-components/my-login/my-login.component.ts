@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
 import { UserDetails } from 'src/app/model/user-details';
 import { AdminApiService } from 'src/app/services/admin-api.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { FormValidationService } from 'src/app/services/form-validation.service';
 
 @Component({
   selector: 'app-my-login',
@@ -11,20 +13,20 @@ import { AdminService } from 'src/app/services/admin.service';
 })
 
 export class MyLoginComponent implements OnInit {
-  loginForm;
+  formTitle: any = "Login";
+  loginForm: FormGroup;
   loggedInUser: UserDetails = new UserDetails();
 
   constructor(
     private adminService: AdminService,
     private adminApiService: AdminApiService,
+    private validationService: FormValidationService,
+    private dialogRef: MatDialogRef<MyLoginComponent>,
   ) {
   }
 
   ngOnInit() {
-    this.loginForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-    });
+    this.loginForm = this.validationService.getMyLoginFormGroup();
   }
 
   validateLogin(loginData) {
@@ -37,6 +39,7 @@ export class MyLoginComponent implements OnInit {
             if (responseData) {
               this.loggedInUser = responseData;
               this.adminService.onValidateCall(this.loggedInUser);
+              this.closeDialog();
             } else {
               alert("Email or password is incorrect")
             }
@@ -48,4 +51,7 @@ export class MyLoginComponent implements OnInit {
     }
   }
 
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

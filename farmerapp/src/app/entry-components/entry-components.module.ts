@@ -11,7 +11,10 @@ import { ProductBidComponent } from './product-bid/product-bid.component';
 
 
 @NgModule({
-  declarations: [MyLoginComponent, SignUpComponent, ProductComponent, AddEditProductBidComponent, ProductBidComponent],
+  declarations: [
+    MyLoginComponent, SignUpComponent,
+    ProductComponent, AddEditProductBidComponent, ProductBidComponent
+    ],
   imports: [
     CommonModule,
 

@@ -8,8 +8,7 @@ import { DialogService } from 'src/app/services/dialog.service';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: [
-    './header.component.scss',
-    '../../../common/commonStyle.scss'
+    './header.component.scss'
   ]
 })
 export class HeaderComponent implements OnInit {
