@@ -1,21 +1,23 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import {
-  MatTableDataSource, MatSort, MatPaginator
-} from '@angular/material';
-import { DialogService } from 'src/app/services/dialog.service';
-import { ProductComponent } from 'src/app/entry-components/product/product.component';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
 import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
+import { ProductComponent } from 'src/app/entry-components/product/product.component';
+import { UserDetails } from 'src/app/model/user-details';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  selector: 'app-selling-products-list',
+  templateUrl: './selling-products-list.component.html',
+  styleUrls: ['./selling-products-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class SellingProductsListComponent implements OnInit {
+
+  @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();
+  userRole: any = "Buyer";
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['productName', 'description', 'actions'];
+  displayedColumns: string[] = ['productName', 'productCategory', 'grade', 'description', 'user', 'city', 'dateTobeAvailable', 'sellingRate', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
@@ -30,7 +32,10 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userRole = localStorage.getItem("registrationFor");
+
     this.initializeAllComponents();
+
     this.getProducts();
   }
 
@@ -47,6 +52,15 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
+    
+    if (this.userRole == "Farmer") {
+      this.getProductsForFarmer();
+    } else {
+      this.getProductsForBuyer();
+    }
+  
+  }
+  getProductsForFarmer() {
     this.productApiService.getProducts()
       .subscribe(
         responseData => {
@@ -54,7 +68,19 @@ export class ProductListComponent implements OnInit {
         },
         error => {
           console.log("Error ocurred while processing.");
-        });
+        }
+      );
+  }
+  getProductsForBuyer() {
+    this.productApiService.getAllUnsoldProducts()
+      .subscribe(
+        responseData => {
+          this.handleSuccessResponseForGet(responseData);
+        },
+        error => {
+          console.log("Error ocurred while processing.");
+        }
+      );
   }
 
   deleteProduct(row) {
@@ -67,27 +93,37 @@ export class ProductListComponent implements OnInit {
           },
           error => {
             console.log("Error ocurred while processing.");
-          });
+          }
+        );
     }
   }
 
   handleSuccessResponseForGet(responseData) {
+    if (responseData.success) {
+      var productDetails = eval("(" + responseData.data + ")");
+
       // this.dataSource.;
-      this.dataSource.splice(0, this.dataSource.length);
-      responseData.forEach(element => {
+      productDetails.forEach(element => {
         this.dataSource.push(element);
       });
 
       this.initializeAllComponents();
+    } else {
+      alert("Error ocurred while processing.")
+    }
   }
 
   handleSuccessResponseForDelete(responseData) {
-      alert("Product deleted successfully.")
-      this.getProducts();
-  }
+    if (responseData.success) {
+      var productDetails = eval("(" + responseData.data + ")");
 
-  handleFaailedResponse() {
-    console.log("Error ocurred while processing.");
+      alert("Product deleted successfully.")
+
+      this.getProducts();
+
+    } else {
+      alert("Error ocurred while processing.")
+    }
   }
 
   onSearchClear() {
@@ -105,5 +141,17 @@ export class ProductListComponent implements OnInit {
 
   editProduct(row) {
     this.dialogService.openDialogAtRight(ProductComponent, row, true);
+  }
+
+  addBidProduct(selectedData) {
+    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, false);
+  }
+
+  editBidProduct(selectedData) {
+    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, true);
+  }
+
+  viewBidProduct(selectedData, isEdit) {
+    this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
   }
 }

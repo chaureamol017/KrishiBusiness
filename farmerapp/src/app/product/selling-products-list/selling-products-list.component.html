@@ -1,0 +1,71 @@
+<div class="product-topbar-view">
+    <button mat-raised-button  *ngIf="userRole!='Buyer'"  (click)="addProduct()">
+      <mat-icon>add</mat-icon>Create
+    </button>
+  </div>
+
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData"  matSort>
+      <ng-container matColumnDef="productName">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header>Product Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.productName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="productCategory">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.productCategoryId}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="grade">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Grade</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.productGradeId}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header>User</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.firstName}}  {{element.lastName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.city}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="dateTobeAvailable">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Date To be Available</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.dateTobeAvailable}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="sellingRate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Selling Rate</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.sellingRate}}</mat-cell>
+      </ng-container>
+      <!-- <ng-container matColumnDef="biddingRate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Bidding Rate</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.biddingRate}}</mat-cell>
+      </ng-container> -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button *ngIf="userRole!='Buyer'" (click)="editProduct(row)"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button color="warn" *ngIf="userRole!='Buyer'" (click)="deleteProduct(row)"><mat-icon>delete</mat-icon></button>
+          <button mat-icon-button color="warn" *ngIf="userRole!='Buyer'" (click)="viewBidProduct(row)"><mat-icon>monetization_on</mat-icon></button>
+          <button mat-icon-button color="warn" *ngIf="userRole=='Buyer'" (click)="addBidProduct(row)"><mat-icon>monetization_on</mat-icon></button>
+        </mat-cell>
+      </ng-container>
+      <ng-container *ngIf= matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          Loading data...
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="noData">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          No data.
+        </mat-footer-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <!-- <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+      <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row> -->
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+  </div>

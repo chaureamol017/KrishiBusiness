@@ -7,13 +7,15 @@ import { ProductComponent } from './product/product.component';
 import { MatButtonModule, MatDatepickerModule, MatDialogModule, MatIconModule, MatPaginatorModule, MatTableModule, MatToolbarModule } from '@angular/material';
 import { AddEditProductBidComponent } from './add-edit-product-bid/add-edit-product-bid.component';
 import { ProductBidComponent } from './product-bid/product-bid.component';
+import { SellingProductComponent } from './selling-product/selling-product.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 
 
 @NgModule({
   declarations: [
     MyLoginComponent, SignUpComponent,
-    ProductComponent, AddEditProductBidComponent, ProductBidComponent
+    ProductComponent, AddEditProductBidComponent, ProductBidComponent, SellingProductComponent
     ],
   imports: [
     CommonModule,
@@ -28,6 +30,8 @@ import { ProductBidComponent } from './product-bid/product-bid.component';
     MatPaginatorModule,
     MatTableModule,
     MatToolbarModule,
+
+    SharedComponentsModule,
   ]
 })
 export class EntryComponentsModule { }

@@ -7,31 +7,26 @@ import { Observable } from 'rxjs';
 })
 export class ProductApiService {
 
-  serverUrl: any = "http://localhost:8080/product/";
+  serverUrl: any = "http://localhost:8080/";
   getByUserEndpoint: any = "byuser";
   getSoldByUserEndpoint: any = "soldbyuser";
-  updateEndpoint: any = "update";
-  deleteEndpoint: any = "delete";
+  productEndpoint: any = "v1/product";
 
   constructor(
     private httpCllient: HttpClient,
   ) { }
 
   getProducts(): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
-    var parameters = "userId=" + userId;
-
-    var url = this.serverUrl + this.getByUserEndpoint + "?" + parameters;
-
+    var url = this.serverUrl + this.productEndpoint + '/all';
     return this.httpCllient.get(url);
   }
 
   getAllUnsoldProducts(): Observable<any> {
-    
     var url = this.serverUrl + "allunsold";
 
     return this.httpCllient.get(url);
   }
+
   getSoldProducts(): Observable<any> {
     var userId: string = localStorage.getItem("userId");
     var parameters = "userId=" + userId;
@@ -42,13 +37,20 @@ export class ProductApiService {
   }
 
   saveProduct(productDetails): Observable<any> {
-    var url = this.serverUrl + this.updateEndpoint;
+    var url = this.serverUrl + this.productEndpoint;
+
+    return this.httpCllient.post(url, productDetails);
+  }
+
+  
+  updateProduct(productDetails): Observable<any> {
+    var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.put(url, productDetails);
   }
+
   deleteProduct(productId): Observable<any> {
-    var params = "id=" + productId;
-    var url = this.serverUrl + this.deleteEndpoint + "?" + params;
+    var url = this.serverUrl + this.productEndpoint + "/" + productId;
 
     return this.httpCllient.delete(url);
   }

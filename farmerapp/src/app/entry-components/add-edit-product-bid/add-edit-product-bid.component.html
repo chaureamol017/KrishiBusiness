@@ -1,13 +1,6 @@
-<mat-toolbar>
-    <h1 mat-dialog-title>{{formTitle}} : {{selectedProductName}}</h1>
-    <span class="fill-remaining-space"></span>
-    <button class="btn-dialog-close" mat-stroked-button (click)="closeDialog()" tabindex="-1">
-        <mat-icon>clear</mat-icon>
-    </button>
-</mat-toolbar>
+<app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog()"></app-top-dialog-content>
 
 <mat-dialog-content class="mat-typography">
-
     <form class="form-container" [formGroup]="productBidform" (ngSubmit)="saveProductBid(productBidform)">
         <div class="form-group">
             <label for="bidAmount">Bid Price</label>

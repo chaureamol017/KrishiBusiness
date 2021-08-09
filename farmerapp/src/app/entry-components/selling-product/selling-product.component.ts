@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
 import { ProductService } from 'src/app/services/product.service';
+import { ProductComponent } from '../product/product.component';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  selector: 'app-selling-product',
+  templateUrl: './selling-product.component.html',
+  styleUrls: ['./selling-product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class SellingProductComponent implements OnInit {
+
   constructor(
     private productService: ProductService,
     private productApiService: ProductApiService,
@@ -39,6 +40,7 @@ export class ProductComponent implements OnInit {
 
   addEditProduct(saveProduct) {
     var productDetails = saveProduct.value;
+
     var product = this.productService.getProductForSave(productDetails);
     
     if(this.isEdit) {
@@ -71,8 +73,12 @@ export class ProductComponent implements OnInit {
   }
 
   handleSuccessResponse(responseData) {
+    if (responseData.success) {
       alert("Product saved successfully.");
       this.closeDialog();
+    } else {
+      alert("Error ocurred while processing.");
+    }
   }
 
   closeDialog() {
