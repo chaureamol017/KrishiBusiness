@@ -5,10 +5,13 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.google.common.collect.Lists;
 import com.mycomp.business.krishi.service.api.ProductService;
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 import com.mycomp.business.krishi.web.v1.model.ProductWeb;
 import com.mycomp.business.krishi.web.v1.adaptor.ProductWebAdaptor;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,6 +60,14 @@ public class ProductController {
 		ProductModel model = productService.getProduct(productId);
 		ProductWeb web = ProductWebAdaptor.toWebModel(model);
 
+		return new ResponseEntity<>(web, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public ResponseEntity<List<ProductWeb>> getAllProducts() {
+		List<ProductModel> models = productService.getAllProducts();
+		
+		List<ProductWeb> web = Lists.transform(models, ProductWebAdaptor::toWebModel);
 		return new ResponseEntity<>(web, HttpStatus.OK);
 	}
 

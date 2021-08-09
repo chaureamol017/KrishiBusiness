@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.service.api;
 
+import java.util.List;
+
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 
 /**
@@ -16,8 +18,10 @@ public interface ProductService {
     public ProductModel saveProduct(ProductModel model);
 
     public ProductModel updateProduct(ProductModel model);
-    
+
     public ProductModel getProduct(Long productId);
+
+    public List<ProductModel> getAllProducts();
     
     public boolean deleteProduct(Long productId);
 }

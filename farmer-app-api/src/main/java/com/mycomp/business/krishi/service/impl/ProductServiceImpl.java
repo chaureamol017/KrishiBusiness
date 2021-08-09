@@ -5,12 +5,14 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.google.common.collect.Lists;
 import com.mycomp.business.krishi.dao.api.ProductDao;
 import com.mycomp.business.krishi.entity.Product;
 import com.mycomp.business.krishi.service.api.ProductService;
 import com.mycomp.business.krishi.service.api.adaptor.ProductModelAdaptor;
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,14 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return null;
     }
-    
+
+    @Override
+    public List<ProductModel> getAllProducts() {
+		List<Product> entities = productDao.findAll();
+
+		return Lists.transform(entities, ProductModelAdaptor::toServiceModel);
+    }
+
     @Override
     public boolean deleteProduct(Long productId) {
     	productDao.deleteById(productId);

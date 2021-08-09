@@ -51,7 +51,7 @@ public class ProductWebAdaptor {
 		model.setProductId(web.getProductId());
 		model.setProductName(web.getProductName());
 		model.setDescription(web.getDescription());
-		model.setProductCategory(web.getProductCategory().toString());
+//		model.setProductCategory(web.getProductCategory().toString());
 
 		return model;
 	}

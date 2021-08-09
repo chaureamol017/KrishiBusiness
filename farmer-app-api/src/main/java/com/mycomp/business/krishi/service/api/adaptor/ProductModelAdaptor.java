@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.mycomp.business.krishi.entity.Product;
-import com.mycomp.business.krishi.entity.type.ProductCategory;
+//import com.mycomp.business.krishi.entity.type.ProductCategory;
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 
 public class ProductModelAdaptor {
@@ -56,7 +56,7 @@ public class ProductModelAdaptor {
 
 		entity.setProductName(model.getProductName());
 		entity.setDescription(model.getDescription());
-		entity.setProductCategory(ProductCategory.valueOf(model.getProductCategory()));
+//		entity.setProductCategory(ProductCategory.valueOf(model.getProductCategory()));
 
 		return entity;
 	}
@@ -67,7 +67,7 @@ public class ProductModelAdaptor {
 		model.setProductId(entity.getProductId());
 		model.setProductName(entity.getProductName());
 		model.setDescription(entity.getDescription());
-		model.setProductCategory(entity.getProductCategory().toString());
+//		model.setProductCategory(entity.getProductCategory().toString());
 
 		return model;
 	}
