@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { UserDetails } from 'src/app/model/user-details';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,21 +8,18 @@ import { UserDetails } from 'src/app/model/user-details';
 })
 export class SidebarComponent implements OnInit {
   @Output() switchSideBarForMe: EventEmitter<any> = new EventEmitter();
-  @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();
 
   activeLink: any = 0; 
   loggedInUserName: any;
   loggedInUserEmail: any;
-  constructor() { }
+  constructor(private adminService: AdminService) {
+    adminService.onValidateCall
+  }
 
   ngOnInit() {
     this.activeLink = 0; 
-    
-    var firstName = (this.loggedInUser.firstName? this.loggedInUser.firstName : "" );
-    var lastName = (this.loggedInUser.lastName? this.loggedInUser.lastName : "" );
-
-    this.loggedInUserName = firstName + " " + lastName;
-    this.loggedInUserEmail = (this.loggedInUser.emailId) ? this.loggedInUser.emailId : "";
+    this.loggedInUserName = this.adminService.getFirstName() + " " + this.adminService.getLastName();
+    this.loggedInUserEmail = this.adminService.getEmailId();
   }
   
   switchSideBar(clickedLink) {

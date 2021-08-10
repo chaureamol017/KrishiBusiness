@@ -10,13 +10,13 @@ export class AdminService {
   constructor(private router: Router) { }
 
   onValidateCall(loggedInUser: UserDetails) {
-    localStorage.setItem("userId", loggedInUser.userId);
-    localStorage.setItem("role", loggedInUser.role);
-    localStorage.setItem("emailId", loggedInUser.emailId);
-    localStorage.setItem("mobile", loggedInUser.mobile);
-    localStorage.setItem("firstName", loggedInUser.firstName);
-    localStorage.setItem("middleName", loggedInUser.middleName);
-    localStorage.setItem("lastName", loggedInUser.lastName);
+    localStorage.setItem("userId", loggedInUser.userId ? loggedInUser.userId : "");
+    localStorage.setItem("role", loggedInUser.role ? loggedInUser.role : "");
+    localStorage.setItem("emailId", loggedInUser.emailId ? loggedInUser.emailId : "");
+    localStorage.setItem("mobile", loggedInUser.mobile ? loggedInUser.mobile : "");
+    localStorage.setItem("firstName", loggedInUser.firstName ? loggedInUser.firstName : "");
+    localStorage.setItem("middleName", loggedInUser.middleName ? loggedInUser.middleName : "");
+    localStorage.setItem("lastName", loggedInUser.lastName ? loggedInUser.lastName : "");
 
     this.router.navigate(['MyHome']);
   }
@@ -45,5 +45,25 @@ export class AdminService {
     signupDetails.password = formValues.password;
 
       return signupDetails;
+  }
+
+  getRole(): string {
+    return localStorage.getItem("role")
+  }
+
+  getFirstName(): string {
+    return localStorage.getItem("firstName")
+  }
+  
+  getMiddleName(): string {
+    return localStorage.getItem("middleName")
+  }
+
+  getLastName(): string {
+    return localStorage.getItem("lastName")
+  }
+  
+  getEmailId(): string {
+    return localStorage.getItem("emailId")
   }
 }
