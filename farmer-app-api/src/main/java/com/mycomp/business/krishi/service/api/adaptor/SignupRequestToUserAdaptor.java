@@ -1,16 +1,19 @@
 package com.mycomp.business.krishi.service.api.adaptor;
 
-import java.util.Date;
-
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.entity.User;
 import com.mycomp.business.krishi.entity.type.Gender;
 import com.mycomp.business.krishi.entity.type.MaritalStatus;
 import com.mycomp.business.krishi.entity.type.UserRole;
 import com.mycomp.business.krishi.service.api.model.SignupRequestModel;
 
-public class SignupRequestToUserAdaptor {
+public final class SignupRequestToUserAdaptor implements ModelAdaptor<SignupRequestModel, User> {
+	public static final SignupRequestToUserAdaptor INSTANCE = new SignupRequestToUserAdaptor();
 
-	public static User toEntityMinimal(SignupRequestModel model) {
+	private SignupRequestToUserAdaptor() {
+	}
+
+	public User toEntityMinimal(SignupRequestModel model) {
 		if (null == model) {
 			return null;
 		}
@@ -19,7 +22,7 @@ public class SignupRequestToUserAdaptor {
 		return entity;
 	}
 
-	public static User toEntity(SignupRequestModel model) {
+	public User toEntity(SignupRequestModel model) {
 		if (null == model) {
 			return null;
 		}
@@ -29,7 +32,12 @@ public class SignupRequestToUserAdaptor {
 		return entity;
 	}
 
-	private static User createEntityWithoutCopyingId(SignupRequestModel model) {
+	@Override
+	public SignupRequestModel toServiceModel(User entity) {
+		throw new UnsupportedOperationException("Does not support");
+	}
+
+	private User createEntityWithoutCopyingId(SignupRequestModel model) {
 		User entity = new User();
 
 		entity.setFirstName(model.getFirstName());

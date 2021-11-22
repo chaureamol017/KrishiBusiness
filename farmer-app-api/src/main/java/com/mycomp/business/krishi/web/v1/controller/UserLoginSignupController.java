@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.ChangePasswordRequestModel;
 import com.mycomp.business.krishi.service.api.model.ResetPasswordRequestModel;
 import com.mycomp.business.krishi.service.api.model.SignupRequestModel;
@@ -40,13 +42,17 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/user")
 public class UserLoginSignupController {
+	private WebAdaptor<ResetPasswordRequestParams, ResetPasswordRequestModel> resetPasswordWebAdaptor = ResetPasswordRequestParamsAdaptor.INSTANCE;
+	private WebAdaptor<ChangePasswordRequestParams, ChangePasswordRequestModel> changePasswordWebAdaptor = ChangePasswordRequestParamsAdaptor.INSTANCE;
+	private WebAdaptor<SignupRequestParams, SignupRequestModel> webAdaptor = SignupRequestParamsAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<UserWeb, UserModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(UserWebAdaptor.INSTANCE);
 
 	@Autowired
 	private UserLoginSignupService userLoginSignupService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<Boolean> signupUser(@RequestBody SignupRequestParams requestParams) {
-		SignupRequestModel model = SignupRequestParamsAdaptor.toServiceModel(requestParams);
+		SignupRequestModel model = webAdaptor.toServiceModel(requestParams);
 		Boolean success = userLoginSignupService.signupUser(model);
 
 		return new ResponseEntity<>(success, HttpStatus.OK);
@@ -57,14 +63,12 @@ public class UserLoginSignupController {
 			@RequestParam(value = "password") String password) {
 		final UserModel userModel = userLoginSignupService.validateUserByUserNameAndPassword(userName, password);
 
-		final UserWeb web = UserWebAdaptor.toWebModel(userModel);
-
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(userModel);
 	}
 
 	@PostMapping("/password/change")
 	public ResponseEntity<Map<String, Object>> changePassword(@RequestBody ChangePasswordRequestParams requestParams) {
-		final ChangePasswordRequestModel model = ChangePasswordRequestParamsAdaptor.toServiceModel(requestParams);
+		final ChangePasswordRequestModel model = changePasswordWebAdaptor.toServiceModel(requestParams);
 		Map<String, Object> response = userLoginSignupService.changePassword(model);
 
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -72,7 +76,7 @@ public class UserLoginSignupController {
 
 	@PostMapping("/password/reset")
 	public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody ResetPasswordRequestParams requestParams) {
-		final ResetPasswordRequestModel model = ResetPasswordRequestParamsAdaptor.toServiceModel(requestParams);
+		final ResetPasswordRequestModel model = resetPasswordWebAdaptor.toServiceModel(requestParams);
 		Map<String, Object> response = userLoginSignupService.resetPassword(model);
 
 		return new ResponseEntity<>(response, HttpStatus.OK);

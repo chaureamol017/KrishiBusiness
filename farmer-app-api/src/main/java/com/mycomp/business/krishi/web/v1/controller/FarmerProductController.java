@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.FarmerProductService;
 import com.mycomp.business.krishi.service.api.model.FarmerProductModel;
 import com.mycomp.business.krishi.web.v1.adaptor.FarmerProductWebAdaptor;
@@ -29,39 +31,40 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class FarmerProductController {
+	private WebAdaptor<FarmerProductWeb, FarmerProductModel> webAdaptor = FarmerProductWebAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<FarmerProductWeb, FarmerProductModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
 
 	@Autowired
 	private FarmerProductService farmerProductService;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<FarmerProductWeb> save(@RequestBody FarmerProductWeb request) {
-		FarmerProductModel requestModel = FarmerProductWebAdaptor.toServiceModel(request);
+		FarmerProductModel requestModel = webAdaptor.toServiceModel(request);
 		FarmerProductModel model = farmerProductService.saveFarmerProduct(requestModel);
 
-		return createResponseEntity(model);
+		return responseEntityAdaptor.createResponseEntity(model);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<FarmerProductWeb> update(@RequestBody FarmerProductWeb request) {
-		FarmerProductModel requestModel = FarmerProductWebAdaptor.toServiceModel(request);
+		FarmerProductModel requestModel = webAdaptor.toServiceModel(request);
 		FarmerProductModel model = farmerProductService.updateFarmerProduct(requestModel);
 
-		return createResponseEntity(model);
+		return responseEntityAdaptor.createResponseEntity(model);
 	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<FarmerProductWeb>> getAllFarmerProduct() {
 		List<FarmerProductModel> models = farmerProductService.getAllFarmerProducts();
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/farmerProductId/{farmerProductId}", method = RequestMethod.GET)
 	public ResponseEntity<FarmerProductWeb> getFarmerProduct(@PathVariable("farmerProductId") Long farmerProductId) {
 		FarmerProductModel model = farmerProductService.getFarmerProduct(farmerProductId);
 
-		return createResponseEntity(model);
+		return responseEntityAdaptor.createResponseEntity(model);
 	}
 
 	@RequestMapping(value = "/farmerProductId/{farmerProductId}", method = RequestMethod.DELETE)
@@ -75,8 +78,7 @@ public class FarmerProductController {
 	ResponseEntity<List<FarmerProductWeb>> getFarmerProductsByProductId(@PathVariable("productId") Long productId) {
 		List<FarmerProductModel> models = farmerProductService.getFarmerProductsByProductId(productId);
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/productId/{productId}/userId/{userId}", method = RequestMethod.GET)
@@ -84,24 +86,21 @@ public class FarmerProductController {
 			@PathVariable("productId") Long productId, @PathVariable("userId") Long userId) {
 		List<FarmerProductModel> models = farmerProductService.getFarmerProductsByProductIdAndUserId(productId, userId);
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/userId/{userId}", method = RequestMethod.GET)
 	ResponseEntity<List<FarmerProductWeb>>  getFarmerProductsByUserId(@PathVariable("userId") Long userId) {
 		List<FarmerProductModel> models = farmerProductService.getFarmerProductsByUserId(userId);
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/userId/{userId}/sold/{sold}", method = RequestMethod.GET)
 	ResponseEntity<List<FarmerProductWeb>> getFarmerProductsByUserIdAndSoldStatus(@PathVariable("userId") Long userId, @PathVariable("sold") Boolean sold) {
 		List<FarmerProductModel> models = farmerProductService.getFarmerProductsByUserId(userId);
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 
@@ -109,25 +108,6 @@ public class FarmerProductController {
 	ResponseEntity<List<FarmerProductWeb>> getFarmerProductsByProductIdUserIdAndSoldStatus(@PathVariable("productId") Long productId, @PathVariable("userId") Long userId, @PathVariable("sold") Boolean sold)  {
 		List<FarmerProductModel> models = farmerProductService.getFarmerProductsByProductIdUserIdAndSoldStatus(productId, userId, sold);
 
-		List<FarmerProductWeb> web = FarmerProductWebAdaptor.toWebModel(models);
-		return createResponseEntity(web);
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
-
-	private ResponseEntity<FarmerProductWeb> createResponseEntity(FarmerProductModel model) {
-		if (model != null) {
-			FarmerProductWeb web = FarmerProductWebAdaptor.toWebModel(model);
-			return new ResponseEntity<>(web, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-	}
-
-	private ResponseEntity<List<FarmerProductWeb>> createResponseEntity(List<FarmerProductWeb> webModels) {
-		if (webModels != null) {
-			return new ResponseEntity<>(webModels, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(webModels, HttpStatus.NOT_FOUND);
-		}
-	}
-
 }

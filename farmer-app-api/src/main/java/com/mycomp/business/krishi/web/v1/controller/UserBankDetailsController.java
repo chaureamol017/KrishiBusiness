@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.UserBankDetailsService;
 import com.mycomp.business.krishi.service.api.model.UserBankDetailsModel;
 import com.mycomp.business.krishi.web.v1.model.UserBankDetailsWeb;
@@ -29,54 +31,47 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/bankdetails")
 public class UserBankDetailsController {
+	private WebAdaptor<UserBankDetailsWeb, UserBankDetailsModel> webAdaptor = UserBankDetailsWebAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<UserBankDetailsWeb, UserBankDetailsModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
+
     @Autowired
     private UserBankDetailsService userBankDetailsService;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<UserBankDetailsWeb> saveBankDetails(@RequestBody UserBankDetailsWeb bankDetailsRequest) {
 		UserBankDetailsModel responseObj = userBankDetailsService
-				.saveBankDetails(UserBankDetailsWebAdaptor.toServiceModel(bankDetailsRequest));
+				.saveBankDetails(webAdaptor.toServiceModel(bankDetailsRequest));
 
-		UserBankDetailsWeb addressWeb = UserBankDetailsWebAdaptor.toWebModel(responseObj);
-
-		return new ResponseEntity<>(addressWeb, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseObj);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<UserBankDetailsWeb> updateBankDetails(
-			@RequestBody UserBankDetailsWeb bankDetailsRequest) {
+	public ResponseEntity<UserBankDetailsWeb> updateBankDetails(@RequestBody UserBankDetailsWeb bankDetailsRequest) {
 		UserBankDetailsModel responseObj = userBankDetailsService
-				.updateBankDetails(UserBankDetailsWebAdaptor.toServiceModel(bankDetailsRequest));
+				.updateBankDetails(webAdaptor.toServiceModel(bankDetailsRequest));
 
-		UserBankDetailsWeb bankDetailsWeb = UserBankDetailsWebAdaptor.toWebModel(responseObj);
-
-		return new ResponseEntity<>(bankDetailsWeb, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseObj);
 	}
 
 	@RequestMapping(value = "/{userBankDetailsId}", method = RequestMethod.GET)
-	public ResponseEntity<UserBankDetailsWeb> getBankDetails(
-			@PathVariable(value = "userBankDetailsId") Long userBankDetailsId) {
+	public ResponseEntity<UserBankDetailsWeb> getBankDetails(@PathVariable(value = "userBankDetailsId") Long userBankDetailsId) {
 		UserBankDetailsModel addressModel = userBankDetailsService.getBankDetails(userBankDetailsId);
-		UserBankDetailsWeb bankDetailsWeb = UserBankDetailsWebAdaptor.toWebModel(addressModel);
 
-		return new ResponseEntity<>(bankDetailsWeb, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(addressModel);
 	}
 
 	@RequestMapping(value = "/byUserId/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<List<UserBankDetailsWeb>> getBankDetailsByUserId(
-			@PathVariable(value = "userId") Long userId) {
+	public ResponseEntity<List<UserBankDetailsWeb>> getBankDetailsByUserId(@PathVariable(value = "userId") Long userId) {
 		List<UserBankDetailsModel> bankDetailsModels = userBankDetailsService.getBankDetailsByUserId(userId);
 
-		List<UserBankDetailsWeb> bankWebModels = UserBankDetailsWebAdaptor.toWebModel(bankDetailsModels);
-
-		return new ResponseEntity<>(bankWebModels, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(bankDetailsModels);
 	}
 
 
 	@RequestMapping(value = "/{userAddressDetailsId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> deleteAddressDetails(
+	public ResponseEntity<Boolean> deleteBankDetails(
 			@PathVariable(value = "userBankDetailsId") Long userBankDetailsId) {
-		Boolean success = userBankDetailsService.deleteAddressDetails(userBankDetailsId);
+		Boolean success = userBankDetailsService.deleteBankDetails(userBankDetailsId);
 
 		return new ResponseEntity<>(success, HttpStatus.OK);
 	}

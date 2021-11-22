@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.FarmerProductBidService;
 import com.mycomp.business.krishi.service.api.model.FarmerProductBidModel;
 import com.mycomp.business.krishi.web.v1.adaptor.FarmerProductBidWebAdaptor;
@@ -30,38 +32,40 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/farmer-product-bid")
 public class FarmerProductBidController {
+	private WebAdaptor<FarmerProductBidWeb, FarmerProductBidModel> webAdaptor = FarmerProductBidWebAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<FarmerProductBidWeb, FarmerProductBidModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
 
     @Autowired
     private FarmerProductBidService productBidService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<FarmerProductBidWeb> save(@RequestBody FarmerProductBidWeb request) {
-    	FarmerProductBidModel requestModel = FarmerProductBidWebAdaptor.toServiceModel(request);
+    	FarmerProductBidModel requestModel = webAdaptor.toServiceModel(request);
     	FarmerProductBidModel responseModel = productBidService.saveFarmerProductBid(requestModel);
 
-    	return createResponseEntity(responseModel);
+    	return responseEntityAdaptor.createResponseEntity(responseModel);
     }
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<FarmerProductBidWeb> update(@RequestBody FarmerProductBidWeb request) {
-		FarmerProductBidModel requestModel = FarmerProductBidWebAdaptor.toServiceModel(request);
+		FarmerProductBidModel requestModel = webAdaptor.toServiceModel(request);
 		FarmerProductBidModel responseModel = productBidService.updateFarmerProductBid(requestModel);
 
-		return createResponseEntity(responseModel);
+		return responseEntityAdaptor.createResponseEntity(responseModel);
 	}
 
 	@RequestMapping(value="all", method = RequestMethod.GET)
     public ResponseEntity<List<FarmerProductBidWeb>> getAllProductBids() {
         List<FarmerProductBidModel> models = productBidService.getAllFarmerProductBids();
 
-		return createResponseEntity(models);
+		return responseEntityAdaptor.createResponseEntity(models);
     }
 
 	@RequestMapping(value = "/farmerProductBidId/{farmerProductBidId}", method = RequestMethod.GET)
     public ResponseEntity<FarmerProductBidWeb> getFarmerProductBid(@PathVariable("farmerProductBidId") Long farmerProductBidId) {
 		FarmerProductBidModel  responseModel = productBidService.getFarmerProductBid(farmerProductBidId);
 
-    	return createResponseEntity(responseModel);
+    	return responseEntityAdaptor.createResponseEntity(responseModel);
     }
 
 	@RequestMapping(value = "/farmerProductBidId/{farmerProductBidId}", method = RequestMethod.DELETE)
@@ -75,39 +79,20 @@ public class FarmerProductBidController {
     public ResponseEntity<FarmerProductBidWeb> acceptBid(@PathVariable("farmerProductBidId") Long farmerProductBidId) {
 		FarmerProductBidModel responseModel = productBidService.acceptBid(farmerProductBidId);
 
-        return createResponseEntity(responseModel);
+        return responseEntityAdaptor.createResponseEntity(responseModel);
     }
 
 	@RequestMapping(value = "/productId/{productId}/buyerUserId/{buyerUserId}", method = RequestMethod.GET)
     public ResponseEntity<List<FarmerProductBidWeb>> getFarmerProductBidsByProductIdAndBuyerUserId(@PathVariable("productId") Long productId, @PathVariable("productId") Long buyerUserId) {
 		List<FarmerProductBidModel>  responseModel = productBidService.getFarmerProductBidsByProductIdAndBuyerUserId(productId, buyerUserId);
 
-    	return createResponseEntity(responseModel);
+    	return responseEntityAdaptor.createResponseEntity(responseModel);
     }
 
 	@RequestMapping(value = "/farmerProductId/{farmerProductId}", method = RequestMethod.GET)
     public ResponseEntity<List<FarmerProductBidWeb>> getFarmerProductBidsByFarmerProductId(@PathVariable("farmerProductId") Long farmerProductId) {
 		List<FarmerProductBidModel>  responseModel = productBidService.getFarmerProductBidsByFarmerProductId(farmerProductId);
 
-    	return createResponseEntity(responseModel);
+    	return responseEntityAdaptor.createResponseEntity(responseModel);
     }
-
-	private ResponseEntity<FarmerProductBidWeb> createResponseEntity(FarmerProductBidModel responseModel) {
-		if (responseModel != null) {
-        	FarmerProductBidWeb response = FarmerProductBidWebAdaptor.toWebModel(responseModel);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-	}
-
-	private ResponseEntity<List<FarmerProductBidWeb>> createResponseEntity(List<FarmerProductBidModel> responseModels) {
-		if (responseModels != null) {
-        	List<FarmerProductBidWeb> response = FarmerProductBidWebAdaptor.toWebModel(responseModels);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-	}
-
 }

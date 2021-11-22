@@ -5,12 +5,11 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.UserService;
-import com.mycomp.business.krishi.service.api.model.SignupRequestModel;
 import com.mycomp.business.krishi.service.api.model.UserModel;
-import com.mycomp.business.krishi.web.v1.model.SignupRequestParams;
 import com.mycomp.business.krishi.web.v1.model.UserWeb;
-import com.mycomp.business.krishi.web.v1.adaptor.SignupRequestParamsAdaptor;
 import com.mycomp.business.krishi.web.v1.adaptor.UserWebAdaptor;
 
 import java.util.List;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,27 +33,24 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/user")
 public class UserController {
+    private WebAdaptor<UserWeb, UserModel> webAdaptor = UserWebAdaptor.INSTANCE;
+    private ResponseEntityAdaptor<UserWeb, UserModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
     @PutMapping("/update")
     public ResponseEntity<UserWeb> update(@RequestBody UserWeb userWeb) {
-    	UserModel userModel = UserWebAdaptor.toServiceModel(userWeb);
+    	UserModel userModel = webAdaptor.toServiceModel(userWeb);
         UserModel updatedUser = userService.updateUser(userModel);
         
-        return createResponseEntity(updatedUser);
+        return responseEntityAdaptor.createResponseEntity(updatedUser);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserWeb>> getAllUsers() {
         List<UserModel> userModels = userService.getAllUsers();
-        if (userModels != null) {
-        	List<UserWeb> users = UserWebAdaptor.toWebModel(userModels);
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+
+        return responseEntityAdaptor.createResponseEntity(userModels);
     }
 
     /*
@@ -64,7 +59,8 @@ public class UserController {
     @GetMapping("/byid/{userId}")
     public ResponseEntity<UserWeb> getUser(@PathVariable(name = "userId") Long userId) {
         UserModel userModel = userService.getUser(userId);
-        return createResponseEntity(userModel);
+
+        return responseEntityAdaptor.createResponseEntity(userModel);
     }
 
     @DeleteMapping("/delete/{userId}")
@@ -80,14 +76,5 @@ public class UserController {
 //        
 //        return createResponseEntity(userModel);
 //    }
-
-	private ResponseEntity<UserWeb> createResponseEntity(UserModel updatedUser) {
-		if (updatedUser != null) {
-        	UserWeb result = UserWebAdaptor.toWebModel(updatedUser);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-	}
 
 }

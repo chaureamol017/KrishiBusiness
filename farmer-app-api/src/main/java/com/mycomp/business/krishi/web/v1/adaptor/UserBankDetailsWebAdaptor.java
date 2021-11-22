@@ -1,52 +1,19 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.UserBankDetailsModel;
 import com.mycomp.business.krishi.web.v1.model.UserBankDetailsWeb;
 
-public class UserBankDetailsWebAdaptor {
+public class UserBankDetailsWebAdaptor implements WebAdaptor<UserBankDetailsWeb, UserBankDetailsModel> {
+	public static final WebAdaptor<UserBankDetailsWeb, UserBankDetailsModel> INSTANCE = new UserBankDetailsWebAdaptor();
 
-	public static List<UserBankDetailsModel> toServiceModel(List<UserBankDetailsWeb> webModels) {
-		if (null == webModels) {
-			return null;
-		}
-		List<UserBankDetailsModel> models = webModels.stream().map(model -> createServiceModel(model))
-				.collect(Collectors.toList());
-
-		return models;
+	private UserBankDetailsWebAdaptor() {
 	}
 
-	public static UserBankDetailsModel toServiceModel(UserBankDetailsWeb web) {
+	public UserBankDetailsModel toServiceModel(UserBankDetailsWeb web) {
 		if (null == web) {
 			return null;
 		}
-		UserBankDetailsModel model = createServiceModel(web);
-
-		return model;
-	}
-
-	public static List<UserBankDetailsWeb> toWebModel(List<UserBankDetailsModel> models) {
-		if (null == models) {
-			return null;
-		}
-		List<UserBankDetailsWeb> webModels = models.stream().map(bankDetailsModel -> createWebModel(bankDetailsModel))
-				.collect(Collectors.toList());
-
-		return webModels;
-	}
-
-	public static UserBankDetailsWeb toWebModel(UserBankDetailsModel model) {
-		if (null == model) {
-			return null;
-		}
-		UserBankDetailsWeb web = createWebModel(model);
-
-		return web;
-	}
-
-	private static UserBankDetailsModel createServiceModel(UserBankDetailsWeb web) {
 		UserBankDetailsModel model = new UserBankDetailsModel();
 
 		model.setUserBankDetailsId(web.getUserBankDetailsId());
@@ -60,7 +27,10 @@ public class UserBankDetailsWebAdaptor {
 		return model;
 	}
 
-	private static UserBankDetailsWeb createWebModel(UserBankDetailsModel model) {
+	public UserBankDetailsWeb toWebModel(UserBankDetailsModel model) {
+		if (null == model) {
+			return null;
+		}
 		UserBankDetailsWeb web = new UserBankDetailsWeb();
 
 		web.setUserBankDetailsId(model.getUserBankDetailsId());

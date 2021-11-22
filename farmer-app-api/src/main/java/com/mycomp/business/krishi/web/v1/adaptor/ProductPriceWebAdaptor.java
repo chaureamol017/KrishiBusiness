@@ -1,51 +1,19 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.ProductPriceModel;
 import com.mycomp.business.krishi.web.v1.model.ProductPriceWeb;
 
-public class ProductPriceWebAdaptor {
+public class ProductPriceWebAdaptor implements WebAdaptor<ProductPriceWeb, ProductPriceModel> {
+	public static final ProductPriceWebAdaptor INSTANCE = new ProductPriceWebAdaptor();
 
-	public static List<ProductPriceModel> toServiceModel(List<ProductPriceWeb> webModels) {
-		List<ProductPriceModel> models = webModels.stream().map(web -> createServiceModel(web))
-				.collect(Collectors.toList());
-
-		return models;
+	private ProductPriceWebAdaptor() {
 	}
 
-	public static ProductPriceModel toServiceModel(ProductPriceWeb web) {
+	public ProductPriceModel toServiceModel(ProductPriceWeb web) {
 		if (null == web) {
 			return null;
 		}
-		ProductPriceModel model = createServiceModel(web);
-		return model;
-	}
-
-	public static List<ProductPriceWeb> toWebModel(List<ProductPriceModel> models) {
-		if (null == models) {
-			return null;
-		}
-
-		List<ProductPriceWeb> webModels = models.stream()
-				.map(model -> createWebModel(model))
-				.collect(Collectors.toList());
-
-		return webModels;
-	}
-
-	public static ProductPriceWeb toWebModel(ProductPriceModel model) {
-		if (null == model) {
-			return null;
-		}
-
-		return createWebModel(model);
-	}
-
-	
-	
-	private static ProductPriceModel createServiceModel(ProductPriceWeb web) {
 		ProductPriceModel model = new ProductPriceModel();
 
 		model.setProductPriceId(web.getProductPriceId());
@@ -56,7 +24,10 @@ public class ProductPriceWebAdaptor {
 		return model;
 	}
 
-	private static ProductPriceWeb createWebModel(ProductPriceModel model) {
+	public ProductPriceWeb toWebModel(ProductPriceModel model) {
+		if (null == model) {
+			return null;
+		}
 		ProductPriceWeb web = new ProductPriceWeb();
 
 		web.setProductPriceId(model.getProductPriceId());

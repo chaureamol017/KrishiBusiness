@@ -6,6 +6,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.FarmerProductBidDao;
 import com.mycomp.business.krishi.entity.FarmerProductBid;
 import com.mycomp.business.krishi.service.api.FarmerProductBidService;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FarmerProductBidServiceImpl implements FarmerProductBidService {
+	ModelAdaptor<FarmerProductBidModel, FarmerProductBid> modelAdaptor = FarmerProductBidModelAdaptor.INSTANCE;
 
 	@Autowired
 	private FarmerProductBidDao farmerProductBidDao;
@@ -31,31 +33,26 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 	@Override
 	public FarmerProductBidModel saveFarmerProductBid(FarmerProductBidModel model) {
 
-		final FarmerProductBid entityToSave = FarmerProductBidModelAdaptor.toEntityMinimal(model);
+		final FarmerProductBid entityToSave = modelAdaptor.toEntityMinimal(model);
 		FarmerProductBid savedEntity = farmerProductBidDao.save(entityToSave);
 
-		FarmerProductBidModel result = FarmerProductBidModelAdaptor.toServiceModel(savedEntity);
-
-		return result;
+		return modelAdaptor.toServiceModel(savedEntity);
 	}
 
 	@Override
 	public FarmerProductBidModel updateFarmerProductBid(FarmerProductBidModel model) {
 
-		final FarmerProductBid entityToSave = FarmerProductBidModelAdaptor.toEntityMinimal(model);
+		final FarmerProductBid entityToSave = modelAdaptor.toEntityMinimal(model);
 		FarmerProductBid savedEntity = farmerProductBidDao.save(entityToSave);
 
-		FarmerProductBidModel result = FarmerProductBidModelAdaptor.toServiceModel(savedEntity);
-
-		return result;
+		return modelAdaptor.toServiceModel(savedEntity);
 	}
 
 	@Override
 	public List<FarmerProductBidModel> getAllFarmerProductBids() {
 		List<FarmerProductBid> savedEntity = farmerProductBidDao.findAll();
 
-		List<FarmerProductBidModel> result = FarmerProductBidModelAdaptor.toServiceModel(savedEntity);
-		return result;
+		return modelAdaptor.toServiceModel(savedEntity);
 	}
 
 	@Override
@@ -63,7 +60,7 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 		Optional<FarmerProductBid> optionalEntity = farmerProductBidDao.findById(farmerProductBidId);
 
 		if (optionalEntity.isPresent()) {
-			return FarmerProductBidModelAdaptor.toServiceModel(optionalEntity.get());
+			return modelAdaptor.toServiceModel(optionalEntity.get());
 		}
 		return null;
 	}
@@ -80,10 +77,10 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
 		if (optionalEntity.isPresent()) {
 			FarmerProductBid entity = optionalEntity.get();
-			FarmerProductBidModelAdaptor.acceptBid(entity);
+			FarmerProductBidModelAdaptor.INSTANCE.acceptBid(entity);
 			farmerProductBidDao.save(entity);
 
-			return FarmerProductBidModelAdaptor.toServiceModel(entity);
+			return modelAdaptor.toServiceModel(entity);
 		}
 		return null;
 	}
@@ -93,16 +90,14 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 		List<FarmerProductBid> savedEntity = farmerProductBidDao
 				.getFarmerProductBidsByProductIdAndBuyerUserId(productId, buyerUserId);
 
-		List<FarmerProductBidModel> result = FarmerProductBidModelAdaptor.toServiceModel(savedEntity);
-		return result;
+		return modelAdaptor.toServiceModel(savedEntity);
 	}
 
 	@Override
 	public List<FarmerProductBidModel> getFarmerProductBidsByFarmerProductId(Long farmerProductId) {
 		List<FarmerProductBid> savedEntity = farmerProductBidDao.getFarmerProductBidsByFarmerProductId(farmerProductId);
 
-		List<FarmerProductBidModel> result = FarmerProductBidModelAdaptor.toServiceModel(savedEntity);
-		return result;
+		return modelAdaptor.toServiceModel(savedEntity);
 	}
 
 }

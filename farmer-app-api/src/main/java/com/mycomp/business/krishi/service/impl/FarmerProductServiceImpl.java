@@ -5,6 +5,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.FarmerProductDao;
 import com.mycomp.business.krishi.entity.FarmerProduct;
 import com.mycomp.business.krishi.service.api.FarmerProductService;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FarmerProductServiceImpl implements FarmerProductService {
+	private ModelAdaptor<FarmerProductModel, FarmerProduct> modelAdaptor = FarmerProductModelAdaptor.INSTANCE;
 
 	@Autowired
 	private FarmerProductDao farmerProductDao;
@@ -30,20 +32,20 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 	@Override
 	public FarmerProductModel saveFarmerProduct(FarmerProductModel model) {
 
-		final FarmerProduct entityToSave = FarmerProductModelAdaptor.toEntityMinimal(model);
+		final FarmerProduct entityToSave = modelAdaptor.toEntityMinimal(model);
 		FarmerProduct savedEntity = farmerProductDao.save(entityToSave);
 
-		FarmerProductModel result = FarmerProductModelAdaptor.toServiceModel(savedEntity);
+		FarmerProductModel result = modelAdaptor.toServiceModel(savedEntity);
 
 		return result;
 	}
 
 	@Override
 	public FarmerProductModel updateFarmerProduct(FarmerProductModel model) {
-		final FarmerProduct entityToSave = FarmerProductModelAdaptor.toEntity(model);
+		final FarmerProduct entityToSave = modelAdaptor.toEntity(model);
 		FarmerProduct savedEntity = farmerProductDao.saveAndFlush(entityToSave);
 
-		FarmerProductModel result = FarmerProductModelAdaptor.toServiceModel(savedEntity);
+		FarmerProductModel result = modelAdaptor.toServiceModel(savedEntity);
 
 		return result;
 	}
@@ -52,7 +54,7 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 	public List<FarmerProductModel> getAllFarmerProducts() {
 		List<FarmerProduct> entities = farmerProductDao.findAll();
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 		Optional<FarmerProduct> optionalEntity = farmerProductDao.findById(farmerProductId);
 
 		if (optionalEntity.isPresent()) {
-			return FarmerProductModelAdaptor.toServiceModel(optionalEntity.get());
+			return modelAdaptor.toServiceModel(optionalEntity.get());
 		}
 		return null;
 	}
@@ -75,28 +77,28 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 	public List<FarmerProductModel> getFarmerProductsByProductId(Long productId) {
 		List<FarmerProduct> entities = farmerProductDao.getFarmerProductsByProductId(productId);
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 	@Override
 	public List<FarmerProductModel> getFarmerProductsByProductIdAndUserId(Long productId, Long userId) {
 		List<FarmerProduct> entities = farmerProductDao.getFarmerProductsByProductIdAndUserId(productId, userId);
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 	@Override
 	public List<FarmerProductModel> getFarmerProductsByUserId(Long userId) {
 		List<FarmerProduct> entities = farmerProductDao.getFarmerProductsByUserId(userId);
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 	@Override
 	public List<FarmerProductModel> getFarmerProductsByUserIdAndSoldStatus(Long userId, Boolean sold) {
 		List<FarmerProduct> entities = farmerProductDao.getFarmerProductsByUserIdAndSold(userId,sold);
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 	@Override
@@ -105,7 +107,7 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 		List<FarmerProduct> entities = farmerProductDao.getFarmerProductsByProductIdUserIdAndSold(productId, userId,
 				sold);
 
-		return FarmerProductModelAdaptor.toServiceModel(entities);
+		return modelAdaptor.toServiceModel(entities);
 	}
 
 }

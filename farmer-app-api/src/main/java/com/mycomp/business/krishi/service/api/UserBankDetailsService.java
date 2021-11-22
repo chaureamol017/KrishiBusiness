@@ -23,5 +23,5 @@ public interface UserBankDetailsService {
     
     public List<UserBankDetailsModel> getBankDetailsByUserId(Long userId);
     
-    public boolean deleteAddressDetails(Long userBankDetailsId);
+    public boolean deleteBankDetails(Long userBankDetailsId);
 }

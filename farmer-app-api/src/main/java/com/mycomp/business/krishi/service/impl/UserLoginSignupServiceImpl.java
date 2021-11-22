@@ -6,6 +6,7 @@
 package com.mycomp.business.krishi.service.impl;
 
 import com.common.operations.CommonUtils;
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.UserLoginDao;
 import com.mycomp.business.krishi.entity.User;
 import com.mycomp.business.krishi.entity.UserLogin;
@@ -31,6 +32,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserLoginSignupServiceImpl implements UserLoginSignupService {
+	private ModelAdaptor<SignupRequestModel, UserLogin> modelAdaptor = SignupRequestToUserLoginAdaptor.INSTANCE;
+	private ModelAdaptor<UserModel, User> userModelAdaptor = UserModelAdaptor.INSTANCE;
 
 	@Autowired private UserService userService;
 	@Autowired private UserLoginDao userLoginDao;
@@ -40,7 +43,7 @@ public class UserLoginSignupServiceImpl implements UserLoginSignupService {
 		UserModel userModel = userService.saveUser(signupRequest);
 
 		signupRequest.setUserId(userModel.getUserId());
-		UserLogin userLogin = SignupRequestToUserLoginAdaptor.toEntityMinimal(signupRequest);
+		UserLogin userLogin = modelAdaptor.toEntityMinimal(signupRequest);
 		userLoginDao.save(userLogin);
 
 		return true;
@@ -53,8 +56,7 @@ public class UserLoginSignupServiceImpl implements UserLoginSignupService {
 		if (userLoginList != null && !userLoginList.isEmpty()) {
 			User user = userLoginList.get(0).getUser();
 
-			UserModel userModel = UserModelAdaptor.toServiceModel(user);
-			return userModel;
+			return userModelAdaptor.toServiceModel(user);
 		}
 		return null;
 	}

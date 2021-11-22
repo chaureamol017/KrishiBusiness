@@ -5,6 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.ProductPriceHistoryService;
 import com.mycomp.business.krishi.service.api.ProductPriceService;
 import com.mycomp.business.krishi.service.api.model.ProductPriceHistoryModel;
@@ -34,38 +36,36 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/productprice")
 public class ProductPriceController {
-	@Autowired
-	private ProductPriceService productPriceService;
-	@Autowired
-	private ProductPriceHistoryService productPriceHistoryService;
+	private WebAdaptor<ProductPriceHistoryWeb, ProductPriceHistoryModel> priceHistoryWebAdaptor = ProductPriceHistoryWebAdaptor.INSTANCE;
+	private WebAdaptor<ProductPriceWeb, ProductPriceModel> webAdaptor = ProductPriceWebAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<ProductPriceHistoryWeb, ProductPriceHistoryModel> priceHistoryResponseEntityAdaptor = new ResponseEntityAdaptor<>(priceHistoryWebAdaptor);
+	private ResponseEntityAdaptor<ProductPriceWeb, ProductPriceModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
+
+
+	@Autowired private ProductPriceService productPriceService;
+	@Autowired private ProductPriceHistoryService productPriceHistoryService;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ProductPriceWeb> saveProductPrice(@RequestBody ProductPriceWeb requestWeb) {
-		ProductPriceModel responseModel = productPriceService
-				.saveProductPrice(ProductPriceWebAdaptor.toServiceModel(requestWeb));
+		ProductPriceModel model = webAdaptor.toServiceModel(requestWeb);
+		ProductPriceModel responseModel = productPriceService.saveProductPrice(model);
 
-		ProductPriceWeb web = ProductPriceWebAdaptor.toWebModel(responseModel);
-
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseModel);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<ProductPriceWeb> updateProductPrice(@RequestBody ProductPriceWeb requestWeb) {
-		ProductPriceModel responseModel = productPriceService
-				.updateProductPrice(ProductPriceWebAdaptor.toServiceModel(requestWeb));
+		ProductPriceModel model = webAdaptor.toServiceModel(requestWeb);
+		ProductPriceModel responseModel = productPriceService.updateProductPrice(model);
 
-		ProductPriceWeb web = ProductPriceWebAdaptor.toWebModel(responseModel);
-
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseModel);
 	}
 
 	@RequestMapping(value = "/{productPriceId}", method = RequestMethod.GET)
-	public ResponseEntity<ProductPriceWeb> getProductPrice(
-			@PathVariable(value = "productPriceId") Long productPriceId) {
+	public ResponseEntity<ProductPriceWeb> getProductPrice(@PathVariable(value = "productPriceId") Long productPriceId) {
 		ProductPriceModel model = productPriceService.getProductPrice(productPriceId);
-		ProductPriceWeb web = ProductPriceWebAdaptor.toWebModel(model);
 
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(model);
 	}
 
 	@RequestMapping(value = "/{productPriceId}", method = RequestMethod.DELETE)
@@ -76,22 +76,16 @@ public class ProductPriceController {
 	}
 
 	@RequestMapping(value = "/history/product/{productId}", method = RequestMethod.GET)
-	public ResponseEntity<List<ProductPriceHistoryWeb>> getProductPriceHistoryByProductId(
-			@PathVariable(value = "productId") Long productId) {
+	public ResponseEntity<List<ProductPriceHistoryWeb>> getProductPriceHistoryByProductId(@PathVariable(value = "productId") Long productId) {
 		List<ProductPriceHistoryModel> models = productPriceHistoryService.getProductPriceHistoryByProductId(productId);
-		List<ProductPriceHistoryWeb> webModels = ProductPriceHistoryWebAdaptor.toWebModel(models);
 
-		return new ResponseEntity<>(webModels, HttpStatus.OK);
+		return priceHistoryResponseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/history/{productPriceHistoryId}", method = RequestMethod.GET)
-	public ResponseEntity<ProductPriceHistoryWeb> getProductPriceHistory(
-			@PathVariable(value = "productPriceHistoryId") Long productPriceHistoryId) {
-
+	public ResponseEntity<ProductPriceHistoryWeb> getProductPriceHistory(@PathVariable(value = "productPriceHistoryId") Long productPriceHistoryId) {
 		ProductPriceHistoryModel model = productPriceHistoryService.getProductPriceHistory(productPriceHistoryId);
-		ProductPriceHistoryWeb web = ProductPriceHistoryWebAdaptor.toWebModel(model);
 
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return priceHistoryResponseEntityAdaptor.createResponseEntity(model);
 	}
-
 }

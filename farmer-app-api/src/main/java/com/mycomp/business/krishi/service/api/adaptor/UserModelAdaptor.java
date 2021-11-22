@@ -1,41 +1,58 @@
 package com.mycomp.business.krishi.service.api.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.common.operations.CommonUtils;
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.entity.User;
 import com.mycomp.business.krishi.entity.type.Gender;
 import com.mycomp.business.krishi.entity.type.MaritalStatus;
 import com.mycomp.business.krishi.entity.type.UserRole;
 import com.mycomp.business.krishi.service.api.model.UserModel;
 
-public class UserModelAdaptor {
+public final class UserModelAdaptor implements ModelAdaptor<UserModel, User> {
+	public static final UserModelAdaptor INSTANCE = new UserModelAdaptor();
 
-	public static User toEntity(UserModel model) {
+	private UserModelAdaptor() {
+	}
+
+	@Override
+	public User toEntityMinimal(UserModel model) {
 		if (null == model) {
 			return null;
 		}
-		User entity = createEntity(model);
+		return createEntityWithoutCopyingId(model);
+	}
+
+	public User toEntity(UserModel model) {
+		if (null == model) {
+			return null;
+		}
+		User entity = createEntityWithoutCopyingId(model);
+		entity.setUserId(model.getUserId());
+
 		return entity;
 	}
 
-	public static List<UserModel> toServiceModel(List<User> entities) {
-		List<UserModel> models = entities.stream().map(entity -> createServiceModel(entity))
-				.collect(Collectors.toList());
-
-		return models;
-	}
-
-	public static UserModel toServiceModel(User entity) {
+	public UserModel toServiceModel(User entity) {
 		if (null == entity) {
 			return null;
 		}
-		UserModel model = createServiceModel(entity);
+		UserModel model = new UserModel();
+
+		model.setUserId(entity.getUserId());
+		model.setFirstName(entity.getFirstName());
+		model.setMiddleName(entity.getMiddleName());
+		model.setLastName(entity.getLastName());
+		model.setEmailId(entity.getEmailId());
+		model.setMobile(entity.getMobile());
+		model.setRole(entity.getRole().toString());
+		model.setGender(CommonUtils.getString(entity.getGender()));
+		model.setMaritalStatus(CommonUtils.getString(entity.getMaritalStatus()));
+		model.setBirthDate(entity.getBirthDate());
+
 		return model;
 	}
 
-	public static User updateEntity(UserModel model, User entity) {
+	public User updateEntity(UserModel model, User entity) {
 		if (null != model.getFirstName()) {
 			entity.setFirstName(model.getFirstName());
 		}
@@ -67,10 +84,9 @@ public class UserModelAdaptor {
 		return entity;
 	}
 
-	private static User createEntity(UserModel model) {
+	private static User createEntityWithoutCopyingId(UserModel model) {
 		User entity = new User();
 
-		entity.setUserId(model.getUserId());
 		entity.setFirstName(model.getFirstName());
 		entity.setMiddleName(model.getMiddleName());
 		entity.setLastName(model.getLastName());
@@ -82,23 +98,6 @@ public class UserModelAdaptor {
 		entity.setBirthDate(new java.sql.Date(model.getBirthDate().getTime()));
 
 		return entity;
-	}
-
-	private static UserModel createServiceModel(User entity) {
-		UserModel model = new UserModel();
-
-		model.setUserId(entity.getUserId());
-		model.setFirstName(entity.getFirstName());
-		model.setMiddleName(entity.getMiddleName());
-		model.setLastName(entity.getLastName());
-		model.setEmailId(entity.getEmailId());
-		model.setMobile(entity.getMobile());
-		model.setRole(entity.getRole().toString());
-		model.setGender(CommonUtils.getString(entity.getGender()));
-		model.setMaritalStatus(CommonUtils.getString(entity.getMaritalStatus()));
-		model.setBirthDate(entity.getBirthDate());
-
-		return model;
 	}
 
 }

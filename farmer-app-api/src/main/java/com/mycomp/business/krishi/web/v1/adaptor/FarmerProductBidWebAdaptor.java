@@ -1,46 +1,16 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.FarmerProductBidModel;
 import com.mycomp.business.krishi.web.v1.model.FarmerProductBidWeb;
 
-public class FarmerProductBidWebAdaptor {
+public class FarmerProductBidWebAdaptor implements WebAdaptor<FarmerProductBidWeb, FarmerProductBidModel> {
+	public static final FarmerProductBidWebAdaptor INSTANCE = new FarmerProductBidWebAdaptor();
 
-	public static List<FarmerProductBidWeb> toWebModel(List<FarmerProductBidModel> models) {
-		if (null == models) {
-			return null;
-		}
-		List<FarmerProductBidWeb> webModels = models.stream().map(model -> createWebModel(model))
-				.collect(Collectors.toList());
-		return webModels;
-	}
-
-	public static FarmerProductBidWeb toWebModel(FarmerProductBidModel model) {
+	public FarmerProductBidWeb toWebModel(FarmerProductBidModel model) {
 		if (null == model) {
 			return null;
 		}
-		FarmerProductBidWeb entity = createWebModel(model);
-		return entity;
-	}
-
-	public static List<FarmerProductBidModel> toServiceModel(List<FarmerProductBidWeb> webModels) {
-		List<FarmerProductBidModel> models = webModels.stream().map(web -> createServiceModel(web))
-				.collect(Collectors.toList());
-
-		return models;
-	}
-
-	public static FarmerProductBidModel toServiceModel(FarmerProductBidWeb web) {
-		if (null == web) {
-			return null;
-		}
-		FarmerProductBidModel model = createServiceModel(web);
-		return model;
-	}
-
-	private static FarmerProductBidWeb createWebModel(FarmerProductBidModel model) {
 		FarmerProductBidWeb web = new FarmerProductBidWeb();
 
 		web.setFarmerProductBidId(model.getFarmerProductBidId());
@@ -54,7 +24,10 @@ public class FarmerProductBidWebAdaptor {
 		return web;
 	}
 
-	private static FarmerProductBidModel createServiceModel(FarmerProductBidWeb web) {
+	public FarmerProductBidModel toServiceModel(FarmerProductBidWeb web) {
+		if (null == web) {
+			return null;
+		}
 		FarmerProductBidModel model = new FarmerProductBidModel();
 
 		model.setFarmerProductBidId(web.getFarmerProductBidId());
@@ -67,4 +40,5 @@ public class FarmerProductBidWebAdaptor {
 
 		return model;
 	}
+
 }

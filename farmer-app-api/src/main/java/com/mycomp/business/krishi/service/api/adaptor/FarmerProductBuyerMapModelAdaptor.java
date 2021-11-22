@@ -1,31 +1,23 @@
 package com.mycomp.business.krishi.service.api.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.entity.FarmerProductBuyerMap;
 import com.mycomp.business.krishi.service.api.model.FarmerProductBuyerMapModel;
 
-public class FarmerProductBuyerMapModelAdaptor {
+public final class FarmerProductBuyerMapModelAdaptor implements ModelAdaptor<FarmerProductBuyerMapModel, FarmerProductBuyerMap> {
+	public static final FarmerProductBuyerMapModelAdaptor INSTANCE = new FarmerProductBuyerMapModelAdaptor();
 
-	public static List<FarmerProductBuyerMap> toEntityMinimal(List<FarmerProductBuyerMapModel> models) {
-		if (null == models) {
-			return null;
-		}
-		List<FarmerProductBuyerMap> entities = models.stream().map(model -> createEntityWithouCopyingId(model))
-				.collect(Collectors.toList());
-		return entities;
+	private FarmerProductBuyerMapModelAdaptor() {
 	}
 
-	public static FarmerProductBuyerMap toEntityMinimal(FarmerProductBuyerMapModel model) {
+	public FarmerProductBuyerMap toEntityMinimal(FarmerProductBuyerMapModel model) {
 		if (null == model) {
 			return null;
 		}
-		FarmerProductBuyerMap entity = createEntityWithouCopyingId(model);
-		return entity;
+		return createEntityWithouCopyingId(model);
 	}
 
-	public static FarmerProductBuyerMap toEntity(FarmerProductBuyerMapModel model) {
+	public FarmerProductBuyerMap toEntity(FarmerProductBuyerMapModel model) {
 		if (null == model) {
 			return null;
 		}
@@ -35,33 +27,10 @@ public class FarmerProductBuyerMapModelAdaptor {
 		return entity;
 	}
 
-	public static List<FarmerProductBuyerMapModel> toServiceModel(List<FarmerProductBuyerMap> entities) {
-		List<FarmerProductBuyerMapModel> models = entities.stream().map(entity -> createServiceModel(entity))
-				.collect(Collectors.toList());
-
-		return models;
-	}
-
-	public static FarmerProductBuyerMapModel toServiceModel(FarmerProductBuyerMap entity) {
+	public FarmerProductBuyerMapModel toServiceModel(FarmerProductBuyerMap entity) {
 		if (null == entity) {
 			return null;
 		}
-		FarmerProductBuyerMapModel model = createServiceModel(entity);
-		return model;
-	}
-
-	private static FarmerProductBuyerMap createEntityWithouCopyingId(FarmerProductBuyerMapModel model) {
-		FarmerProductBuyerMap entity = new FarmerProductBuyerMap();
-
-		entity.setFarmerProductId(model.getFarmerProductId());
-		entity.setBuyerUserId(model.getBuyerUserId());
-		entity.setSoldPrice(model.getSoldPrice());
-		entity.setSoldOn(model.getSoldOn());
-
-		return entity;
-	}
-
-	private static FarmerProductBuyerMapModel createServiceModel(FarmerProductBuyerMap entity) {
 		FarmerProductBuyerMapModel model = new FarmerProductBuyerMapModel();
 
 		model.setFarmerProductBuyerMapId(entity.getFarmerProductBuyerMapId());
@@ -71,5 +40,16 @@ public class FarmerProductBuyerMapModelAdaptor {
 		model.setSoldOn(entity.getSoldOn());
 
 		return model;
+	}
+
+	private FarmerProductBuyerMap createEntityWithouCopyingId(FarmerProductBuyerMapModel model) {
+		FarmerProductBuyerMap entity = new FarmerProductBuyerMap();
+
+		entity.setFarmerProductId(model.getFarmerProductId());
+		entity.setBuyerUserId(model.getBuyerUserId());
+		entity.setSoldPrice(model.getSoldPrice());
+		entity.setSoldOn(model.getSoldOn());
+
+		return entity;
 	}
 }

@@ -5,6 +5,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.UserAddressDetailsDao;
 import com.mycomp.business.krishi.entity.UserAddressDetails;
 import com.mycomp.business.krishi.service.api.UserAddressDetailsService;
@@ -23,35 +24,32 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserAddressDetailsServiceImpl implements UserAddressDetailsService {
+	private ModelAdaptor<UserAddressDetailsModel, UserAddressDetails> modelAdaptor = UserAddressDetailsAdaptor.INSTANCE;
 
 	@Autowired
 	private UserAddressDetailsDao userAddressDetailsDao;
 
 	@Override
 	public UserAddressDetailsModel saveAddressDetails(UserAddressDetailsModel addressModel) {
-		UserAddressDetails entityToSave = UserAddressDetailsAdaptor.toEntityMinimal(addressModel);
+		UserAddressDetails entityToSave = modelAdaptor.toEntityMinimal(addressModel);
 		entityToSave = userAddressDetailsDao.save(entityToSave);
 
-		UserAddressDetailsModel model = UserAddressDetailsAdaptor.toServiceModel(entityToSave);
-
-		return model;
+		return modelAdaptor.toServiceModel(entityToSave);
 	}
 
 	@Override
 	public UserAddressDetailsModel updateAddressDetails(UserAddressDetailsModel addressModel) {
-		UserAddressDetails entityToUpdate = UserAddressDetailsAdaptor.toEntity(addressModel);
+		UserAddressDetails entityToUpdate = modelAdaptor.toEntity(addressModel);
 		entityToUpdate = userAddressDetailsDao.saveAndFlush(entityToUpdate);
 
-		UserAddressDetailsModel model = UserAddressDetailsAdaptor.toServiceModel(entityToUpdate);
-
-		return model;
+		return modelAdaptor.toServiceModel(entityToUpdate);
 	}
 
 	@Override
 	public UserAddressDetailsModel getAddressDetails(Long userAddressDetailsId) {
 		Optional<UserAddressDetails> userAddressDetails = userAddressDetailsDao.findById(userAddressDetailsId);
 		if (userAddressDetails.isPresent()) {
-			return UserAddressDetailsAdaptor.toServiceModel(userAddressDetails.get());
+			return modelAdaptor.toServiceModel(userAddressDetails.get());
 		}
 		return null;
 	}
@@ -60,7 +58,7 @@ public class UserAddressDetailsServiceImpl implements UserAddressDetailsService 
 	public List<UserAddressDetailsModel> getAddressDetailsByUserId(Long userId) {
 		List<UserAddressDetails> userAddressDetails = userAddressDetailsDao.findUserAddressDetailsByUser(userId);
 
-		return UserAddressDetailsAdaptor.toServiceModel(userAddressDetails);
+		return modelAdaptor.toServiceModel(userAddressDetails);
 	}
 
 	@Override
@@ -68,5 +66,4 @@ public class UserAddressDetailsServiceImpl implements UserAddressDetailsService 
 		userAddressDetailsDao.deleteById(userAddressDetailsId);
 		return true;
 	}
-
 }

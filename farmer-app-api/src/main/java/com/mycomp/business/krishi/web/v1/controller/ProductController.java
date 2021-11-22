@@ -5,7 +5,8 @@
  */
 package com.mycomp.business.krishi.web.v1.controller;
 
-import com.google.common.collect.Lists;
+import com.mycomp.business.krishi.api.adapter.ResponseEntityAdaptor;
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.ProductService;
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 import com.mycomp.business.krishi.web.v1.model.ProductWeb;
@@ -31,49 +32,43 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/product")
 public class ProductController {
+	private WebAdaptor<ProductWeb, ProductModel> webAdaptor = ProductWebAdaptor.INSTANCE;
+	private ResponseEntityAdaptor<ProductWeb, ProductModel> responseEntityAdaptor = new ResponseEntityAdaptor<>(webAdaptor);
+
 	@Autowired private ProductService productService;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<ProductWeb> saveProduct(@RequestBody ProductWeb requestWeb) {
-		ProductModel responseModel = productService
-				.saveProduct(ProductWebAdaptor.toServiceModel(requestWeb));
+		ProductModel model = webAdaptor.toServiceModel(requestWeb);
+		ProductModel responseModel = productService.saveProduct(model);
 
-		ProductWeb web = ProductWebAdaptor.toWebModel(responseModel);
-
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseModel);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<ProductWeb> updateProduct(
-			@RequestBody ProductWeb requestWeb) {
-		ProductModel responseModel = productService
-				.updateProduct(ProductWebAdaptor.toServiceModel(requestWeb));
+	public ResponseEntity<ProductWeb> updateProduct(@RequestBody ProductWeb requestWeb) {
+		ProductModel model = webAdaptor.toServiceModel(requestWeb);
+		ProductModel responseModel = productService.updateProduct(model);
 
-		ProductWeb web = ProductWebAdaptor.toWebModel(responseModel);
-
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(responseModel);
 	}
 
 	@RequestMapping(value = "/{productId}", method = RequestMethod.GET)
-	public ResponseEntity<ProductWeb> getProduct(
-			@PathVariable(value = "productId") Long productId) {
+	public ResponseEntity<ProductWeb> getProduct(@PathVariable(value = "productId") Long productId) {
 		ProductModel model = productService.getProduct(productId);
-		ProductWeb web = ProductWebAdaptor.toWebModel(model);
 
-		return new ResponseEntity<>(web, HttpStatus.OK);
+		return responseEntityAdaptor.createResponseEntity(model);
 	}
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ResponseEntity<List<ProductWeb>> getAllProducts() {
 		List<ProductModel> models = productService.getAllProducts();
-		
-		List<ProductWeb> web = Lists.transform(models, ProductWebAdaptor::toWebModel);
-		return new ResponseEntity<>(web, HttpStatus.OK);
+
+		return responseEntityAdaptor.createResponseEntity(models);
 	}
 
 	@RequestMapping(value = "/{productId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> deleteProduct(
-			@PathVariable(value = "productId") Long productId) {
+	public ResponseEntity<Boolean> deleteProduct(@PathVariable(value = "productId") Long productId) {
 		Boolean success = productService.deleteProduct(productId);
 
 		return new ResponseEntity<>(success, HttpStatus.OK);

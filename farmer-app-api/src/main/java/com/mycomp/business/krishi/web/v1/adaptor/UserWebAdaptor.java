@@ -1,36 +1,27 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.UserModel;
 import com.mycomp.business.krishi.web.v1.model.UserWeb;
 
-public class UserWebAdaptor {
+import java.util.List;
 
-	public static UserModel toServiceModel(UserWeb web) {
+public class UserWebAdaptor implements WebAdaptor<UserWeb, UserModel> {
+	public static final UserWebAdaptor INSTANCE = new UserWebAdaptor();
+
+	private UserWebAdaptor() {
+	}
+
+	@Override
+	public List<UserModel> toServiceModel(List<UserWeb> web) {
+		throw new UnsupportedOperationException("Does not support");
+	}
+
+	@Override
+	public UserModel toServiceModel(UserWeb web) {
 		if (null == web) {
 			return null;
 		}
-		UserModel model = createServiceModel(web);
-		return model;
-	}
-
-	public static List<UserWeb> toWebModel(List<UserModel> models) {
-		List<UserWeb> webModels = models.stream().map(model -> createWebModel(model))
-				.collect(Collectors.toList());
-		return webModels;
-	}
-
-	public static UserWeb toWebModel(UserModel model) {
-		if (null == model) {
-			return null;
-		}
-		UserWeb web = createWebModel(model);
-		return web;
-	}
-
-	private static UserModel createServiceModel(UserWeb web) {
 		UserModel model = new UserModel();
 
 		model.setUserId(web.getUserId());
@@ -47,7 +38,11 @@ public class UserWebAdaptor {
 		return model;
 	}
 
-	private static UserWeb createWebModel(UserModel model) {
+	@Override
+	public UserWeb toWebModel(UserModel model) {
+		if (null == model) {
+			return null;
+		}
 		UserWeb web = new UserWeb();
 
 		web.setUserId(model.getUserId());

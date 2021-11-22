@@ -1,51 +1,19 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.ProductPriceHistoryModel;
 import com.mycomp.business.krishi.web.v1.model.ProductPriceHistoryWeb;
 
-public class ProductPriceHistoryWebAdaptor {
+public class ProductPriceHistoryWebAdaptor implements WebAdaptor<ProductPriceHistoryWeb, ProductPriceHistoryModel> {
+	public static final ProductPriceHistoryWebAdaptor INSTANCE = new ProductPriceHistoryWebAdaptor();
 
-	public static List<ProductPriceHistoryModel> toServiceModel(List<ProductPriceHistoryWeb> webModels) {
-		List<ProductPriceHistoryModel> models = webModels.stream().map(web -> createServiceModel(web))
-				.collect(Collectors.toList());
-
-		return models;
+	private ProductPriceHistoryWebAdaptor() {
 	}
 
-	public static ProductPriceHistoryModel toServiceModel(ProductPriceHistoryWeb web) {
+	public ProductPriceHistoryModel toServiceModel(ProductPriceHistoryWeb web) {
 		if (null == web) {
 			return null;
 		}
-		ProductPriceHistoryModel model = createServiceModel(web);
-		return model;
-	}
-
-	public static List<ProductPriceHistoryWeb> toWebModel(List<ProductPriceHistoryModel> models) {
-		if (null == models) {
-			return null;
-		}
-
-		List<ProductPriceHistoryWeb> webModels = models.stream()
-				.map(model -> createWebModel(model))
-				.collect(Collectors.toList());
-
-		return webModels;
-	}
-
-	public static ProductPriceHistoryWeb toWebModel(ProductPriceHistoryModel model) {
-		if (null == model) {
-			return null;
-		}
-
-		return createWebModel(model);
-	}
-
-	
-	
-	private static ProductPriceHistoryModel createServiceModel(ProductPriceHistoryWeb web) {
 		ProductPriceHistoryModel model = new ProductPriceHistoryModel();
 
 		model.setProductPriceHistoryId(web.getProductPriceHistoryId());
@@ -57,7 +25,11 @@ public class ProductPriceHistoryWebAdaptor {
 		return model;
 	}
 
-	private static ProductPriceHistoryWeb createWebModel(ProductPriceHistoryModel model) {
+	public ProductPriceHistoryWeb toWebModel(ProductPriceHistoryModel model) {
+		if (null == model) {
+			return null;
+		}
+
 		ProductPriceHistoryWeb web = new ProductPriceHistoryWeb();
 
 		web.setProductPriceHistoryId(model.getProductPriceHistoryId());

@@ -5,6 +5,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.ProductPriceHistoryDao;
 import com.mycomp.business.krishi.entity.ProductPriceHistory;
 import com.mycomp.business.krishi.service.api.ProductPriceHistoryService;
@@ -22,16 +23,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductPriceHistoryServiceImpl implements ProductPriceHistoryService {
+	private ModelAdaptor<ProductPriceHistoryModel, ProductPriceHistory> modelAdaptor = ProductPriceHistoryModelAdaptor.INSTANCE;
 
 	@Autowired private ProductPriceHistoryDao productPriceHistoryDao;
 
     @Override
     public ProductPriceHistoryModel saveProductPriceHistory(ProductPriceHistoryModel model) {
 
-    	final ProductPriceHistory entityToSave = ProductPriceHistoryModelAdaptor.toEntityMinimal(model);
+    	final ProductPriceHistory entityToSave = modelAdaptor.toEntityMinimal(model);
     	ProductPriceHistory savedEntity = productPriceHistoryDao.save(entityToSave);
 
-		ProductPriceHistoryModel result = ProductPriceHistoryModelAdaptor.toServiceModel(savedEntity);
+		ProductPriceHistoryModel result = modelAdaptor.toServiceModel(savedEntity);
 
 		return result;
     }
@@ -41,7 +43,7 @@ public class ProductPriceHistoryServiceImpl implements ProductPriceHistoryServic
 		Optional<ProductPriceHistory> optionalEntity = productPriceHistoryDao.findById(productPriceHistoryId);
 
 		if (optionalEntity.isPresent()) {
-			return ProductPriceHistoryModelAdaptor.toServiceModel(optionalEntity.get());
+			return modelAdaptor.toServiceModel(optionalEntity.get());
 		}
 		return null;
     }
@@ -51,13 +53,12 @@ public class ProductPriceHistoryServiceImpl implements ProductPriceHistoryServic
     	productPriceHistoryDao.deleteById(productPriceHistoryId);
     	return true;
     }
-    
 
     @Override
     public List<ProductPriceHistoryModel> getProductPriceHistoryByProductId(Long productId) {
     	List<ProductPriceHistory> entities = productPriceHistoryDao.getProductPriceHistoryByProductId(productId);
 
-			return ProductPriceHistoryModelAdaptor.toServiceModel(entities);
+			return modelAdaptor.toServiceModel(entities);
     }
 
 }

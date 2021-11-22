@@ -1,54 +1,15 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.UserAddressDetailsModel;
 import com.mycomp.business.krishi.web.v1.model.UserAddressDetailsWeb;
 
-public class UserAddressDetailsWebAdaptor {
+public class UserAddressDetailsWebAdaptor implements WebAdaptor<UserAddressDetailsWeb, UserAddressDetailsModel> {
 
-	public static List<UserAddressDetailsModel> toServiceModel(List<UserAddressDetailsWeb> addressWebModels) {
-		if (null == addressWebModels) {
-			return null;
-		}
-		List<UserAddressDetailsModel> addressModels = addressWebModels.stream()
-				.map(addressEntity -> createServiceModel(addressEntity))
-				.collect(Collectors.toList());
-
-		return addressModels;
-	}
-
-	public static UserAddressDetailsModel toServiceModel(UserAddressDetailsWeb addressWeb) {
+	public UserAddressDetailsModel toServiceModel(UserAddressDetailsWeb addressWeb) {
 		if (null == addressWeb) {
 			return null;
 		}
-		UserAddressDetailsModel addressModel = createServiceModel(addressWeb);
-
-		return addressModel;
-	}
-
-	public static List<UserAddressDetailsWeb> toWebModel(List<UserAddressDetailsModel> addressModels) {
-		if (null == addressModels) {
-			return null;
-		}
-
-		List<UserAddressDetailsWeb> addressWebModels = addressModels.stream()
-				.map(addressModel -> createWebModel(addressModel))
-				.collect(Collectors.toList());
-
-		return addressWebModels;
-	}
-
-	public static UserAddressDetailsWeb toWebModel(UserAddressDetailsModel addressModel) {
-		if (null == addressModel) {
-			return null;
-		}
-
-		return createWebModel(addressModel);
-	}
-
-	private static UserAddressDetailsModel createServiceModel(UserAddressDetailsWeb addressWeb) {
 		UserAddressDetailsModel addressModel = new UserAddressDetailsModel();
 
 		addressModel.setUserAddressDetailsId(addressWeb.getUserAddressDetailsId());
@@ -70,7 +31,10 @@ public class UserAddressDetailsWebAdaptor {
 		return addressModel;
 	}
 
-	private static UserAddressDetailsWeb createWebModel(UserAddressDetailsModel addressModel) {
+	public UserAddressDetailsWeb toWebModel(UserAddressDetailsModel addressModel) {
+		if (null == addressModel) {
+			return null;
+		}
 		UserAddressDetailsWeb addressWeb = new UserAddressDetailsWeb();
 
 		addressWeb.setUserAddressDetailsId(addressModel.getUserAddressDetailsId());

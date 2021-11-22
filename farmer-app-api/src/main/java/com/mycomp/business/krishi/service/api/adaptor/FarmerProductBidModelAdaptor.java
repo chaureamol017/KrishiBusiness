@@ -2,25 +2,19 @@ package com.mycomp.business.krishi.service.api.adaptor;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.entity.FarmerProductBid;
 import com.mycomp.business.krishi.service.api.model.FarmerProductBidModel;
 
-public class FarmerProductBidModelAdaptor {
+public class FarmerProductBidModelAdaptor implements ModelAdaptor<FarmerProductBidModel, FarmerProductBid> {
+	public static final FarmerProductBidModelAdaptor INSTANCE = new FarmerProductBidModelAdaptor();
 
-
-	public static List<FarmerProductBid> toEntityMinimal(List<FarmerProductBidModel> models) {
-		if (null == models) {
-			return null;
-		}
-		List<FarmerProductBid> entities = models.stream().map(model -> createEntityWithouCopyingId(model))
-				.collect(Collectors.toList());
-		return entities;
+	private FarmerProductBidModelAdaptor() {
 	}
 
-	public static FarmerProductBid toEntityMinimal(FarmerProductBidModel model) {
+	@Override
+	public FarmerProductBid toEntityMinimal(FarmerProductBidModel model) {
 		if (null == model) {
 			return null;
 		}
@@ -28,7 +22,8 @@ public class FarmerProductBidModelAdaptor {
 		return entity;
 	}
 
-	public static FarmerProductBid toEntity(FarmerProductBidModel model) {
+	@Override
+	public FarmerProductBid toEntity(FarmerProductBidModel model) {
 		if (null == model) {
 			return null;
 		}
@@ -38,22 +33,25 @@ public class FarmerProductBidModelAdaptor {
 		return entity;
 	}
 
-	public static List<FarmerProductBidModel> toServiceModel(List<FarmerProductBid> entities) {
-		List<FarmerProductBidModel> models = entities.stream().map(entity -> createServiceModel(entity))
-				.collect(Collectors.toList());
-
-		return models;
-	}
-
-	public static FarmerProductBidModel toServiceModel(FarmerProductBid entity) {
+	@Override
+	public FarmerProductBidModel toServiceModel(FarmerProductBid entity) {
 		if (null == entity) {
 			return null;
 		}
-		FarmerProductBidModel model = createServiceModel(entity);
+		FarmerProductBidModel model = new FarmerProductBidModel();
+
+		model.setFarmerProductBidId(entity.getFarmerProductBidId());
+		model.setFarmerProductId(entity.getFarmerProductId());
+		model.setBuyerUserId(entity.getBuyerUserId());
+		model.setBiddingRate(entity.getBiddingRate());
+		model.setBidOn(entity.getBidOn());
+		model.setAccepted(entity.isAccepted());
+		model.setAcceptedOn(entity.getAcceptedOn());
+
 		return model;
 	}
 	
-	public static FarmerProductBid acceptBid(FarmerProductBid entity) {
+	public FarmerProductBid acceptBid(FarmerProductBid entity) {
 		Timestamp acceptedOn = new Timestamp(new Date().getTime());
 
 		entity.setAccepted(true);
@@ -72,19 +70,5 @@ public class FarmerProductBidModelAdaptor {
 		entity.setAccepted(model.isAccepted());
 		entity.setAcceptedOn(model.getAcceptedOn());
 		return entity;
-	}
-
-	private static FarmerProductBidModel createServiceModel(FarmerProductBid entity) {
-		FarmerProductBidModel model = new FarmerProductBidModel();
-
-		model.setFarmerProductBidId(entity.getFarmerProductBidId());
-		model.setFarmerProductId(entity.getFarmerProductId());
-		model.setBuyerUserId(entity.getBuyerUserId());
-		model.setBiddingRate(entity.getBiddingRate());
-		model.setBidOn(entity.getBidOn());
-		model.setAccepted(entity.isAccepted());
-		model.setAcceptedOn(entity.getAcceptedOn());
-
-		return model;
 	}
 }

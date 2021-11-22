@@ -1,51 +1,19 @@
 package com.mycomp.business.krishi.web.v1.adaptor;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.mycomp.business.krishi.api.adapter.WebAdaptor;
 import com.mycomp.business.krishi.service.api.model.ProductModel;
 import com.mycomp.business.krishi.web.v1.model.ProductWeb;
 
-public class ProductWebAdaptor {
+public class ProductWebAdaptor implements WebAdaptor<ProductWeb, ProductModel> {
+	public static final ProductWebAdaptor INSTANCE = new ProductWebAdaptor();
 
-	public static List<ProductModel> toServiceModel(List<ProductWeb> webModels) {
-		List<ProductModel> models = webModels.stream().map(web -> createServiceModel(web))
-				.collect(Collectors.toList());
-
-		return models;
+	private ProductWebAdaptor() {
 	}
 
-	public static ProductModel toServiceModel(ProductWeb web) {
+	public ProductModel toServiceModel(ProductWeb web) {
 		if (null == web) {
 			return null;
 		}
-		ProductModel model = createServiceModel(web);
-		return model;
-	}
-
-	public static List<ProductWeb> toWebModel(List<ProductModel> models) {
-		if (null == models) {
-			return null;
-		}
-
-		List<ProductWeb> webModels = models.stream()
-				.map(model -> createWebModel(model))
-				.collect(Collectors.toList());
-
-		return webModels;
-	}
-
-	public static ProductWeb toWebModel(ProductModel model) {
-		if (null == model) {
-			return null;
-		}
-
-		return createWebModel(model);
-	}
-
-	
-	
-	private static ProductModel createServiceModel(ProductWeb web) {
 		ProductModel model = new ProductModel();
 
 		model.setProductId(web.getProductId());
@@ -56,7 +24,10 @@ public class ProductWebAdaptor {
 		return model;
 	}
 
-	private static ProductWeb createWebModel(ProductModel model) {
+	public ProductWeb toWebModel(ProductModel model) {
+		if (null == model) {
+			return null;
+		}
 		ProductWeb web = new ProductWeb();
 
 		web.setProductId(model.getProductId());

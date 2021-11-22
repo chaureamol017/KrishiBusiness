@@ -5,6 +5,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.UserBankDetailsDao;
 import com.mycomp.business.krishi.entity.UserBankDetails;
 import com.mycomp.business.krishi.service.api.UserBankDetailsService;
@@ -23,28 +24,25 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserBankDetailsServiceImpl implements UserBankDetailsService {
+	private ModelAdaptor<UserBankDetailsModel, UserBankDetails> modelAdaptor = UserBankDetailsAdaptor.INSTANCE;
 
 	@Autowired
 	private UserBankDetailsDao userBankDetailsDao;
 
 	@Override
 	public UserBankDetailsModel saveBankDetails(UserBankDetailsModel bankDetailsModel) {
-		UserBankDetails entity = UserBankDetailsAdaptor.toEntityMinimal(bankDetailsModel);
+		UserBankDetails entity = modelAdaptor.toEntityMinimal(bankDetailsModel);
 		entity = userBankDetailsDao.save(entity);
 
-		UserBankDetailsModel model = UserBankDetailsAdaptor.toServiceModel(entity);
-
-		return model;
+		return modelAdaptor.toServiceModel(entity);
 	}
 
 	@Override
 	public UserBankDetailsModel updateBankDetails(UserBankDetailsModel bankDetailsModel) {
-		UserBankDetails entity = UserBankDetailsAdaptor.toEntity(bankDetailsModel);
+		UserBankDetails entity = modelAdaptor.toEntity(bankDetailsModel);
 		entity = userBankDetailsDao.saveAndFlush(entity);
 
-		UserBankDetailsModel model = UserBankDetailsAdaptor.toServiceModel(entity);
-
-		return model;
+		return modelAdaptor.toServiceModel(entity);
 	}
 
 	@Override
@@ -52,7 +50,7 @@ public class UserBankDetailsServiceImpl implements UserBankDetailsService {
 		Optional<UserBankDetails> optionalEntity = userBankDetailsDao.findById(userBankDetailsId);
 
 		if (optionalEntity.isPresent()) {
-			return UserBankDetailsAdaptor.toServiceModel(optionalEntity.get());
+			return modelAdaptor.toServiceModel(optionalEntity.get());
 		}
 		return null;
 	}
@@ -61,11 +59,11 @@ public class UserBankDetailsServiceImpl implements UserBankDetailsService {
 	public List<UserBankDetailsModel> getBankDetailsByUserId(Long userId) {
 		List<UserBankDetails> userAddressDetails = userBankDetailsDao.findUserBankDetailsByUser(userId);
 
-		return UserBankDetailsAdaptor.toServiceModel(userAddressDetails);
+		return modelAdaptor.toServiceModel(userAddressDetails);
 	}
 
 	@Override
-	public boolean deleteAddressDetails(Long userBankDetailsId) {
+	public boolean deleteBankDetails(Long userBankDetailsId) {
 		userBankDetailsDao.deleteById(userBankDetailsId);
 		return true;
 	}

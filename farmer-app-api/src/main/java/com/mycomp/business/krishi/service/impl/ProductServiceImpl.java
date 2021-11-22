@@ -5,7 +5,7 @@
  */
 package com.mycomp.business.krishi.service.impl;
 
-import com.google.common.collect.Lists;
+import com.mycomp.business.krishi.api.adapter.ModelAdaptor;
 import com.mycomp.business.krishi.dao.api.ProductDao;
 import com.mycomp.business.krishi.entity.Product;
 import com.mycomp.business.krishi.service.api.ProductService;
@@ -24,26 +24,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
+	private ModelAdaptor<ProductModel, Product> modelAdaptor = ProductModelAdaptor.INSTANCE;
 
 	@Autowired private ProductDao productDao;
 
     @Override
     public ProductModel saveProduct(ProductModel model) {
-
-    	final Product entityToSave = ProductModelAdaptor.toEntityMinimal(model);
+    	final Product entityToSave = modelAdaptor.toEntityMinimal(model);
     	Product savedEntity = productDao.save(entityToSave);
 
-		ProductModel result = ProductModelAdaptor.toServiceModel(savedEntity);
+		ProductModel result = modelAdaptor.toServiceModel(savedEntity);
 
 		return result;
     }
 
     @Override
     public ProductModel updateProduct(ProductModel model) {
-    	final Product entityToSave = ProductModelAdaptor.toEntity(model);
+    	final Product entityToSave = modelAdaptor.toEntity(model);
     	Product savedEntity = productDao.saveAndFlush(entityToSave);
 
-		ProductModel result = ProductModelAdaptor.toServiceModel(savedEntity);
+		ProductModel result = modelAdaptor.toServiceModel(savedEntity);
 
 		return result;
     }
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 		Optional<Product> optionalEntity = productDao.findById(productId);
 
 		if (optionalEntity.isPresent()) {
-			return ProductModelAdaptor.toServiceModel(optionalEntity.get());
+			return modelAdaptor.toServiceModel(optionalEntity.get());
 		}
 		return null;
     }
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductModel> getAllProducts() {
 		List<Product> entities = productDao.findAll();
 
-		return Lists.transform(entities, ProductModelAdaptor::toServiceModel);
+		return modelAdaptor.toServiceModel(entities);
     }
 
     @Override
