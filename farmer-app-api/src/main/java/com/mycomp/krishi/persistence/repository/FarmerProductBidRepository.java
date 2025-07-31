@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycomp.krishi.dataprovider.repository;
+package com.mycomp.krishi.persistence.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +22,7 @@ public interface FarmerProductBidRepository extends JpaRepository<FarmerProductB
 
 	List<FarmerProductBid> findByFarmerProductId(Long farmerProductId);
 
-	List<FarmerProductBid> findByProductIdAndBuyerUserId(Long productId, Long buyerUserId);
+	List<FarmerProductBid> findByFarmerProductIdAndBuyerUserId(Long farmerProductId, Long buyerUserId);
 	
 //    @Query("SELECT fpb FROM FarmerProductBid AS fpb WHERE fpb.farmerProductId = :farmerProductId")
 //    List<FarmerProductBid> getFarmerProductBidsByFarmerProductId(@Param("farmerProductId") Long farmerProductId);

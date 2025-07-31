@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.mycomp.krishi.persistence.entity.type.AccountType;
+import com.mycomp.krishi.persistence.type.AccountType;
 
 /**
  *

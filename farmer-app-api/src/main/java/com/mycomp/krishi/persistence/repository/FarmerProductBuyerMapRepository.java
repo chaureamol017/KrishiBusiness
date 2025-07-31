@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycomp.krishi.dataprovider.repository;
+package com.mycomp.krishi.persistence.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +21,7 @@ import com.mycomp.krishi.persistence.entity.FarmerProductBuyerMap;
 @Repository
 public interface FarmerProductBuyerMapRepository extends JpaRepository<FarmerProductBuyerMap, Long> {
 
-    List<FarmerProductBid> findBidByProductId(Long farmerProductId);
+    List<FarmerProductBid> findBidByFarmerProductId(Long farmerProductId);
 
     List<FarmerProductBid> getFarmerProductBidByBuyerUserId(Long buyerUserId);
 	

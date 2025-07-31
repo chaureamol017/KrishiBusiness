@@ -2,7 +2,7 @@ package com.mycomp.krishi.service.adapter;
 
 import com.mycomp.common.adapter.ModelAdapter;
 import com.mycomp.krishi.persistence.entity.UserBankDetails;
-import com.mycomp.krishi.persistence.entity.type.AccountType;
+import com.mycomp.krishi.persistence.type.AccountType;
 import com.mycomp.krishi.service.model.UserBankDetailsModel;
 
 public class UserBankDetailsAdapter implements ModelAdapter<UserBankDetailsModel, UserBankDetails> {

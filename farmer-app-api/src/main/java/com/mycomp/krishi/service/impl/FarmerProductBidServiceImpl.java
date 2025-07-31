@@ -7,7 +7,7 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.common.adapter.ModelAdapter;
-import com.mycomp.krishi.dataprovider.repository.FarmerProductBidRepository;
+import com.mycomp.krishi.persistence.repository.FarmerProductBidRepository;
 import com.mycomp.krishi.persistence.entity.FarmerProductBid;
 import com.mycomp.krishi.service.adapter.FarmerProductBidHelper;
 import com.mycomp.krishi.service.adapter.FarmerProductBidModelAdapter;
@@ -90,7 +90,7 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
 	@Override
 	public List<FarmerProductBidModel> getFarmerProductBidsByProductIdAndBuyerUserId(Long productId, Long buyerUserId) {
-		List<FarmerProductBid> savedEntity = farmerProductBidRepository .findByProductIdAndBuyerUserId(productId, buyerUserId);
+		List<FarmerProductBid> savedEntity = farmerProductBidRepository .findByFarmerProductIdAndBuyerUserId(productId, buyerUserId);
 
 		return modelAdapter.toModel(savedEntity);
 	}

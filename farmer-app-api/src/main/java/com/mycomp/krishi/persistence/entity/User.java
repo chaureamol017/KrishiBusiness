@@ -12,9 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.mycomp.krishi.persistence.entity.type.Gender;
-import com.mycomp.krishi.persistence.entity.type.MaritalStatus;
-import com.mycomp.krishi.persistence.entity.type.UserRole;
+import com.mycomp.krishi.persistence.type.Gender;
+import com.mycomp.krishi.persistence.type.MaritalStatus;
+import com.mycomp.krishi.persistence.type.UserRole;
 
 /**
  *

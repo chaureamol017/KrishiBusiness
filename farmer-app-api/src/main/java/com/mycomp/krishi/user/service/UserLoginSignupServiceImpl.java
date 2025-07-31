@@ -7,7 +7,7 @@ package com.mycomp.krishi.user.service;
 
 import com.mycomp.common.adapter.ModelAdapter;
 import com.mycomp.common.operations.CommonUtils;
-import com.mycomp.krishi.dataprovider.repository.UserLoginRepository;
+import com.mycomp.krishi.persistence.repository.UserLoginRepository;
 import com.mycomp.krishi.persistence.entity.User;
 import com.mycomp.krishi.persistence.entity.UserLogin;
 import com.mycomp.krishi.user.adapter.SignupRequestToUserLoginAdapter;

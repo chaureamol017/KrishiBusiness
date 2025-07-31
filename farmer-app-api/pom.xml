@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mycomp.business</groupId>
-	<artifactId>krishi</artifactId>
+	<artifactId>farmer-app-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>krishi-business</name>
+	<name>krishi business</name>
 	<description>Demo project for Spring Boot</description>
 	
 	<properties>
@@ -48,6 +48,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.28</version> <!-- or latest -->
             <scope>provided</scope>
         </dependency>
 

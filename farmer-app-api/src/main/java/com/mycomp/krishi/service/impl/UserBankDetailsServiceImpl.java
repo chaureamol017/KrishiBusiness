@@ -6,7 +6,7 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.common.adapter.ModelAdapter;
-import com.mycomp.krishi.dataprovider.repository.UserBankDetailsRepository;
+import com.mycomp.krishi.persistence.repository.UserBankDetailsRepository;
 import com.mycomp.krishi.persistence.entity.UserBankDetails;
 import com.mycomp.krishi.service.adapter.UserBankDetailsAdapter;
 import com.mycomp.krishi.service.api.UserBankDetailsService;

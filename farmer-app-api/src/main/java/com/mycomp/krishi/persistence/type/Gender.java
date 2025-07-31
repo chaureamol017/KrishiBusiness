@@ -1,4 +1,4 @@
-package com.mycomp.krishi.persistence.entity.type;
+package com.mycomp.krishi.persistence.type;
 
 public enum Gender {
 	MALE,

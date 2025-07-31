@@ -6,7 +6,7 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.common.adapter.ModelAdapter;
-import com.mycomp.krishi.dataprovider.repository.UserAddressDetailsRepository;
+import com.mycomp.krishi.persistence.repository.UserAddressDetailsRepository;
 import com.mycomp.krishi.persistence.entity.UserAddressDetails;
 import com.mycomp.krishi.service.adapter.UserAddressDetailsAdapter;
 import com.mycomp.krishi.service.api.UserAddressDetailsService;

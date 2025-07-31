@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycomp.krishi.dataprovider.repository;
+package com.mycomp.krishi.persistence.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,18 +11,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 //import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.mycomp.krishi.persistence.entity.ProductPrice;
+import com.mycomp.krishi.persistence.entity.UserAddressDetails;
 
 /**
  *
  * @author Amol
  */
 @Repository
-public interface ProductPriceRepository extends JpaRepository<ProductPrice, Long> {
+public interface UserAddressDetailsRepository extends JpaRepository<UserAddressDetails, Long> {
 
-    List<ProductPrice> findByProductId(Long productId);
+    List<UserAddressDetails> findByUserId(Long userId);
 
-//    @Query(value = "SELECT pp FROM ProductPrice pp WHERE pp.productId = :productId")
-//    public List<ProductPrice> getProductPriceByProductId(@Param("productId") Long productId);
-
+//    @Query("SELECT uad FROM UserAddressDetails AS uad WHERE uad.userId = :userId")
+//    public List<UserAddressDetails> findUserAddressDetailsByUser(@Param("userId") Long userId);
 }

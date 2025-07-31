@@ -1,4 +1,4 @@
-package com.mycomp.krishi.dataprovider.repository;
+package com.mycomp.krishi.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

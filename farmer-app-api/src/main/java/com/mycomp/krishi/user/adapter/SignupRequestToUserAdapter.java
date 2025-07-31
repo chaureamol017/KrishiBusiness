@@ -2,9 +2,9 @@ package com.mycomp.krishi.user.adapter;
 
 import com.mycomp.common.adapter.ModelAdapter;
 import com.mycomp.krishi.persistence.entity.User;
-import com.mycomp.krishi.persistence.entity.type.Gender;
-import com.mycomp.krishi.persistence.entity.type.MaritalStatus;
-import com.mycomp.krishi.persistence.entity.type.UserRole;
+import com.mycomp.krishi.persistence.type.Gender;
+import com.mycomp.krishi.persistence.type.MaritalStatus;
+import com.mycomp.krishi.persistence.type.UserRole;
 import com.mycomp.krishi.user.model.SignupRequestModel;
 
 public final class SignupRequestToUserAdapter implements ModelAdapter<SignupRequestModel, User> {

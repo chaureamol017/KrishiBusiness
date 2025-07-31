@@ -6,7 +6,7 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.common.adapter.ModelAdapter;
-import com.mycomp.krishi.dataprovider.repository.FarmerProductRepository;
+import com.mycomp.krishi.persistence.repository.FarmerProductRepository;
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
 import com.mycomp.krishi.service.adapter.FarmerProductModelAdapter;
 import com.mycomp.krishi.service.api.FarmerProductService;

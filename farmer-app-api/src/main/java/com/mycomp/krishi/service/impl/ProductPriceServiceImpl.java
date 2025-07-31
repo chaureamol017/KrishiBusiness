@@ -6,7 +6,7 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.common.adapter.ModelAdapter;
-import com.mycomp.krishi.dataprovider.repository.ProductPriceRepository;
+import com.mycomp.krishi.persistence.repository.ProductPriceRepository;
 import com.mycomp.krishi.persistence.entity.ProductPrice;
 import com.mycomp.krishi.service.adapter.ProductPriceModelAdapter;
 import com.mycomp.krishi.service.adapter.ProductPriceToProductPriceHistoryModelAdapter;
