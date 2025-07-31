@@ -7,7 +7,7 @@ import { UserSignup } from '../model/user-signup';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminApiService {
+export class AuthService {
   serverUrl: any = "http://localhost:8080";
   loginEndpoint: any = "/v1/user/validate";
   signupEndpoint: any = "/v1/user/signup"
@@ -16,6 +16,10 @@ export class AdminApiService {
     private httpCllient: HttpClient,
     private router: Router
   ) { }
+
+  isAuthenticated(): boolean {
+    return true;
+  }
 
   validateLogin(userName: string, password: string): Observable<any> {
     var parameters = "userName=" + userName + "&password=" + password;

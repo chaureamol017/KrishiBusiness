@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserSignup } from 'src/app/model/user-signup';
-import { AdminApiService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { AdminService } from 'src/app/services/admin.service';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 
@@ -17,7 +17,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private adminService: AdminService,
-    private adminApiService: AdminApiService,
+    private adminApiService: AuthService,
     private formValidationService: FormValidationService,
     private dialogRef: MatDialogRef<SignUpComponent>
   ) { }

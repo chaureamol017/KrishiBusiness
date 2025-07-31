@@ -27,6 +27,7 @@ import { MatButtonModule, MatDividerModule, MatToolbarModule, MatIconModule, Mat
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
   providers: [
     UserService,
     AdminService,
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
