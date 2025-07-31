@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatDividerModule, MatSidenavModule } from '@angular/material';
-import { DashboardModule } from '../dashboard/dashboard.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
@@ -26,7 +25,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatSidenavModule,
 
-    DashboardModule,
   ]
 })
 export class HomeModule { }

@@ -1,0 +1,14 @@
+<mat-nav-list>
+    <app-profile-card></app-profile-card>
+
+    <mat-divider></mat-divider>
+
+    <mat-list role="list">
+        <mat-list-item *ngFor="let navLink of navLinks; let i = index" [class.active-nav-link]="activeLink==i" (click)="onClickNavLink(navLink, i)">
+            {{ navLink.title }}
+        </mat-list-item>
+      </mat-list>
+
+    <mat-divider></mat-divider>
+
+</mat-nav-list>
