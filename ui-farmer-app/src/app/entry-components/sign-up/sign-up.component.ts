@@ -40,6 +40,7 @@ export class SignUpComponent implements OnInit {
         .subscribe(
           responseData => {
             if (responseData.success) {
+              this.closeDialog();
             }
           },
           error => {

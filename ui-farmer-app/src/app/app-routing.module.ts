@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent } from './default/default/default.component';
 import { HomeComponent } from './home/home/home.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
+import { AuthGuard } from './guard/auth.guard';
 // import { LoginComponent } from './default/login/login.component';
 
 
@@ -13,17 +14,11 @@ const routes: Routes = [
     component: DefaultComponent,
   }, {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [AuthGuard],
   }, {
     path: 'products',
     component: ProductListComponent
-  // }, {
-  //   path: 'login',
-  //   component: LoginComponent
-  // }, {
-  //   // path: 'MyHome/:loggedInUserId',
-  //   path: 'MyHome',
-  //   component: MainpageComponent
   }];
 
 @NgModule({
