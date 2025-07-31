@@ -1,0 +1,24 @@
+
+<div class="my-dashboard">
+    <div class="heading">
+        <h2>{{ heading }}</h2>
+    </div>
+    <br>
+    <div class="main">
+        <div>
+            <div class="leftside">
+                <br>
+                <div class="box-container">
+                    <p>{{ description1 }}</p>
+                </div>
+                <h3>Services</h3>
+                <div class="box-container">
+                        <p style="text-align:center">
+                            <span *ngFor="let point of servicePoints"><div>{{ point }}</div></span>
+                        </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   

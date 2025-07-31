@@ -1,0 +1,21 @@
+<mat-nav-list>
+    <div class="profile-card">
+        <div class="header">
+            <h4> {{ loggedInUserName }} </h4>
+            <h6> {{loggedInUserEmail}} </h6>
+        </div>
+        <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Soufiane FADIL">
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- <h2 matSubheader>Pages</h2> -->
+    <mat-list role="list">
+        <mat-list-item [class.mydasboard-list-item-selected]="activeLink==0" (click)="switchSideBar(0)">Dashboard</mat-list-item>
+        <mat-list-item [class.mydasboard-list-item-selected]="activeLink==1"  (click)="switchSideBar(1)">Products</mat-list-item>
+        <mat-list-item [class.mydasboard-list-item-selected]="activeLink==2"  (click)="switchSideBar(2)">Action</mat-list-item>
+      </mat-list>
+
+    <mat-divider></mat-divider>
+
+</mat-nav-list>

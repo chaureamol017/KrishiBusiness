@@ -1,0 +1,31 @@
+<form class="form-container" [formGroup]="userDetailsForm" (ngSubmit)="saveUserDetailsForm(userDetailsForm)">
+
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" formControlName="firstName" aria-describedby="emailHelp"
+            placeholder="Enter First Name">
+    </div>
+
+    <div class="form-group">
+        <label for="middleName">Middle Name</label>
+        <input type="text" class="form-control" id="middleName" formControlName="middleName"  placeholder="Enter Middle Name">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter Last Name">
+    </div>
+    <div class="form-group">
+        <label for="emailId">Email address</label>
+        <input type="email" class="form-control" id="emailId" formControlName="emailId" disabled
+            aria-describedby="emailHelp" placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input type="text" class="form-control" id="mobile" formControlName="mobile" disabled
+            aria-describedby="emailHelp" placeholder="Enter email">
+    </div>
+
+    <div class="add-bottom-button-container d-flex align-items-center mb-4">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+</form>
