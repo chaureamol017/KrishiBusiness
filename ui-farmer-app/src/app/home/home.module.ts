@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './home/home.component';
-import { MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatDividerModule, MatSidenavModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { BannerComponent } from './banner/banner.component';
 import { CardBannerComponent } from './card-banner/card-banner.component';
+import { MaterialModule } from '../material/material.module';
 
-
-// const routes: Routes = [{
-//     path: 'login',
-//     component: LoginComponent
-//   }];
 
 @NgModule({
   declarations: [
@@ -22,20 +17,13 @@ import { CardBannerComponent } from './card-banner/card-banner.component';
     CardBannerComponent,
   ],
   imports: [
-    // RouterModule.forRoot(routes, { useHash: true }),
-    CommonModule,
-    
+    CommonModule,    
     FormsModule,
     ReactiveFormsModule,
 
-    // FlexLayoutModule,
+    MaterialModule,
 
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-
+    FlexLayoutModule,
   ]
 })
 export class HomeModule { }
