@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatListModule } from '@angular/material/list'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatDialogModule } from '@angular/material/dialog'
+import { MatCardModule } from '@angular/material/card'
 
 
 
@@ -16,6 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog'
   imports: [
     CommonModule,
     MatButtonModule,
+    MatCardModule,
     MatDividerModule,
     MatDialogModule,
     MatIconModule,
@@ -25,16 +27,14 @@ import { MatDialogModule } from '@angular/material/dialog'
     MatToolbarModule,
   ],
   exports: [
-
-        MatButtonModule,
-        MatDividerModule,
-        MatDialogModule,
-        MatIconModule,
-        MatListModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatToolbarModule,
-    
+    MatButtonModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
   ]
 })
 export class MaterialModule {

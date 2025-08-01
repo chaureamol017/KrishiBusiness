@@ -1,5 +1,23 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch" class="header" >
 
-<header class="header">
+  <div fxLayout="row" fxLayoutAlign="start none" >
+    <button class="toggler" (click)="toggleSidebar()">☰</button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" >
+    <img src="assets/img/farmer-small-icon.ico" alt="Logo" class="logo-img" />
+    <span class="app-name">{{ appName }}</span>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end center" >
+    
+    <button *ngIf="!isLoggedIn" class="btn" (click)="login()">Login</button>
+    <button *ngIf="!isLoggedIn" class="btn" (click)="signUp()">Sign Up</button>
+    <div *ngIf="isLoggedIn" class="profile">
+      <span>{{ userName }}</span>
+      <button class="btn" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>
+<!-- <header class="header">
     <button class="toggler" (click)="toggleSidebar()">☰</button>
     <div class="logo">
       <img src="assets/logo.png" alt="Logo" class="logo-img" />
@@ -13,4 +31,4 @@
         <button class="btn" (click)="logout()">Logout</button>
       </div>
     </div>
-  </header>
+  </header> -->

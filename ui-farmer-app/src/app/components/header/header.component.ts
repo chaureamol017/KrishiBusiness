@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { SignUpComponent } from '../../auth/sign-up/sign-up.component';
+import { DialogService } from '../../services/dialog.service';
+import { LoginComponent } from '../../auth/login/login.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LocalComponent } from '../../components/local/local.component';
 
 @Component({
   selector: 'app-header',
@@ -6,6 +11,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  readonly dialog = inject(MatDialog);
+
   appName: string = "Krishi Business";
   isLoggedIn: boolean = false;
   userName: string = "John Doe";
@@ -13,17 +20,28 @@ export class HeaderComponent implements OnInit {
 
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private dialogService: DialogService,
+  ) { }
 
   ngOnInit() {
   }
 
   login() {
-    this.isLoggedIn = true;
+    const dialogRef = this.dialog.open(LocalComponent, {
+      position: { top: '100px', left: 'calc(50% - 200px)' },
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+    // this.dialogService.openDialog1(LoginComponent, {}, true);
+
   }
 
   signUp() {
-    // Add sign-up logic here
+    this.dialogService.openDialog(SignUpComponent, {}, false);
   }
 
   logout() {
