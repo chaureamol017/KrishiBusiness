@@ -28,28 +28,28 @@ export class ProductApiService {
   }
 
   getSoldProducts(): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
-    var parameters = "userId=" + userId;
+    var userId: string | null = localStorage.getItem("userId");
+    var parameters = "userId=" + (userId ? userId : '');
 
     var url = this.serverUrl + this.getSoldByUserEndpoint + "?" + parameters;
 
     return this.httpCllient.get(url);
   }
 
-  saveProduct(productDetails): Observable<any> {
+  saveProduct(productDetails: any): Observable<any> {
     var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.post(url, productDetails);
   }
 
   
-  updateProduct(productDetails): Observable<any> {
+  updateProduct(productDetails: any): Observable<any> {
     var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.put(url, productDetails);
   }
 
-  deleteProduct(productId): Observable<any> {
+  deleteProduct(productId: any): Observable<any> {
     var url = this.serverUrl + this.productEndpoint + "/" + productId;
 
     return this.httpCllient.delete(url);

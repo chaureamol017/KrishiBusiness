@@ -34,36 +34,42 @@ export class AdminService {
     this.router.navigate(['']);
   }
 
-  createSignUpDetailsFromFormValues(formValues: any) : UserSignup {
-    var signupDetails = new UserSignup();
-    signupDetails.role = formValues.role;
-    signupDetails.firstName = formValues.firstName;
-    signupDetails.middleName = formValues.middleName;
-    signupDetails.lastName = formValues.lastName;
-    signupDetails.emailId = formValues.emailId;
-    signupDetails.mobile = formValues.mobile;
-    signupDetails.password = formValues.password;
+  createSignUpDetailsFromFormValues(formValues: any): UserSignup {
+    var signupDetails: UserSignup = {
+      role: formValues.role,
+      firstName: formValues.firstName,
+      middleName: formValues.middleName,
+      lastName: formValues.lastName,
+      emailId: formValues.emailId,
+      mobile: formValues.mobile,
+      password: formValues.password,
+    }
 
-      return signupDetails;
+    return signupDetails;
   }
 
   getRole(): string {
-    return localStorage.getItem("role")
+    return this.get("role")
   }
 
   getFirstName(): string {
-    return localStorage.getItem("firstName")
+    return this.get("firstName")
   }
-  
+
   getMiddleName(): string {
-    return localStorage.getItem("middleName")
+    return this.get("middleName")
   }
 
   getLastName(): string {
-    return localStorage.getItem("lastName")
+    return this.get("lastName")
   }
-  
+
   getEmailId(): string {
-    return localStorage.getItem("emailId")
+    return this.get("emailId")
+  }
+
+  private get(key: string): string {
+    const data: string | null = localStorage.getItem(key);
+    return data ? data : '';
   }
 }

@@ -1,4 +1,4 @@
-export class UserSignup {
+export interface UserSignup {
     role: string;
     firstName: string;
     middleName: string;

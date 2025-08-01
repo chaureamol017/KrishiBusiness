@@ -7,7 +7,7 @@ export class ProductService {
   constructor() { }
 
   getProductForSave(productDetails: any) : any {
-    var userId: string = localStorage.getItem("userId");
+    // var userId: string = localStorage.getItem("userId");
 
     var product = {
       productId: (productDetails.productId) ? productDetails.productId : "",
