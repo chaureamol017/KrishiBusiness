@@ -1,25 +1,30 @@
 <div fxLayout="column" fxLayoutAlign="space-between stretch">
 
-    <h2 class="section-title">{{title}}</h2>
-    <h3 class="body-text">{{bodyText}}</h3>
-    <div class="card-banner-wrapper">
-        <div class="card-banner" *ngFor="let card of cards">
-            <img [src]="card.image" alt="Card Image" class="card-image" />
-            <h3 class="card-title">{{ card.title }}</h3>
-            <p class="card-description">{{ card.description }}</p>
+    <div>
+        <h2 class="section-title">{{title}}</h2>
+        <h3 class="body-text">{{bodyText}}</h3>
+    </div>
+    <!-- <div class="card-banner-wrapper"> -->
+    <div fxLayout="row" fxLayoutAlign="center stretch">
+
+        <div fxFlex="none" style="margin: 8px;" *ngFor="let card of cards">
+            <img [src]="card.image" alt="Card Image"  />
+            <h3 >{{ card.title }}</h3>
+            <p >{{ card.description }}</p>
         </div>
 
-</div>
+    </div>
 
 
- <div class="card-banner-container">
-    <h2 class="section-title">{{title}}</h2>
-    <h3 class="body-text">{{bodyText}}</h3>
-    <div class="card-banner-wrapper">
-        <div class="card-banner" *ngFor="let card of cards">
-            <img [src]="card.image" alt="Card Image" class="card-image" />
-            <h3 class="card-title">{{ card.title }}</h3>
-            <p class="card-description">{{ card.description }}</p>
+    <div class="card-banner-container">
+        <h2 class="section-title">{{title}}</h2>
+        <h3 class="body-text">{{bodyText}}</h3>
+        <div class="card-banner-wrapper">
+            <div class="card-banner" *ngFor="let card of cards">
+                <img [src]="card.image" alt="Card Image" class="card-image" />
+                <h3 class="card-title">{{ card.title }}</h3>
+                <p class="card-description">{{ card.description }}</p>
+            </div>
         </div>
     </div>
 </div>
