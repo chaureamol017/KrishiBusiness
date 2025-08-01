@@ -4,6 +4,7 @@ import { DialogService } from '../../services/dialog.service';
 import { LoginComponent } from '../../auth/login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LocalComponent } from '../../components/local/local.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
+    private router: Router,
     private dialogService: DialogService,
   ) { }
 
@@ -41,7 +43,8 @@ export class HeaderComponent implements OnInit {
   }
 
   signUp() {
-    this.dialogService.openDialog(SignUpComponent, {}, false);
+    this.router.navigate(['sign-up']);
+    // this.dialogService.openDialog(SignUpComponent, {}, false);
   }
 
   logout() {

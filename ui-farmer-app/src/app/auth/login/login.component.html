@@ -1,15 +1,17 @@
-<div class="login-dialog">
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" formControlName="email" class="form-control" placeholder="Enter your email">
+<div fxLayout="row" fxLayoutAlign="space-between start" >
+    <div fxLayout="column" fxLayoutAlign="space-between center" fxFlex="25" >
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-between center" fxFlex="50" >
+        <div class="login">
+            <div class="example-container">
+                <mat-form-field appearance="fill">
+                  <mat-label>Enter your email</mat-label>
+                  <input matInput placeholder="pat@example.com" [formControl]="email" required>
+                  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" formControlName="password" class="form-control"
-                placeholder="Enter your password">
-        </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
-    </form>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-between center" fxFlex="25" >
+    </div>
 </div>

@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { AdminService } from 'src/app/services/admin.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { FormValidationService } from 'src/app/services/form-validation.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -11,47 +7,26 @@ import { FormValidationService } from 'src/app/services/form-validation.service'
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-  formTitle: any = "Sign up";
   signupForm: FormGroup;
 
-  constructor(
-    private adminService: AdminService,
-    private adminApiService: AuthService,
-    private formValidationService: FormValidationService,
-    private dialogRef: MatDialogRef<SignUpComponent>
-  ) {
-    this.signupForm = this.formValidationService.getSignUpFormGroup();
+  constructor(private fb: FormBuilder) {
+    this.signupForm = this.fb.group({
+      role: ['', Validators.required],
+      firstName: ['', Validators.required],
+      middleName: [''],
+      lastName: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+    });
   }
 
-  ngOnInit() {
-    
-  }
-
-  signupUser(signupData: FormGroup) {
-    var formValues = signupData.value;
-
-    if (!formValues.password || !formValues.confirmPassword) {
-      alert("Please add password.");
-    } else if (formValues.password != formValues.confirmPassword) {
-      alert("Password does not match.")
+  onSubmit() {
+    if (this.signupForm.valid) {
+      console.log('Sign-up successful:', this.signupForm.value);
     } else {
-      var signupDetails = this.adminService.createSignUpDetailsFromFormValues(formValues);
-
-      this.adminApiService.signUp(signupDetails)
-        .subscribe(
-          responseData => {
-            if (responseData.success) {
-            }
-          },
-          error => {
-            alert("Error ocurred while processing.");
-          }
-        )
+      console.log('Form is invalid');
     }
   }
   
-  closeDialog() {
-    this.dialogRef.close();
-  }
-
 }
