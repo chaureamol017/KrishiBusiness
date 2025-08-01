@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { MatIconModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatDividerModule, MatSidenavModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { BannerComponent } from './banner/banner.component';
+import { CardBannerComponent } from './card-banner/card-banner.component';
 
 
 // const routes: Routes = [{
@@ -11,7 +14,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 //   }];
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [
+    HomeComponent,
+    LoginComponent,
+    BannerComponent,
+    CardBannerComponent,
+  ],
   imports: [
     // RouterModule.forRoot(routes, { useHash: true }),
     CommonModule,

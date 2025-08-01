@@ -3,11 +3,9 @@
 <mat-drawer-container>
     <mat-drawer mode="side" [opened]="isSidebarVisible">
         <app-side-bar (switchSideBarForMe)="toggleSiderBar($event)"></app-side-bar>
-        <!-- <kp-sidebar (switchSideBarForMe)="toggleSiderBar($event)"></kp-sidebar> -->
     </mat-drawer>
     <mat-drawer-content >
         <router-outlet></router-outlet>
-        <!-- <app-bidlist></app-bidlist> -->
     </mat-drawer-content>
 </mat-drawer-container>
 <app-footer></app-footer>
