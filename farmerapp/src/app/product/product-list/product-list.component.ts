@@ -4,8 +4,6 @@ import {
 } from '@angular/material';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProductComponent } from 'src/app/entry-components/product/product.component';
-import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
-import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
 import { ProductApiService } from 'src/app/services/product-api.service';
 
 @Component({

@@ -1,0 +1,18 @@
+<mat-nav-list>
+    <app-profile-card></app-profile-card>
+    <mat-divider></mat-divider>
+
+    <!-- <h2 matSubheader>Pages</h2> -->
+    <mat-list role="list">
+
+        <mat-list-item *ngFor="let navLink of navLinks; let i = index" [class.active-nav-link]="activeLink==i" (click)="onClickNavLink(navLink, i)">
+            {{ navLink.title }}
+        </mat-list-item>
+        <!-- <mat-list-item [class.mydasboard-list-item-selected]="activeLink==0" (click)="switchSideBar(0)">Dashboard</mat-list-item>
+        <mat-list-item [class.mydasboard-list-item-selected]="activeLink==1"  (click)="switchSideBar(1)">Products</mat-list-item>
+        <mat-list-item [class.mydasboard-list-item-selected]="activeLink==2"  (click)="switchSideBar(2)">Action</mat-list-item> -->
+      </mat-list>
+
+    <mat-divider></mat-divider>
+
+</mat-nav-list>

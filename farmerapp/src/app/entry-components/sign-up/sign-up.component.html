@@ -1,13 +1,5 @@
 <app-top-dialog-content [titleBarColor]="primary" [title]="formTitle" (closeClick)="closeDialog()"></app-top-dialog-content>
 
-<mat-toolbar color="primary">
-    <h1 mat-dialog-title> {{ formTitle }} </h1>
-    <span class="fill-remaining-space"></span>
-    <button class="btn-dialog-close" mat-stroked-button (click)="closeDialog()" tabindex="-1">
-        <mat-icon>clear</mat-icon>
-    </button>
-</mat-toolbar>
-
 <mat-dialog-content class="mat-typography">
     <form class="form-container" [formGroup]="signupForm" (ngSubmit)="signupUser(signupForm)" >
         <div class="form-group">

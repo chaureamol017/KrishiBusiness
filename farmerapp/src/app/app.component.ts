@@ -7,4 +7,18 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'farmerapp';
+
+  sideBarOpen = false;
+
+  constructor(
+  ) {
+  }
+
+  ngOnInit() {
+    
+  }
+
+  sideBarToggler($event) {
+    this.sideBarOpen = $event;
+  }
 }
