@@ -13,6 +13,9 @@ import { BankDetailsComponent } from './profile/bank-details/bank-details.compon
 import { ProfileComponent } from './profile/profile.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { LoginComponent } from './login/login.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,9 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
     UserDetailsComponent,
     SidebarComponent,
     ProfileCardComponent,
+    
+    LoginComponent,
+    SignUpComponent,
   ],
   imports: [
     // RouterModule.forRoot(routes, { useHash: true }),
@@ -41,6 +47,7 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
     // MatToolbarModule,
     // MatSidenavModule,
     MaterialModule,
+    SharedComponentsModule,
 
     // DashboardModule,
   ],
@@ -56,6 +63,8 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
     SidebarComponent,
   ],
   entryComponents: [
+    LoginComponent,
+    SignUpComponent,
     ProfileComponent,
     ChangePasswordComponent,
   ]

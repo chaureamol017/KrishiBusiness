@@ -3,9 +3,8 @@ import { ChangePasswordComponent } from '../profile/change-password/change-passw
 import { ProfileComponent } from '../profile/profile.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog.service';
-import { Router } from '@angular/router';
-import { MyLoginComponent } from 'src/app/entry-components/my-login/my-login.component';
-import { SignUpComponent } from 'src/app/entry-components/sign-up/sign-up.component';
+import { LoginComponent } from 'src/app/home/login/login.component';
+import { SignUpComponent } from 'src/app/home/sign-up/sign-up.component';
 
 @Component({
   selector: 'app-header',
@@ -37,7 +36,7 @@ export class HeaderComponent implements OnInit {
   }
 
   login() {
-    this.dialogService.openDialog(MyLoginComponent, {}, true);
+    this.dialogService.openDialog(LoginComponent, {}, true);
   }
 
   signUp() {

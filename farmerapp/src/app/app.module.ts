@@ -10,10 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultModule } from './default/default.module';
 import { AddEditProductBidComponent } from './entry-components/add-edit-product-bid/add-edit-product-bid.component';
 import { EntryComponentsModule } from './entry-components/entry-components.module';
-import { MyLoginComponent } from './entry-components/my-login/my-login.component';
 import { ProductBidComponent } from './entry-components/product-bid/product-bid.component';
 import { ProductComponent } from './entry-components/product/product.component';
-import { SignUpComponent } from './entry-components/sign-up/sign-up.component';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
@@ -47,8 +45,6 @@ import { ProductSellModule } from './product-sell/product-sell.module';
     ProductSellModule,
   ],
   entryComponents: [
-    MyLoginComponent,
-    SignUpComponent,
 
     ProductComponent,
     AddEditProductBidComponent,

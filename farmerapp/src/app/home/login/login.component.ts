@@ -7,12 +7,12 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 
 @Component({
-  selector: 'app-my-login',
-  templateUrl: './my-login.component.html',
-  styleUrls: ['./my-login.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 
-export class MyLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
   formTitle: any = "Login";
   loginForm: FormGroup;
   loggedInUser: UserDetails = new UserDetails();
@@ -21,7 +21,7 @@ export class MyLoginComponent implements OnInit {
     private authService: AuthService,
     private adminApiService: AdminApiService,
     private validationService: FormValidationService,
-    private dialogRef: MatDialogRef<MyLoginComponent>,
+    private dialogRef: MatDialogRef<LoginComponent>,
   ) {
   }
 

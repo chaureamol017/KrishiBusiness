@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MyLoginComponent } from 'src/app/entry-components/my-login/my-login.component';
-import { SignUpComponent } from 'src/app/entry-components/sign-up/sign-up.component';
+import { LoginComponent } from 'src/app/home/login/login.component';
+import { SignUpComponent } from 'src/app/home/sign-up/sign-up.component';
 import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class DefaultHeaderComponent implements OnInit {
   }
 
   login() {
-    this.dialogService.openDialog(MyLoginComponent, {}, false);
+    this.dialogService.openDialog(LoginComponent, {}, false);
   }
 
   signUp() {
