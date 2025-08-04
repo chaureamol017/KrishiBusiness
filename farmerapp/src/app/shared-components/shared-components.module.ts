@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { TopDialogContentComponent } from './top-dialog-content/top-dialog-content.component';
 import { MaterialModule } from '../material/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -13,6 +14,7 @@ import { MaterialModule } from '../material/material.module';
   ],
   imports: [
     CommonModule,
+    FlexLayoutModule,
 
     MaterialModule,
   ],

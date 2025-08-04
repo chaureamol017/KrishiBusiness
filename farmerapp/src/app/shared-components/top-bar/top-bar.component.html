@@ -1,6 +1,20 @@
-<div class="topbar-view">
-    <button mat-raised-button  *ngIf="userRole!='Buyer'"  (click)="add()">
-      <mat-icon>add</mat-icon>Create
+<div fxLayout="row" fxLayoutAlign="space-between stretch" class="header">
+
+  <div fxLayout="row" fxLayoutAlign="start none">
+    <button mat-raised-button *ngFor="let button of leftButtons" (click)="onClick(button.action)">
+      <mat-icon *ngIf="button.icon">{{button.icon}}</mat-icon>
+      {{button.title}}
     </button>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <span class="app-name">{{ name }}</span>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button *ngFor="let button of rightButtons" (click)="onClick(button.action)">
+      <mat-icon *ngIf="button.icon">{{button.icon}}</mat-icon>
+      {{button.title}}
+    </button>
+  </div>
 </div>
-  
