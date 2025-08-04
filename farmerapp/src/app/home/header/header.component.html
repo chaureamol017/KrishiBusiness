@@ -13,7 +13,7 @@
         <button *ngIf="!isLoggedIn" class="btn" (click)="signUp()">Sign Up</button>
 
         <button mat-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
-            <mat-icon>settings</mat-icon>
+            <mat-icon>person</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="openMyProfile()">

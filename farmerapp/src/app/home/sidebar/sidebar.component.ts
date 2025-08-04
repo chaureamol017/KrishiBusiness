@@ -11,9 +11,9 @@ import { AuthService } from '../../services/auth.service';
 export class SidebarComponent implements OnInit {
 
   home: NavLink = { title: 'Home', icon: 'home', path: '/home' };
-  products: NavLink = { title: 'Products', icon: 'shopping_cart', path: '/products' };
-  sellProducts: NavLink = { title: 'Sell Products', icon: 'shopping_cart', path: '/sell-products' };
-  buyProducts: NavLink = { title: 'Buy Products', icon: 'shopping_cart', path: '/buy-products' };
+  products: NavLink = { title: 'Products', icon: 'business', path: '/products' };
+  sellProducts: NavLink = { title: 'Sell Products', icon: 'shop', path: '/sell-products' };
+  buyProducts: NavLink = { title: 'Buy Products', icon: 'store', path: '/buy-products' };
   settings: NavLink = { title: 'Settings', icon: 'settings', path: '/settings' };
   
   allNavLinks: NavLink[] = [this.home, this.products, this.sellProducts, this.buyProducts, this.settings];

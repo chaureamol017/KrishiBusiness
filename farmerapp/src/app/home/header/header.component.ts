@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   appName: string = "Krishi Business";
   isSidebarVisible: boolean = false;
 
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = true;
 
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
 
