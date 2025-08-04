@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavLink } from 'src/app/model/nav-link';
 import { AdminService } from 'src/app/services/admin.service';
@@ -9,16 +9,14 @@ import { AdminService } from 'src/app/services/admin.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  @Output() switchSideBarForMe: EventEmitter<any> = new EventEmitter();
-  activeLink: any = 0; 
 
-  allNavLinks: NavLink[] = [
-    { title: 'Home', icon: 'home', path: '/home' },
-    { title: 'Products', icon: 'shopping_cart', path: '/products' },
-    { title: 'Sell Products', icon: 'shopping_cart', path: '/sell-products' },
-    { title: 'Buy Products', icon: 'shopping_cart', path: '/buy-products' },
-    { title: 'Settings', icon: 'settings', path: '/settings' }
-  ];
+  home: NavLink = { title: 'Home', icon: 'home', path: '/home' };
+  products: NavLink = { title: 'Products', icon: 'shopping_cart', path: '/products' };
+  sellProducts: NavLink = { title: 'Sell Products', icon: 'shopping_cart', path: '/sell-products' };
+  buyProducts: NavLink = { title: 'Buy Products', icon: 'shopping_cart', path: '/buy-products' };
+  settings: NavLink = { title: 'Settings', icon: 'settings', path: '/settings' };
+  
+  allNavLinks: NavLink[] = [this.home, this.products, this.sellProducts, this.buyProducts, this.settings];
   navLinks: NavLink[] = [];
 
   constructor(
@@ -29,28 +27,27 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activeLink = 0;
-
-
     const userRole = this.adminService.getRole();
+    this.filterNavlinks(userRole);
+  }
+
+  private filterNavlinks(userRole: string) {
     if (userRole === 'admin') {
       this.navLinks = this.allNavLinks.filter(link => link.role === 'admin' || !link.role);
     } else if (userRole === 'user') {
       this.navLinks = this.allNavLinks.filter(link => link.role === 'user' || !link.role);
+    } else if (userRole === 'buyer') {
+      this.navLinks = this.allNavLinks.filter(link => link.role === 'buyer' || !link.role);
     } else {
       this.navLinks = this.allNavLinks.filter(link => !link.role);
     }
   }
 
-
-  onClickNavLink(navLink: NavLink, activeLink: number) {
-    this.activeLink = activeLink;
-    this.router.navigate([navLink.path]);
+  isActiveLink(navLink: NavLink) {
+    return this.router.isActive(navLink.path, true);
   }
 
-  switchSideBar(clickedLink) {
-    this.activeLink = clickedLink;
-
-    this.switchSideBarForMe.emit(this.activeLink);
+  onClickNavLink(navLink: NavLink) {
+    this.router.navigate([navLink.path]);
   }
 }
