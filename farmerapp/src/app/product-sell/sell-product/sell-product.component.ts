@@ -1,18 +1,22 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { TopBarButton } from '../../shared-components/model/top-bar-button';
+import { UserDetails } from 'src/app/model/user-details';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
 import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
 import { ProductComponent } from 'src/app/entry-components/product/product.component';
-import { UserDetails } from 'src/app/model/user-details';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
 
 @Component({
-  selector: 'app-selling-products-list',
-  templateUrl: './selling-products-list.component.html',
-  styleUrls: ['./selling-products-list.component.scss']
+  selector: 'app-sell-product',
+  templateUrl: './sell-product.component.html',
+  styleUrls: ['./sell-product.component.scss']
 })
-export class SellingProductsListComponent implements OnInit {
+export class SellProductComponent implements OnInit {
+  buttons: TopBarButton[] = [
+    { title: 'Create', action: 'create', icon: 'add' }
+  ];
 
   @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();
   userRole: any = "Buyer";
@@ -21,12 +25,13 @@ export class SellingProductsListComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
-  isSold: boolean = false;
+
 
   dataSource = [];
 
-  constructor(private dialogService: DialogService,
-    private productApiService: ProductApiService
+  constructor(
+    private dialogService: DialogService,
+    private productApiService: ProductApiService,
   ) {
 
   }
@@ -52,13 +57,13 @@ export class SellingProductsListComponent implements OnInit {
   }
 
   getProducts() {
-    
+
     if (this.userRole == "Farmer") {
       this.getProductsForFarmer();
     } else {
       this.getProductsForBuyer();
     }
-  
+
   }
   getProductsForFarmer() {
     this.productApiService.getProducts()
@@ -135,6 +140,15 @@ export class SellingProductsListComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
+  handleButtonClick($event) {
+    switch ($event) {
+      case '':
+        this.addProduct();
+        break;
+      default:
+    }
+  }
+
   addProduct() {
     this.dialogService.openDialog(ProductComponent, {}, false);
   }
@@ -154,4 +168,5 @@ export class SellingProductsListComponent implements OnInit {
   viewBidProduct(selectedData, isEdit) {
     this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
   }
+
 }

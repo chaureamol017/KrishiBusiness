@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { DefaultComponent } from './default/default/default.component';
 import { HomeComponent } from './home/home/home.component';
-import { ProductListComponent } from './product/product-list/product-list.component';
-import { SellingProductsListComponent } from './product/selling-products-list/selling-products-list.component';
 import { BuyProductComponent } from './product-buy/buy-product/buy-product.component';
-// import { LoginComponent } from './default/login/login.component';
-
-
+import { SellProductComponent } from './product-sell/sell-product/sell-product.component';
+import { ProductListComponent } from './product/product-list/product-list.component';
 
 const routes: Routes = [
   {
@@ -24,7 +21,7 @@ const routes: Routes = [
     component: BuyProductComponent,
   }, {
     path: 'sell-products',
-    component: SellingProductsListComponent,
+    component: SellProductComponent,
   }];
 
 @NgModule({
