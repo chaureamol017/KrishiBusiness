@@ -19,6 +19,7 @@ import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
 import { AdminService } from './services/admin.service';
 import { UserService } from './services/user.service';
+import { ProductBuyModule } from './product-buy/product-buy.module';
 
 @NgModule({
   schemas: [
@@ -41,6 +42,7 @@ import { UserService } from './services/user.service';
     DefaultModule,
     HomeModule,
     ProductModule,
+    ProductBuyModule,
   ],
   entryComponents: [
     MyLoginComponent,

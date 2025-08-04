@@ -4,6 +4,7 @@ import { DefaultComponent } from './default/default/default.component';
 import { HomeComponent } from './home/home/home.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { SellingProductsListComponent } from './product/selling-products-list/selling-products-list.component';
+import { BuyProductComponent } from './product-buy/buy-product/buy-product.component';
 // import { LoginComponent } from './default/login/login.component';
 
 
@@ -18,6 +19,9 @@ const routes: Routes = [
   }, {
     path: 'products',
     component: ProductListComponent,
+  }, {
+    path: 'buy-products',
+    component: BuyProductComponent,
   }, {
     path: 'sell-products',
     component: SellingProductsListComponent,

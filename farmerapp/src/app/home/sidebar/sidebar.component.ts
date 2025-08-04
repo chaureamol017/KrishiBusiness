@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
     { title: 'Home', icon: 'home', path: '/home' },
     { title: 'Products', icon: 'shopping_cart', path: '/products' },
     { title: 'Sell Products', icon: 'shopping_cart', path: '/sell-products' },
+    { title: 'Buy Products', icon: 'shopping_cart', path: '/buy-products' },
     { title: 'Settings', icon: 'settings', path: '/settings' }
   ];
   navLinks: NavLink[] = [];
