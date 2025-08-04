@@ -1,4 +1,9 @@
-<app-top-bar (addClick)="addProduct()"></app-top-bar>
+<div class="topbar-view">
+  <button mat-raised-button (click)="addProduct()">
+    <mat-icon>add</mat-icon>Create
+  </button>
+</div>
+  
 
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData"  matSort>
