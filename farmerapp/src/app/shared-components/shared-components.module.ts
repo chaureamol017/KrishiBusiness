@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { MatButtonModule, MatIconModule, MatToolbarModule } from '@angular/material';
 import { TopDialogContentComponent } from './top-dialog-content/top-dialog-content.component';
+import { MaterialModule } from '../material/material.module';
 
 
 
@@ -14,9 +14,7 @@ import { TopDialogContentComponent } from './top-dialog-content/top-dialog-conte
   imports: [
     CommonModule,
 
-    MatButtonModule,
-    MatIconModule,
-    MatToolbarModule,
+    MaterialModule,
   ],
   exports: [
     TopBarComponent,

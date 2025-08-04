@@ -5,8 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "start1": "NODE_OPTIONS=--openssl-legacy-provider ng serve",
-    "build1": "NODE_OPTIONS=--openssl-legacy-provider ng build",
+    "startW": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
+    "buildW": "set NODE_OPTIONS=--openssl-legacy-provider && ng build",
+    "startL": "NODE_OPTIONS=--openssl-legacy-provider ng serve",
+    "buildL": "NODE_OPTIONS=--openssl-legacy-provider ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

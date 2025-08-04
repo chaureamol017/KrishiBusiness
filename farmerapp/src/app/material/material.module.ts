@@ -9,6 +9,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 
@@ -25,6 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTableModule,
     
   ],
   exports: [
@@ -36,6 +40,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
   ]
 })
 export class MaterialModule { }
