@@ -17,7 +17,7 @@ import { SignUpComponent } from './entry-components/sign-up/sign-up.component';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
-import { AdminService } from './services/admin.service';
+import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { ProductBuyModule } from './product-buy/product-buy.module';
 import { ProductSellModule } from './product-sell/product-sell.module';
@@ -56,7 +56,7 @@ import { ProductSellModule } from './product-sell/product-sell.module';
   ],
   providers: [
     UserService,
-    AdminService,
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })

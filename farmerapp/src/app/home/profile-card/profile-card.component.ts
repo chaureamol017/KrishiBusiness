@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -12,15 +12,14 @@ export class ProfileCardComponent implements OnInit {
   loggedInUserEmail: any;
 
   constructor(
-    private adminService: AdminService,
+    private authService: AuthService,
   ) {
-    adminService.onValidateCall
   }
 
 
   ngOnInit() {
-    this.loggedInUserName = this.adminService.getFirstName() + " " + this.adminService.getLastName();
-    this.loggedInUserEmail = this.adminService.getEmailId();
+    this.loggedInUserName = this.authService.getFirstName() + " " + this.authService.getLastName();
+    this.loggedInUserEmail = this.authService.getEmailId();
   }
 
 }

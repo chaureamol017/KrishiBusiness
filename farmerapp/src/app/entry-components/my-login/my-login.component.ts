@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserDetails } from 'src/app/model/user-details';
 import { AdminApiService } from 'src/app/services/admin-api.service';
-import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class MyLoginComponent implements OnInit {
   loggedInUser: UserDetails = new UserDetails();
 
   constructor(
-    private adminService: AdminService,
+    private authService: AuthService,
     private adminApiService: AdminApiService,
     private validationService: FormValidationService,
     private dialogRef: MatDialogRef<MyLoginComponent>,
@@ -38,7 +38,7 @@ export class MyLoginComponent implements OnInit {
           responseData => {
             if (responseData) {
               this.loggedInUser = responseData;
-              this.adminService.onValidateCall(this.loggedInUser);
+              this.authService.onValidateCall(this.loggedInUser);
               this.closeDialog();
             } else {
               alert("Email or password is incorrect")

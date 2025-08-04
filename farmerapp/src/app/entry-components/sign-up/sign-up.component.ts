@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserSignup } from 'src/app/model/user-signup';
 import { AdminApiService } from 'src/app/services/admin-api.service';
-import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { FormValidationService } from 'src/app/services/form-validation.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(
-    private adminService: AdminService,
+    private authService: AuthService,
     private adminApiService: AdminApiService,
     private formValidationService: FormValidationService,
     private dialogRef: MatDialogRef<SignUpComponent>
@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
     } else if (formValues.password != formValues.confirmPassword) {
       alert("Password does not match.")
     } else {
-      var signupDetails = this.adminService.createSignUpDetailsFromFormValues(formValues);
+      var signupDetails = this.createSignUpDetailsFromFormValues(formValues);
 
       this.adminApiService.signUp(signupDetails)
         .subscribe(
@@ -48,7 +48,20 @@ export class SignUpComponent implements OnInit {
         )
     }
   }
-  
+
+  createSignUpDetailsFromFormValues(formValues: any) : UserSignup {
+    var signupDetails = new UserSignup();
+    signupDetails.role = formValues.role;
+    signupDetails.firstName = formValues.firstName;
+    signupDetails.middleName = formValues.middleName;
+    signupDetails.lastName = formValues.lastName;
+    signupDetails.emailId = formValues.emailId;
+    signupDetails.mobile = formValues.mobile;
+    signupDetails.password = formValues.password;
+
+      return signupDetails;
+  }
+
   closeDialog() {
     this.dialogRef.close();
   }

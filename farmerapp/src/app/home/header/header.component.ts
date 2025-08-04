@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChangePasswordComponent } from '../profile/change-password/change-password.component';
 import { ProfileComponent } from '../profile/profile.component';
-import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { Router } from '@angular/router';
 import { MyLoginComponent } from 'src/app/entry-components/my-login/my-login.component';
@@ -15,21 +15,21 @@ import { SignUpComponent } from 'src/app/entry-components/sign-up/sign-up.compon
   ]
 })
 export class HeaderComponent implements OnInit {
-
   appName: string = "Krishi Business";
   isSidebarVisible: boolean = false;
 
   isLoggedIn: boolean = false;
-  userName: string = "John Doe";
 
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private dialogService: DialogService,
-    private adminService: AdminService,
+    private authService: AuthService,
     ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+  }
 
   toggleSidebar() {
     this.isSidebarVisible = !this.isSidebarVisible;
@@ -43,8 +43,6 @@ export class HeaderComponent implements OnInit {
   signUp() {
     this.dialogService.openDialog(SignUpComponent, {}, false);
   }
-
-
   
   openMyProfile() {
     var selectedData = {};
@@ -57,6 +55,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut () {
-    this.adminService.logOut();
+    this.authService.logOut();
   }
 }

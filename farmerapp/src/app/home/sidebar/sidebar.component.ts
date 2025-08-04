@@ -1,7 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavLink } from 'src/app/model/nav-link';
-import { AdminService } from 'src/app/services/admin.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,14 +20,13 @@ export class SidebarComponent implements OnInit {
   navLinks: NavLink[] = [];
 
   constructor(
-    private adminService: AdminService,
+    private authService: AuthService,
     private router: Router,
   ) {
-    adminService.onValidateCall
   }
 
   ngOnInit() {
-    const userRole = this.adminService.getRole();
+    const userRole = this.authService.getRole();
     this.filterNavlinks(userRole);
   }
 

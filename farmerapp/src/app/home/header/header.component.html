@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="space-between stretch" class="header">
 
     <div fxLayout="row" fxLayoutAlign="start none">
-        <button class="toggler" (click)="toggleSidebar()">☰</button>
+        <button class="toggler" *ngIf="isLoggedIn" (click)="toggleSidebar()">☰</button>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
         <img src="assets/img/farmer-small-icon.ico" alt="Logo" class="logo-img" />
@@ -11,13 +11,8 @@
 
         <button *ngIf="!isLoggedIn" class="btn" (click)="login()">Login</button>
         <button *ngIf="!isLoggedIn" class="btn" (click)="signUp()">Sign Up</button>
-        <!-- todo: remove -->
-        <div *ngIf="isLoggedIn" class="profile">
-            <span>{{ userName }}</span>
-            <button class="btn" (click)="logOut()">Logout</button>
-        </div>
 
-        <button mat-button [matMenuTriggerFor]="menu">
+        <button mat-button [matMenuTriggerFor]="menu" *ngIf="isLoggedIn">
             <mat-icon>settings</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

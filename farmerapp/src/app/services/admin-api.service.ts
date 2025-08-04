@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserSignup } from '../model/user-signup';
 
@@ -14,7 +13,6 @@ export class AdminApiService {
 
   constructor(
     private httpCllient: HttpClient,
-    private router: Router
   ) { }
 
   validateLogin(userName: string, password: string): Observable<any> {
