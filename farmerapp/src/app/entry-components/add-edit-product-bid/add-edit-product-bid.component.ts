@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { FormValidationService } from 'src/app/services/form-validation.service';
-import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
+import { FormValidationService } from '../../services/form-validation.service';
+import { ProductBidApiService } from '../../services/product-bid-api.service';
 
 @Component({
   selector: 'app-add-edit-product-bid',

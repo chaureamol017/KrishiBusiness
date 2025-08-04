@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { TopBarButton } from '../../shared-components/model/top-bar-button';
-import { UserDetails } from 'src/app/model/user-details';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
-import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
-import { ProductComponent } from 'src/app/entry-components/product/product.component';
-import { DialogService } from 'src/app/services/dialog.service';
-import { ProductApiService } from 'src/app/services/product-api.service';
+import { TopBarButton } from '../../shared-components/model/top-bar-button';
+import { UserDetails } from '../../model/user-details';
+import { AddEditProductBidComponent } from '../../entry-components/add-edit-product-bid/add-edit-product-bid.component';
+import { ProductBidComponent } from '../../entry-components/product-bid/product-bid.component';
+import { ProductComponent } from '../../entry-components/product/product.component';
+import { DialogService } from '../../services/dialog.service';
+import { ProductApiService } from '../../services/product-api.service';
 
 @Component({
   selector: 'app-sell-product',

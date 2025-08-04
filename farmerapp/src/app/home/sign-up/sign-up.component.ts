@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { UserSignup } from 'src/app/model/user-signup';
-import { AdminApiService } from 'src/app/services/admin-api.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { FormValidationService } from 'src/app/services/form-validation.service';
+import { UserSignup } from '../../model/user-signup';
+import { AdminApiService } from '../../services/admin-api.service';
+import { AuthService } from '../../services/auth.service';
+import { FormValidationService } from '../../services/form-validation.service';
 
 @Component({
   selector: 'app-sign-up',

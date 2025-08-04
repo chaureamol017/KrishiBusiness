@@ -33,10 +33,10 @@ import { ProductSellModule } from './product-sell/product-sell.module';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule ,
+    HttpClientModule,
 
     MaterialModule,
-    
+
     EntryComponentsModule,
     DefaultModule,
     HomeModule,

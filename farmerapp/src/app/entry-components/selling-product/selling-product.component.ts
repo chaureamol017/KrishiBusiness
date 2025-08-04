@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { FormValidationService } from 'src/app/services/form-validation.service';
-import { ProductApiService } from 'src/app/services/product-api.service';
-import { ProductService } from 'src/app/services/product.service';
+import { FormValidationService } from '../../services/form-validation.service';
+import { ProductApiService } from '../../services/product-api.service';
+import { ProductService } from '../../services/product.service';
 import { ProductComponent } from '../product/product.component';
 
 @Component({

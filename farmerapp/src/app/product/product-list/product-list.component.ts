@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {
   MatTableDataSource, MatSort, MatPaginator
 } from '@angular/material';
-import { DialogService } from 'src/app/services/dialog.service';
-import { ProductComponent } from 'src/app/entry-components/product/product.component';
-import { ProductApiService } from 'src/app/services/product-api.service';
+import { DialogService } from '../../services/dialog.service';
+import { ProductComponent } from '../../entry-components/product/product.component';
+import { ProductApiService } from '../../services/product-api.service';
 
 @Component({
   selector: 'app-product-list',

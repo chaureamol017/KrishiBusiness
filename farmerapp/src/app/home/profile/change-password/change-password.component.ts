@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { UserApiService } from 'src/app/services/user-api.service';
+import { UserApiService } from '../../../services/user-api.service';
 
 @Component({
   selector: 'app-change-password',

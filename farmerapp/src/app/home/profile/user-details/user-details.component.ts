@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserApiService } from 'src/app/services/user-api.service';
+import { UserApiService } from '../../../services/user-api.service';
 
 @Component({
   selector: 'app-user-details',

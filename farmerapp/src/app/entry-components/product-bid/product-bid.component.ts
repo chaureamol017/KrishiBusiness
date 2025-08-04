@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatDialogRef } from '@angular/material';
-import { ProductBidApiService } from 'src/app/services/product-bid-api.service';
+import { ProductBidApiService } from '../../services/product-bid-api.service';
 
 @Component({
   selector: 'app-product-bid',

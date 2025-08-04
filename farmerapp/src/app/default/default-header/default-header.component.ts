@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from 'src/app/home/login/login.component';
-import { SignUpComponent } from 'src/app/home/sign-up/sign-up.component';
-import { DialogService } from 'src/app/services/dialog.service';
+import { LoginComponent } from '../../home/login/login.component';
+import { SignUpComponent } from '../../home/sign-up/sign-up.component';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'app-default-header',

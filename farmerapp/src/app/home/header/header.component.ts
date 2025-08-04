@@ -1,10 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChangePasswordComponent } from '../profile/change-password/change-password.component';
 import { ProfileComponent } from '../profile/profile.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { DialogService } from 'src/app/services/dialog.service';
-import { LoginComponent } from 'src/app/home/login/login.component';
-import { SignUpComponent } from 'src/app/home/sign-up/sign-up.component';
+import { AuthService } from '../../services/auth.service';
+import { DialogService } from '../../services/dialog.service';
+import { LoginComponent } from '../../home/login/login.component';
+import { SignUpComponent } from '../../home/sign-up/sign-up.component';
 
 @Component({
   selector: 'app-header',
