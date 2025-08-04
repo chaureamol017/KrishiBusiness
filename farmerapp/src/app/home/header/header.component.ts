@@ -27,6 +27,9 @@ export class HeaderComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    if (this.isLoggedIn) {
+      this.toggleSidebar();
+    }
     
   }
 
