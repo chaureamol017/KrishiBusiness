@@ -4,7 +4,6 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserDetails } from 'src/app/model/user-details';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
-import { ProductComponent } from 'src/app/entry-components/product/product.component';
 import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
 import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
 
@@ -57,26 +56,6 @@ export class BuyProductComponent implements OnInit {
   }
 
   getProducts() {
-
-    if (this.userRole == "Farmer") {
-      this.getProductsForFarmer();
-    } else {
-      this.getProductsForBuyer();
-    }
-
-  }
-  getProductsForFarmer() {
-    this.productApiService.getProducts()
-      .subscribe(
-        responseData => {
-          this.handleSuccessResponseForGet(responseData);
-        },
-        error => {
-          console.log("Error ocurred while processing.");
-        }
-      );
-  }
-  getProductsForBuyer() {
     this.productApiService.getAllUnsoldProducts()
       .subscribe(
         responseData => {
@@ -86,21 +65,6 @@ export class BuyProductComponent implements OnInit {
           console.log("Error ocurred while processing.");
         }
       );
-  }
-
-  deleteProduct(row) {
-    if (confirm("Are you sure you want ot delete  record?")) {
-      var productId = row.productId;
-      this.productApiService.deleteProduct(productId)
-        .subscribe(
-          responseData => {
-            this.handleSuccessResponseForDelete(responseData);
-          },
-          error => {
-            console.log("Error ocurred while processing.");
-          }
-        );
-    }
   }
 
   handleSuccessResponseForGet(responseData) {
@@ -118,19 +82,6 @@ export class BuyProductComponent implements OnInit {
     }
   }
 
-  handleSuccessResponseForDelete(responseData) {
-    if (responseData.success) {
-      var productDetails = eval("(" + responseData.data + ")");
-
-      alert("Product deleted successfully.")
-
-      this.getProducts();
-
-    } else {
-      alert("Error ocurred while processing.")
-    }
-  }
-
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter();
@@ -142,19 +93,8 @@ export class BuyProductComponent implements OnInit {
 
   handleButtonClick($event) {
     switch ($event) {
-      case '':
-        this.addProduct();
-        break;
       default:
     }
-  }
-
-  addProduct() {
-    this.dialogService.openDialog(ProductComponent, {}, false);
-  }
-
-  editProduct(row) {
-    this.dialogService.openDialogAtRight(ProductComponent, row, true);
   }
 
   addBidProduct(selectedData) {
