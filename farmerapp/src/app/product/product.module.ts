@@ -6,12 +6,14 @@ import {
 } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
+import { ProductComponent } from './product/product.component';
 
 
 
 @NgModule({
   declarations: [
     ProductListComponent,
+    ProductComponent,
   ],
   imports: [
     CommonModule,

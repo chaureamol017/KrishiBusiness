@@ -3,9 +3,9 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { TopBarButton } from '../../shared-components/model/top-bar-button';
 import { UserDetails } from '../../model/user-details';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
-import { ProductComponent } from '../../entry-components/product/product.component';
 import { DialogService } from '../../services/dialog.service';
 import { ProductApiService } from '../../services/product-api.service';
+import { SellingProductComponent } from '../selling-product/selling-product.component';
 
 @Component({
   selector: 'app-sell-product',
@@ -149,11 +149,11 @@ export class SellProductComponent implements OnInit {
   }
 
   addProduct() {
-    this.dialogService.openDialog(ProductComponent, {}, false);
+    this.dialogService.openDialog(SellingProductComponent, {}, false);
   }
 
   editProduct(row) {
-    this.dialogService.openDialogAtRight(ProductComponent, row, true);
+    this.dialogService.openDialogAtRight(SellingProductComponent, row, true);
   }
 
   viewBidProduct(selectedData, isEdit) {

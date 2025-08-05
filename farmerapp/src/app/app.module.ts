@@ -8,8 +8,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultModule } from './default/default.module';
-import { EntryComponentsModule } from './entry-components/entry-components.module';
-import { ProductComponent } from './entry-components/product/product.component';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
@@ -35,7 +33,6 @@ import { ProductSellModule } from './product-sell/product-sell.module';
 
     MaterialModule,
 
-    EntryComponentsModule,
     DefaultModule,
     HomeModule,
     ProductModule,
@@ -43,8 +40,6 @@ import { ProductSellModule } from './product-sell/product-sell.module';
     ProductSellModule,
   ],
   entryComponents: [
-
-    ProductComponent,
   ],
   providers: [
     UserService,

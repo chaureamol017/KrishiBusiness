@@ -3,7 +3,7 @@ import {
   MatTableDataSource, MatSort, MatPaginator
 } from '@angular/material';
 import { DialogService } from '../../services/dialog.service';
-import { ProductComponent } from '../../entry-components/product/product.component';
+import { ProductComponent } from '../product/product.component';
 import { ProductApiService } from '../../services/product-api.service';
 
 @Component({
