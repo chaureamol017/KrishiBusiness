@@ -4,7 +4,6 @@ public enum UserRole {
 	ADMIN,
 	BUYER,
 	SELLER,
-	BOTH,
-	IVALID;
+	BOTH;
 
 }
