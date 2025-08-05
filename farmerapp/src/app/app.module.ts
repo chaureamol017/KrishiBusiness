@@ -11,8 +11,7 @@ import { DefaultModule } from './default/default.module';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
-import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
+import { LocalStorageService } from './services/local-storage.service';
 import { ProductBuyModule } from './product-buy/product-buy.module';
 import { ProductSellModule } from './product-sell/product-sell.module';
 
@@ -42,8 +41,7 @@ import { ProductSellModule } from './product-sell/product-sell.module';
   entryComponents: [
   ],
   providers: [
-    UserService,
-    AuthService,
+    LocalStorageService,
   ],
   bootstrap: [AppComponent]
 })

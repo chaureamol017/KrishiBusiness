@@ -6,7 +6,7 @@ import { UserSignup } from '../model/user-signup';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminApiService {
+export class UserAuthService {
   serverUrl: any = "http://localhost:8080";
   loginEndpoint: any = "/v1/user/validate";
   signupEndpoint: any = "/v1/user/signup"

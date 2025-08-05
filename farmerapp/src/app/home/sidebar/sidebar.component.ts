@@ -1,7 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavLink } from '../../model/nav-link';
-import { AuthService } from '../../services/auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,13 +20,13 @@ export class SidebarComponent implements OnInit {
   navLinks: NavLink[] = [];
 
   constructor(
-    private authService: AuthService,
+    private localStorageService: LocalStorageService,
     private router: Router,
   ) {
   }
 
   ngOnInit() {
-    const userRole = this.authService.getRole();
+    const userRole = this.localStorageService.getRole();
     this.filterNavlinks(userRole);
   }
 

@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from '../../services/form-validation.service';
-import { ProductApiService } from '../../services/product-api.service';
 import { ProductService } from '../../services/product.service';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  selector: 'app-add-edit-product',
+  templateUrl: './add-edit-product.component.html',
+  styleUrls: ['./add-edit-product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class AddEditProductComponent implements OnInit {
+
   constructor(
     private productService: ProductService,
-    private productApiService: ProductApiService,
     private validationService: FormValidationService,
-    private dialogRef: MatDialogRef<ProductComponent>
+    private dialogRef: MatDialogRef<AddEditProductComponent>
   ) { }
 
   productDetailsform;
@@ -39,7 +37,7 @@ export class ProductComponent implements OnInit {
 
   addEditProduct(saveProduct) {
     var productDetails = saveProduct.value;
-    var product = this.productService.getProductForSave(productDetails);
+    var product = this.getProductForSave(productDetails);
     
     if(this.isEdit) {
       this.updateProduct(product);
@@ -49,7 +47,7 @@ export class ProductComponent implements OnInit {
   }
 
   saveProduct(product) {
-    this.productApiService.saveProduct(product).subscribe(
+    this.productService.saveProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -60,7 +58,7 @@ export class ProductComponent implements OnInit {
   }
 
   updateProduct(product) {
-    this.productApiService.updateProduct(product).subscribe(
+    this.productService.updateProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -75,6 +73,17 @@ export class ProductComponent implements OnInit {
       this.closeDialog();
   }
 
+  getProductForSave(productDetails: any) : any {
+    var userId: string = localStorage.getItem("userId");
+
+    var product = {
+      productId: (productDetails.productId) ? productDetails.productId : "",
+      productName: (productDetails.productName) ? productDetails.productName : "",
+      description: (productDetails.description) ? productDetails.description : ""
+    }
+
+    return product;
+  }
   closeDialog() {
     this.dialogRef.close();
   }

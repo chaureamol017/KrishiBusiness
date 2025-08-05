@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from '../../services/form-validation.service';
-import { ProductApiService } from '../../services/product-api.service';
 import { ProductService } from '../../services/product.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class SellingProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private productApiService: ProductApiService,
     private validationService: FormValidationService,
     private dialogRef: MatDialogRef<SellingProductComponent>
   ) { }
@@ -40,7 +38,7 @@ export class SellingProductComponent implements OnInit {
   addEditProduct(saveProduct) {
     var productDetails = saveProduct.value;
 
-    var product = this.productService.getProductForSave(productDetails);
+    var product = this.getProductForSave(productDetails);
     
     if(this.isEdit) {
       this.updateProduct(product);
@@ -50,7 +48,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   saveProduct(product) {
-    this.productApiService.saveProduct(product).subscribe(
+    this.productService.saveProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -61,7 +59,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   updateProduct(product) {
-    this.productApiService.updateProduct(product).subscribe(
+    this.productService.updateProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -82,5 +80,18 @@ export class SellingProductComponent implements OnInit {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  
+  getProductForSave(productDetails: any) : any {
+    var userId: string = localStorage.getItem("userId");
+
+    var product = {
+      productId: (productDetails.productId) ? productDetails.productId : "",
+      productName: (productDetails.productName) ? productDetails.productName : "",
+      description: (productDetails.description) ? productDetails.description : ""
+    }
+
+    return product;
   }
 }

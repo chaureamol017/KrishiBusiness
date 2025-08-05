@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserSignup } from '../../model/user-signup';
-import { AdminApiService } from '../../services/admin-api.service';
-import { AuthService } from '../../services/auth.service';
+import { UserAuthService } from '../../services/user-auth.service';
 import { FormValidationService } from '../../services/form-validation.service';
 
 @Component({
@@ -16,8 +15,7 @@ export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(
-    private authService: AuthService,
-    private adminApiService: AdminApiService,
+    private adminApiService: UserAuthService,
     private formValidationService: FormValidationService,
     private dialogRef: MatDialogRef<SignUpComponent>
   ) { }

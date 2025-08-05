@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatDialogRef } from '@angular/material';
-import { ProductBidApiService } from '../../services/product-bid-api.service';
+import { ProductBidService } from '../../services/product-bid.service';
 
 @Component({
   selector: 'app-product-bid',
@@ -21,7 +21,7 @@ export class ProductBidComponent implements OnInit {
   dataSource = [];
 
   constructor(
-    private productBidApiService: ProductBidApiService,
+    private productBidService: ProductBidService,
     private dialogRef: MatDialogRef<ProductBidComponent>
   ) { }
 
@@ -50,7 +50,7 @@ export class ProductBidComponent implements OnInit {
   }
   getProductBidForBuyer() {
     var productId = this.selectedData.productId;
-    this.productBidApiService.getProductBid(productId).subscribe(
+    this.productBidService.getProductBid(productId).subscribe(
       responseData => {
         this.handleSuccessResponseForGet(responseData);
       },
@@ -62,7 +62,7 @@ export class ProductBidComponent implements OnInit {
 
   getProductBidForFarmer() {
     var productId = this.selectedData.productId;
-    this.productBidApiService.getProductBid(productId).subscribe(
+    this.productBidService.getProductBid(productId).subscribe(
       responseData => {
         this.handleSuccessResponseForGet(responseData);
       },

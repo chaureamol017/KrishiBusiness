@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-profile-card',
@@ -12,14 +12,14 @@ export class ProfileCardComponent implements OnInit {
   loggedInUserEmail: any;
 
   constructor(
-    private authService: AuthService,
+    private localStorageService: LocalStorageService,
   ) {
   }
 
 
   ngOnInit() {
-    this.loggedInUserName = this.authService.getFirstName() + " " + this.authService.getLastName();
-    this.loggedInUserEmail = this.authService.getEmailId();
+    this.loggedInUserName = this.localStorageService.getFirstName() + " " + this.localStorageService.getLastName();
+    this.loggedInUserEmail = this.localStorageService.getEmailId();
   }
 
 }

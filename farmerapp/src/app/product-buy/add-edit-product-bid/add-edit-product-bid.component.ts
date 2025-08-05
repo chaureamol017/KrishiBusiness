@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from '../../services/form-validation.service';
-import { ProductBidApiService } from '../../services/product-bid-api.service';
+import { ProductBidService } from '../../services/product-bid.service';
 
 @Component({
   selector: 'app-add-edit-product-bid',
@@ -17,7 +17,7 @@ export class AddEditProductBidComponent implements OnInit {
   selectedProductName: any;
   formTitle: any = "Bid For";
   constructor(
-    private productBidApiService: ProductBidApiService,
+    private productBidService: ProductBidService,
     private validationService: FormValidationService,
     private dialogRef: MatDialogRef<AddEditProductBidComponent>
   ) { }
@@ -45,7 +45,7 @@ export class AddEditProductBidComponent implements OnInit {
       productId: (this.selectedData.productId) ? this.selectedData.productId : "",
       biddingRate: (productBidDetails.bidAmount) ? productBidDetails.bidAmount : "",
     }
-    this.productBidApiService.saveProductBid(product).subscribe(
+    this.productBidService.saveProductBid(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },

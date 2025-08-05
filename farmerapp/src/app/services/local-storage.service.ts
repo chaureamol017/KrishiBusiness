@@ -5,7 +5,7 @@ import { UserDetails } from '../model/user-details';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class LocalStorageService {
   constructor(
     private router: Router,
   ) {

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserDetails } from '../../model/user-details';
-import { AdminApiService } from '../../services/admin-api.service';
-import { AuthService } from '../../services/auth.service';
+import { UserAuthService } from '../../services/user-auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { FormValidationService } from '../../services/form-validation.service';
 
 @Component({
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   loggedInUser: UserDetails = new UserDetails();
 
   constructor(
-    private authService: AuthService,
-    private adminApiService: AdminApiService,
+    private localStorageService: LocalStorageService,
+    private adminApiService: UserAuthService,
     private validationService: FormValidationService,
     private dialogRef: MatDialogRef<LoginComponent>,
   ) {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
           responseData => {
             if (responseData) {
               this.loggedInUser = responseData;
-              this.authService.onValidateCall(this.loggedInUser);
+              this.localStorageService.onValidateCall(this.loggedInUser);
               this.closeDialog();
             } else {
               alert("Email or password is incorrect")

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChangePasswordComponent } from '../profile/change-password/change-password.component';
 import { ProfileComponent } from '../profile/profile.component';
-import { AuthService } from '../../services/auth.service';
+import { LocalStorageService } from '../../services/local-storage.service';
 import { DialogService } from '../../services/dialog.service';
 import { LoginComponent } from '../../home/login/login.component';
 import { SignUpComponent } from '../../home/sign-up/sign-up.component';
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private authService: AuthService,
+    private localStorageService: LocalStorageService,
     ) { }
 
   ngOnInit() {
@@ -57,6 +57,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut () {
-    this.authService.logOut();
+    this.localStorageService.logOut();
   }
 }

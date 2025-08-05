@@ -3,8 +3,8 @@ import {
   MatTableDataSource, MatSort, MatPaginator
 } from '@angular/material';
 import { DialogService } from '../../services/dialog.service';
-import { ProductComponent } from '../product/product.component';
-import { ProductApiService } from '../../services/product-api.service';
+import { ProductService } from '../../services/product.service';
+import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
 
 @Component({
   selector: 'app-product-list',
@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
   dataSource = [];
 
   constructor(private dialogService: DialogService,
-    private productApiService: ProductApiService
+    private productService: ProductService
   ) {
 
   }
@@ -45,7 +45,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
-    this.productApiService.getProducts()
+    this.productService.getProducts()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -58,7 +58,7 @@ export class ProductListComponent implements OnInit {
   deleteProduct(row) {
     if (confirm("Are you sure you want ot delete  record?")) {
       var productId = row.productId;
-      this.productApiService.deleteProduct(productId)
+      this.productService.deleteProduct(productId)
         .subscribe(
           responseData => {
             this.handleSuccessResponseForDelete(responseData);
@@ -98,10 +98,10 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct() {
-    this.dialogService.openDialog(ProductComponent, {}, false);
+    this.dialogService.openDialog(AddEditProductComponent, {}, false);
   }
 
   editProduct(row) {
-    this.dialogService.openDialogAtRight(ProductComponent, row, true);
+    this.dialogService.openDialogAtRight(AddEditProductComponent, row, true);
   }
 }

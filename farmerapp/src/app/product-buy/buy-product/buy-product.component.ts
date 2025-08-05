@@ -3,7 +3,7 @@ import { TopBarButton } from '../../shared-components/model/top-bar-button';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserDetails } from 'src/app/model/user-details';
 import { DialogService } from 'src/app/services/dialog.service';
-import { ProductApiService } from 'src/app/services/product-api.service';
+import { ProductService } from 'src/app/services/product.service';
 import { AddEditProductBidComponent } from '../add-edit-product-bid/add-edit-product-bid.component';
 
 
@@ -30,7 +30,7 @@ export class BuyProductComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private productApiService: ProductApiService,
+    private productService: ProductService,
   ) {
 
   }
@@ -56,7 +56,7 @@ export class BuyProductComponent implements OnInit {
   }
 
   getProducts() {
-    this.productApiService.getAllUnsoldProducts()
+    this.productService.getAllUnsoldProducts()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
