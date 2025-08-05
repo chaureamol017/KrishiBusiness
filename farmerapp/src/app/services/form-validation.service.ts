@@ -15,18 +15,6 @@ export class FormValidationService {
       });
   }
 
-  getSignUpFormGroup(): FormGroup {
-    return new FormGroup({
-        role: new FormControl('', [Validators.required]),
-        firstName: new FormControl('', [Validators.required]),
-        middleName: new FormControl(''),
-        lastName: new FormControl('', [Validators.required]),
-        emailId: new FormControl('', [Validators.required]),
-        password: new FormControl('', [Validators.required]),
-        confirmPassword: new FormControl('', [Validators.required]),
-      });
-  }
-
   getAddProductFormGroup(): FormGroup {
     return new FormGroup({
         productId: new FormControl('', [Validators.required]),

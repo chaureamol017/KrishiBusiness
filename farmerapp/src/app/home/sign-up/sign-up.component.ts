@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserSignup } from '../../model/user-signup';
 import { UserAuthService } from '../../services/user-auth.service';
-import { FormValidationService } from '../../services/form-validation.service';
+import { AuthUtil } from 'src/app/util/auth-util';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,49 +16,38 @@ export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
 
   constructor(
+    private snackBarService: SnackBarService,
     private adminApiService: UserAuthService,
-    private formValidationService: FormValidationService,
     private dialogRef: MatDialogRef<SignUpComponent>
   ) { }
 
   ngOnInit() {
-    this.signupForm = this.formValidationService.getSignUpFormGroup();
+    this.signupForm = AuthUtil.getSignUpFormGroup();
   }
 
-  signupUser(signupData) {
-    var formValues = signupData.value;
+  signupUser() {
+    const [isValid, message] = AuthUtil.isValidPassword(this.signupForm);
+    var formValues = this.signupForm.value;
 
-    if (!formValues.password || !formValues.confirmPassword) {
-      alert("Please add password.");
-    } else if (formValues.password != formValues.confirmPassword) {
-      alert("Password does not match.")
-    } else {
-      var signupDetails = this.createSignUpDetailsFromFormValues(formValues);
+    if (!isValid) {
+      this.snackBarService.openTopCenter(message, 'OK');
+      return;
+    }
 
-      this.adminApiService.signUp(signupDetails)
-        .subscribe(
-          responseData => {
-            if (responseData.success) {
-            }
-          },
-          error => {
-            alert("Error ocurred while processing.");
-          }
-        )
+    const signupDetails: UserSignup = AuthUtil.createSignUpDetailsFromFormValues(this.signupForm);
+    this.adminApiService.signUp(signupDetails)
+      .subscribe(this.signupSuccess, this.signupFailure);
+  }
+
+  signupSuccess(response) {
+    if (response.success) {
+      this.snackBarService.openTopCenter("Sign up successfull. Please login now!!!");
+      this.closeDialog()
     }
   }
 
-  createSignUpDetailsFromFormValues(formValues: any) : UserSignup {
-    var signupDetails = new UserSignup();
-    signupDetails.role = formValues.role;
-    signupDetails.firstName = formValues.firstName;
-    signupDetails.middleName = formValues.middleName;
-    signupDetails.lastName = formValues.lastName;
-    signupDetails.emailId = formValues.emailId;
-    signupDetails.mobile = formValues.mobile;
-    signupDetails.password = formValues.password;
-
-      return signupDetails;
+  signupFailure(error) {
+    this.snackBarService.openTopCenter("Error ocurred while processing.");
   }
 
   closeDialog() {
