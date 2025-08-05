@@ -1,0 +1,10 @@
+
+export enum ProductCategory {
+	GRAINS = "GRAINS",
+	FRUITS = "FRUITS",
+	PULSES = "PULSES",
+    VEGETABLES = "VEGETABLES",
+    NUTS = "NUTS",
+    OIL_SEEDS = "OIL_SEEDS",
+    INDUSTRIAL_CROPS = "INDUSTRIAL_CROPS",
+}

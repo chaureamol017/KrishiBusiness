@@ -48,7 +48,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   saveProduct(product) {
-    this.productService.saveProduct(product).subscribe(
+    this.productService.saveProduct1(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -59,7 +59,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   updateProduct(product) {
-    this.productService.updateProduct(product).subscribe(
+    this.productService.updateProduct1(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },

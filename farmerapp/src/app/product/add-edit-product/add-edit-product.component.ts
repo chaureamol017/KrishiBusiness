@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { FormValidationService } from '../../services/form-validation.service';
 import { ProductService } from '../../services/product.service';
+import { ProductHelper } from 'src/app/util/product-helper';
+import { FormGroup } from '@angular/forms';
+import { ProductCategory } from 'src/app/model/product-category';
+import { Product } from 'src/app/model/product';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -9,16 +12,16 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./add-edit-product.component.scss']
 })
 export class AddEditProductComponent implements OnInit {
+  productCategories: string[] = Object.keys(ProductCategory);
+  productDetailsform: FormGroup;
+  isEdit: boolean = false;
+  formTitle: any = "";
 
   constructor(
     private productService: ProductService,
-    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<AddEditProductComponent>
-  ) { }
-
-  productDetailsform;
-  isEdit: boolean = false;
-  formTitle: any = "";
+  ) {
+  }
 
   ngOnInit() {
     var refData = this.dialogRef._containerInstance._config.data;
@@ -27,17 +30,16 @@ export class AddEditProductComponent implements OnInit {
       var selectedData = refData.selectedData;
 
       this.formTitle = "Edit Product";
-      this.productDetailsform = this.validationService.getEditProductFormGroup(selectedData);
+      this.productDetailsform = ProductHelper.getEditProductFormGroup(selectedData);
     } else {
       this.formTitle = "Add Product";
-      this.productDetailsform = this.validationService.getAddProductFormGroup();
+      this.productDetailsform = ProductHelper.getAddProductFormGroup();
     }
 
   }
 
-  addEditProduct(saveProduct) {
-    var productDetails = saveProduct.value;
-    var product = this.getProductForSave(productDetails);
+  onSubmit() {
+    var product: Product = this.getProductForSave();
     
     if(this.isEdit) {
       this.updateProduct(product);
@@ -46,7 +48,8 @@ export class AddEditProductComponent implements OnInit {
     }
   }
 
-  saveProduct(product) {
+  saveProduct(product: Product) {
+    
     this.productService.saveProduct(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
@@ -57,15 +60,13 @@ export class AddEditProductComponent implements OnInit {
     )
   }
 
-  updateProduct(product) {
-    this.productService.updateProduct(product).subscribe(
-      responseData => {
-        this.handleSuccessResponse(responseData);
-      },
+  updateProduct(product: Product) {
+    this.productService.updateProduct(product)
+    .subscribe(this.handleSuccessResponse,
       error => {
         alert("Error ocurred while processing.");
       }
-    )
+    );
   }
 
   handleSuccessResponse(responseData) {
@@ -73,13 +74,12 @@ export class AddEditProductComponent implements OnInit {
       this.closeDialog();
   }
 
-  getProductForSave(productDetails: any) : any {
-    var userId: string = localStorage.getItem("userId");
-
+  getProductForSave() : any {
     var product = {
-      productId: (productDetails.productId) ? productDetails.productId : "",
-      productName: (productDetails.productName) ? productDetails.productName : "",
-      description: (productDetails.description) ? productDetails.description : ""
+      productId: (this.productDetailsform.value.productId) ? this.productDetailsform.value.productId : "",
+      name: (this.productDetailsform.value.name) ? this.productDetailsform.value.name : "",
+      description: (this.productDetailsform.value.description) ? this.productDetailsform.value.description : "",
+      category: (this.productDetailsform.value.category) ? this.productDetailsform.value.category : ""
     }
 
     return product;

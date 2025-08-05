@@ -1,5 +1,6 @@
 export class Product {
     productId: number;
-    productName: String;
-    productDescription: String;
+    name: String;
+    description: String;
+    category: String;
 }

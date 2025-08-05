@@ -6,6 +6,7 @@ import { DialogService } from '../../services/dialog.service';
 import { ProductService } from '../../services/product.service';
 import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
 import { Product } from 'src/app/model/product';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-product-list',
@@ -23,6 +24,7 @@ export class ProductListComponent implements OnInit {
   dataArr: Product[] = [];
 
   constructor(
+    private snackBarService: SnackBarService,
     private dialogService: DialogService,
     private productService: ProductService
   ) {
@@ -50,7 +52,7 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts()
       .subscribe(this.handleSuccessResponseForGet,
         error => {
-          console.log("Error ocurred while processing.");
+          this.snackBarService.openTopCenter("Error ocurred fetching products.");
         });
   }
 
@@ -58,12 +60,9 @@ export class ProductListComponent implements OnInit {
     if (confirm("Are you sure you want ot delete  record?")) {
       var productId = row.productId;
       this.productService.deleteProduct(productId)
-        .subscribe(
-          responseData => {
-            this.handleSuccessResponseForDelete(responseData);
-          },
+        .subscribe(this.handleSuccessResponseForDelete,
           error => {
-            console.log("Error ocurred while processing.");
+            this.snackBarService.openTopCenter("Error ocurred while processing.");
           });
     }
   }
@@ -78,7 +77,7 @@ export class ProductListComponent implements OnInit {
   }
 
   handleSuccessResponseForDelete(responseData) {
-      alert("Product deleted successfully.")
+      this.snackBarService.openTopCenter("Product deleted successfully.", 'OK')
       this.getProducts();
   }
 

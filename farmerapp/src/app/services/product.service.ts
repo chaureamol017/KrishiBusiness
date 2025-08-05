@@ -21,6 +21,18 @@ export class ProductService {
     return this.httpCllient.get<Product[]>(url);
   }
 
+  saveProduct(product: Product): Observable<any> {
+    var url = this.serverUrl + this.productEndpoint;
+
+    return this.httpCllient.post(url, product);
+  }
+
+  updateProduct(product: Product): Observable<any> {
+    var url = this.serverUrl + this.productEndpoint;
+
+    return this.httpCllient.put(url, product);
+  }
+  
 
   
   getProducts1(): Observable<any> {
@@ -43,14 +55,14 @@ export class ProductService {
     return this.httpCllient.get(url);
   }
 
-  saveProduct(productDetails): Observable<any> {
+  saveProduct1(productDetails): Observable<any> {
     var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.post(url, productDetails);
   }
 
   
-  updateProduct(productDetails): Observable<any> {
+  updateProduct1(productDetails): Observable<any> {
     var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.put(url, productDetails);
