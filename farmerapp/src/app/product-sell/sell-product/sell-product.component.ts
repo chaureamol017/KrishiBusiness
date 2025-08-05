@@ -65,7 +65,7 @@ export class SellProductComponent implements OnInit {
 
   }
   getProductsForFarmer() {
-    this.productService.getProducts()
+    this.productService.getProducts1()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);

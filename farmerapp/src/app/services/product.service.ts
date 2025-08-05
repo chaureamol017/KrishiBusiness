@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Product } from '../model/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
   serverUrl: any = "http://localhost:8080/";
   getByUserEndpoint: any = "byuser";
   getSoldByUserEndpoint: any = "soldbyuser";
@@ -16,7 +16,14 @@ export class ProductService {
     private httpCllient: HttpClient,
   ) { }
 
-  getProducts(): Observable<any> {
+  getProducts(): Observable<Product[]> {
+    var url = this.serverUrl + this.productEndpoint + '/all';
+    return this.httpCllient.get<Product[]>(url);
+  }
+
+
+  
+  getProducts1(): Observable<any> {
     var url = this.serverUrl + this.productEndpoint + '/all';
     return this.httpCllient.get(url);
   }

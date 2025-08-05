@@ -5,6 +5,7 @@ import {
 import { DialogService } from '../../services/dialog.service';
 import { ProductService } from '../../services/product.service';
 import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
+import { Product } from 'src/app/model/product';
 
 @Component({
   selector: 'app-product-list',
@@ -12,16 +13,17 @@ import { AddEditProductComponent } from '../add-edit-product/add-edit-product.co
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['productName', 'description', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
   isSold: boolean = false;
 
-  dataSource = [];
+  listData: MatTableDataSource<Product>;
+  dataArr: Product[] = [];
 
-  constructor(private dialogService: DialogService,
+  constructor(
+    private dialogService: DialogService,
     private productService: ProductService
   ) {
 
@@ -33,7 +35,7 @@ export class ProductListComponent implements OnInit {
   }
 
   initializeAllComponents() {
-    this.listData = new MatTableDataSource(this.dataSource);
+    this.listData = new MatTableDataSource(this.dataArr);
 
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
@@ -46,10 +48,7 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productService.getProducts()
-      .subscribe(
-        responseData => {
-          this.handleSuccessResponseForGet(responseData);
-        },
+      .subscribe(this.handleSuccessResponseForGet,
         error => {
           console.log("Error ocurred while processing.");
         });
@@ -69,11 +68,10 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  handleSuccessResponseForGet(responseData) {
-      // this.dataSource.;
-      this.dataSource.splice(0, this.dataSource.length);
+  handleSuccessResponseForGet(responseData: Product[]) {
+      this.dataArr.splice(0, this.dataArr.length);
       responseData.forEach(element => {
-        this.dataSource.push(element);
+        this.dataArr.push(element);
       });
 
       this.initializeAllComponents();
@@ -82,10 +80,6 @@ export class ProductListComponent implements OnInit {
   handleSuccessResponseForDelete(responseData) {
       alert("Product deleted successfully.")
       this.getProducts();
-  }
-
-  handleFaailedResponse() {
-    console.log("Error ocurred while processing.");
   }
 
   onSearchClear() {
@@ -101,7 +95,7 @@ export class ProductListComponent implements OnInit {
     this.dialogService.openDialog(AddEditProductComponent, {}, false);
   }
 
-  editProduct(row) {
+  editProduct(row: Product) {
     this.dialogService.openDialogAtRight(AddEditProductComponent, row, true);
   }
 }
