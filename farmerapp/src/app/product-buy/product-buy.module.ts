@@ -4,11 +4,13 @@ import { BuyProductComponent } from './buy-product/buy-product.component';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { AddEditProductBidComponent } from './add-edit-product-bid/add-edit-product-bid.component';
 
 
 
 @NgModule({
   declarations: [
+    AddEditProductBidComponent,
     BuyProductComponent,
   ],
   imports: [

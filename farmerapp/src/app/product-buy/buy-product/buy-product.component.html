@@ -34,15 +34,9 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header>Selling Rate</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.sellingRate}}</mat-cell>
         </ng-container>
-        <!-- <ng-container matColumnDef="biddingRate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Bidding Rate</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.biddingRate}}</mat-cell>
-      </ng-container> -->
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button color="warn"
-                    (click)="viewBidProduct(row)"><mat-icon>attach_money</mat-icon></button>
                 <button mat-icon-button color="warn"
                     (click)="addBidProduct(row)"><mat-icon>dvr</mat-icon></button>
             </mat-cell>

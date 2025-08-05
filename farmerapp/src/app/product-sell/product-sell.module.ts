@@ -4,12 +4,16 @@ import { SellProductComponent } from './sell-product/sell-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
+import { ProductBidComponent } from './product-bid/product-bid.component';
+import { SellingProductComponent } from './selling-product/selling-product.component';
 
 
 
 @NgModule({
   declarations: [
     SellProductComponent,
+    ProductBidComponent,
+    SellingProductComponent,
   ],
   imports: [
       CommonModule,

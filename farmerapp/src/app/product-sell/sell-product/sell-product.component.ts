@@ -2,8 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { TopBarButton } from '../../shared-components/model/top-bar-button';
 import { UserDetails } from '../../model/user-details';
-import { AddEditProductBidComponent } from '../../entry-components/add-edit-product-bid/add-edit-product-bid.component';
-import { ProductBidComponent } from '../../entry-components/product-bid/product-bid.component';
+import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { ProductComponent } from '../../entry-components/product/product.component';
 import { DialogService } from '../../services/dialog.service';
 import { ProductApiService } from '../../services/product-api.service';
@@ -155,14 +154,6 @@ export class SellProductComponent implements OnInit {
 
   editProduct(row) {
     this.dialogService.openDialogAtRight(ProductComponent, row, true);
-  }
-
-  addBidProduct(selectedData) {
-    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, false);
-  }
-
-  editBidProduct(selectedData) {
-    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, true);
   }
 
   viewBidProduct(selectedData, isEdit) {

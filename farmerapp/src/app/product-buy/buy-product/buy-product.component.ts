@@ -4,8 +4,8 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserDetails } from 'src/app/model/user-details';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProductApiService } from 'src/app/services/product-api.service';
-import { AddEditProductBidComponent } from 'src/app/entry-components/add-edit-product-bid/add-edit-product-bid.component';
-import { ProductBidComponent } from 'src/app/entry-components/product-bid/product-bid.component';
+import { AddEditProductBidComponent } from '../add-edit-product-bid/add-edit-product-bid.component';
+
 
 @Component({
   selector: 'app-buy-product',
@@ -103,10 +103,6 @@ export class BuyProductComponent implements OnInit {
 
   editBidProduct(selectedData) {
     this.dialogService.openDialog(AddEditProductBidComponent, selectedData, true);
-  }
-
-  viewBidProduct(selectedData, isEdit) {
-    this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
   }
 
 }

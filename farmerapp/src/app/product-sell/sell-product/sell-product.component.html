@@ -47,8 +47,6 @@
                     (click)="deleteProduct(row)"><mat-icon>delete</mat-icon></button>
                 <button mat-icon-button color="warn" *ngIf="userRole!='Buyer'"
                     (click)="viewBidProduct(row)"><mat-icon>monetization_on</mat-icon></button>
-                <button mat-icon-button color="warn" *ngIf="userRole=='Buyer'"
-                    (click)="addBidProduct(row)"><mat-icon>monetization_on</mat-icon></button>
             </mat-cell>
         </ng-container>
         <ng-container *ngIf=matColumnDef="loading">

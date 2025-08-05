@@ -8,9 +8,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DefaultModule } from './default/default.module';
-import { AddEditProductBidComponent } from './entry-components/add-edit-product-bid/add-edit-product-bid.component';
 import { EntryComponentsModule } from './entry-components/entry-components.module';
-import { ProductBidComponent } from './entry-components/product-bid/product-bid.component';
 import { ProductComponent } from './entry-components/product/product.component';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
@@ -47,8 +45,6 @@ import { ProductSellModule } from './product-sell/product-sell.module';
   entryComponents: [
 
     ProductComponent,
-    AddEditProductBidComponent,
-    ProductBidComponent,
   ],
   providers: [
     UserService,

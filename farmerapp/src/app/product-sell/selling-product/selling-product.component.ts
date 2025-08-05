@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from '../../services/form-validation.service';
 import { ProductApiService } from '../../services/product-api.service';
 import { ProductService } from '../../services/product.service';
-import { ProductComponent } from '../product/product.component';
 
 @Component({
   selector: 'app-selling-product',
@@ -16,7 +15,7 @@ export class SellingProductComponent implements OnInit {
     private productService: ProductService,
     private productApiService: ProductApiService,
     private validationService: FormValidationService,
-    private dialogRef: MatDialogRef<ProductComponent>
+    private dialogRef: MatDialogRef<SellingProductComponent>
   ) { }
 
   productDetailsform;
