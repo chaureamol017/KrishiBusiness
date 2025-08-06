@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   appName: string = "Krishi Business";
   isSidebarVisible: boolean = false;
 
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
 
   @Output() onToggle: EventEmitter<boolean> = new EventEmitter();
 
@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.isLoggedIn = this.localStorageService.isLoggedIn();
     if (this.isLoggedIn) {
       this.toggleSidebar();
     }

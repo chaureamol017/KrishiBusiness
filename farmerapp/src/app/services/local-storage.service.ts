@@ -14,14 +14,21 @@ export class LocalStorageService {
   onValidateCall(loggedInUser: UserDetails) {
     this.setItemsToLocalStorage(loggedInUser, ['registrationFor']);
 
-    this.router.navigate(['MyHome']);
+    // this.router.navigate(['home']);
+    window.location.href = "home";
   }
 
   logOut() {
     const keys: string[] = ['token', 'userId', 'emailId', 'mobile', 'firstName', 'middleName', 'lastName'];
     this.removeItemsFromLocalStorage(keys);
 
-    this.router.navigate(['']);
+    // this.router.navigate(['']);
+    window.location.href = "";
+  }
+
+  isLoggedIn(): boolean {
+    const authenticated: boolean = this.getEmailId() && this.getEmailId().length > 0 && this.getRole() && this.getRole().length > 0;
+    return authenticated;
   }
 
   getRole(): string {
