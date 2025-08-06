@@ -16,8 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-	private ModelAdapter<ProductModel, Product> modelAdapter = ProductModelAdapter.INSTANCE;
-	@Autowired private ProductRepository repository;
+	private final ModelAdapter<ProductModel, Product> modelAdapter = ProductModelAdapter.INSTANCE;
+	private final ProductRepository repository;
+
+	@Autowired
+	public ProductServiceImpl(final ProductRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public ProductModel save(final ProductModel model) {
@@ -25,7 +30,6 @@ public class ProductServiceImpl implements ProductService {
 		final Product savedEntity = repository.save(entityToSave);
 
 		final ProductModel result = modelAdapter.toModel(savedEntity);
-
 		return result;
 	}
 	@Override
@@ -34,18 +38,14 @@ public class ProductServiceImpl implements ProductService {
 		final Product savedEntity = repository.saveAndFlush(entityToUpdate);
 
 		final ProductModel result = modelAdapter.toModel(savedEntity);
-
 		return result;
 	}
 	@Override
 	public ProductModel getById(final Long productId) {
 		final Optional<Product> optionalEntity = repository.findById(productId);
 
-		if (optionalEntity.isPresent()) {
-			return modelAdapter.toModel(optionalEntity.get());
-		}
-		return null;
-	}
+        return optionalEntity.map(modelAdapter::toModel).orElse(null);
+    }
 	@Override
 	public List<ProductModel> getAll() {
 		final List<Product> entities = repository.findAll();

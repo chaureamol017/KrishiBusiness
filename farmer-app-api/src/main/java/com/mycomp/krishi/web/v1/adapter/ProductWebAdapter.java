@@ -6,11 +6,11 @@ import com.mycomp.krishi.web.v1.model.ProductRequest;
 import com.mycomp.krishi.web.v1.model.ProductResponse;
 
 public class ProductWebAdapter implements WebAdapter<ProductRequest, ProductResponse, ProductModel> {
-
 	public static final ProductWebAdapter INSTANCE = new ProductWebAdapter();
 
 	private ProductWebAdapter() {
 	}
+
 	public ProductResponse toWeb(final ProductModel model) {
 		if (null == model) {
 			return null;

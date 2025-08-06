@@ -3,6 +3,7 @@ package com.mycomp.krishi.service.adapter;
 import com.mycomp.krishi.common.adapter.ModelAdapter;
 import com.mycomp.krishi.persistence.entity.Product;
 import com.mycomp.krishi.service.model.ProductModel;
+
 public class ProductModelAdapter implements ModelAdapter<ProductModel, Product> {
 
 public static final ProductModelAdapter INSTANCE = new ProductModelAdapter();
@@ -29,11 +30,10 @@ public static final ProductModelAdapter INSTANCE = new ProductModelAdapter();
 			return null;
 		}
 
-		final Product entity = toEntityMinimal(model);
+        return toEntityMinimal(model);
+	}
 
-
-		return entity;
-	}	public ProductModel toModel(final Product entity) {
+	public ProductModel toModel(final Product entity) {
 		if (null == entity) {
 			return null;
 		}
