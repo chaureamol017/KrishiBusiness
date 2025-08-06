@@ -17,7 +17,7 @@ export class ProductHelper {
       productId: new FormControl(selectedData.productId, [Validators.required]),
       name: new FormControl(selectedData.name, [Validators.required]),
       description: new FormControl(selectedData.description),
-      categoryId: new FormControl(selectedData.category),
+      category: new FormControl(selectedData.category),
     });
   }
 

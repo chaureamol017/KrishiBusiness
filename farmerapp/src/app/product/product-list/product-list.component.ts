@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import {
-  MatTableDataSource, MatSort, MatPaginator
+  MatTableDataSource, MatSort, MatPaginator,
+  MatDialogRef
 } from '@angular/material';
 import { DialogService } from '../../services/dialog.service';
 import { ProductService } from '../../services/product.service';
 import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
 import { Product } from 'src/app/model/product';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { DialogData } from 'src/app/model/dialog-data';
 
 @Component({
   selector: 'app-product-list',
@@ -14,7 +16,7 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  displayedColumns: string[] = ['productName', 'description', 'actions'];
+  displayedColumns: string[] = ['productName', 'description', 'category', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
@@ -91,10 +93,21 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct() {
-    this.dialogService.openDialog(AddEditProductComponent, {}, false);
+    this.addEditProduct();
   }
 
   editProduct(row: Product) {
-    this.dialogService.openDialogAtRight(AddEditProductComponent, row, true);
+    this.addEditProduct(row);
+  }
+  addEditProduct(product?: Product) {
+    const data: any = product ? product : {};
+    const isEdit: boolean = product ? true : false;
+    const ref: MatDialogRef<AddEditProductComponent, DialogData> = this.dialogService.openDialogAtRight(AddEditProductComponent, data, isEdit);
+
+    ref.afterClosed().subscribe((resp: DialogData) => {
+      if (resp && resp.action == 'SAVE' && resp.success) {
+        this.getProducts();
+      }
+    })
   }
 }

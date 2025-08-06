@@ -78,6 +78,6 @@ export class AddEditProductComponent implements OnInit {
       action: action,
       success: success
     }
-    this.dialogRef.close();
+    this.dialogRef.close(data);
   }
 }
