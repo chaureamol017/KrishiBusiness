@@ -10,7 +10,7 @@ export class ProductService {
   serverUrl: any = "http://localhost:8080/";
   getByUserEndpoint: any = "byuser";
   getSoldByUserEndpoint: any = "soldbyuser";
-  productEndpoint: any = "v1/product";
+  productEndpoint: any = "v1/products";
 
   constructor(
     private httpCllient: HttpClient,
@@ -21,16 +21,16 @@ export class ProductService {
     return this.httpCllient.get<Product[]>(url);
   }
 
-  saveProduct(product: Product): Observable<any> {
+  saveProduct(product: Product): Observable<Product> {
     var url = this.serverUrl + this.productEndpoint;
 
-    return this.httpCllient.post(url, product);
+    return this.httpCllient.post<Product>(url, product);
   }
 
-  updateProduct(product: Product): Observable<any> {
+  updateProduct(product: Product): Observable<Product> {
     var url = this.serverUrl + this.productEndpoint;
 
-    return this.httpCllient.put(url, product);
+    return this.httpCllient.put<Product>(url, product);
   }
   
 

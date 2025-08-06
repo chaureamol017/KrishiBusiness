@@ -5,6 +5,8 @@ import { ProductHelper } from 'src/app/util/product-helper';
 import { FormGroup } from '@angular/forms';
 import { ProductCategory } from 'src/app/model/product-category';
 import { Product } from 'src/app/model/product';
+import { DialogAction, DialogData } from 'src/app/model/dialog-data';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-add-edit-product',
@@ -15,9 +17,10 @@ export class AddEditProductComponent implements OnInit {
   productCategories: string[] = Object.keys(ProductCategory);
   productDetailsform: FormGroup;
   isEdit: boolean = false;
-  formTitle: any = "";
+  formTitle: string = '';
 
   constructor(
+    private snackBarService: SnackBarService,
     private productService: ProductService,
     private dialogRef: MatDialogRef<AddEditProductComponent>
   ) {
@@ -29,10 +32,10 @@ export class AddEditProductComponent implements OnInit {
     if (this.isEdit) {
       var selectedData = refData.selectedData;
 
-      this.formTitle = "Edit Product";
+      this.formTitle = 'Edit Product';
       this.productDetailsform = ProductHelper.getEditProductFormGroup(selectedData);
     } else {
-      this.formTitle = "Add Product";
+      this.formTitle = 'Add Product';
       this.productDetailsform = ProductHelper.getAddProductFormGroup();
     }
 
@@ -42,49 +45,39 @@ export class AddEditProductComponent implements OnInit {
     var product: Product = this.getProductForSave();
     
     if(this.isEdit) {
-      this.updateProduct(product);
+      this.productService.updateProduct(product).subscribe(resp => this.handleSuccess(resp), this.handleFailure);
     } else {
-      this.saveProduct(product);
+      this.productService.saveProduct(product).subscribe(this.handleSuccess, this.handleFailure);
     }
   }
 
-  saveProduct(product: Product) {
-    
-    this.productService.saveProduct(product).subscribe(
-      responseData => {
-        this.handleSuccessResponse(responseData);
-      },
-      error => {
-        alert("Error ocurred while processing.");
-      }
-    )
+  handleSuccess(response: Product) {
+    this.snackBarService.openTopCenter('Product saved successfully.', 'OK');
+    this.closeDialog('SAVE', true);
   }
 
-  updateProduct(product: Product) {
-    this.productService.updateProduct(product)
-    .subscribe(this.handleSuccessResponse,
-      error => {
-        alert("Error ocurred while processing.");
-      }
-    );
+  handleFailure(error: any) {
+    this.snackBarService.openTopCenter('Error ocurred while processing.');
   }
 
-  handleSuccessResponse(responseData) {
-      alert("Product saved successfully.");
-      this.closeDialog();
-  }
+  getProductForSave() : Product {
+    const formData: any = this.productDetailsform.value;
 
-  getProductForSave() : any {
-    var product = {
-      productId: (this.productDetailsform.value.productId) ? this.productDetailsform.value.productId : "",
-      name: (this.productDetailsform.value.name) ? this.productDetailsform.value.name : "",
-      description: (this.productDetailsform.value.description) ? this.productDetailsform.value.description : "",
-      category: (this.productDetailsform.value.category) ? this.productDetailsform.value.category : ""
+    const product: Product = {
+      productId: (formData.productId) ? formData.productId : '',
+      name: (formData.name) ? formData.name : '',
+      description: (formData.description) ? formData.description : '',
+      category: (formData.category) ? formData.category : ''
     }
 
     return product;
   }
-  closeDialog() {
+
+  closeDialog(action: DialogAction, success?: boolean) {
+    const data: DialogData = {
+      action: action,
+      success: success
+    }
     this.dialogRef.close();
   }
 }

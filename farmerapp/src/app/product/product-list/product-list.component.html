@@ -9,7 +9,7 @@
     <mat-table [dataSource]="listData"  matSort>
       <ng-container matColumnDef="productName">
         <mat-header-cell *matHeaderCellDef  mat-sort-header>Product Name</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.productName}}</mat-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="description">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>

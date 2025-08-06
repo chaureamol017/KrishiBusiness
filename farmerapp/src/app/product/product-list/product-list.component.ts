@@ -50,24 +50,20 @@ export class ProductListComponent implements OnInit {
 
   getProducts() {
     this.productService.getProducts()
-      .subscribe(this.handleSuccessResponseForGet,
-        error => {
-          this.snackBarService.openTopCenter("Error ocurred fetching products.");
-        });
+      .subscribe(resp => this.handleGetSuccess(resp),
+        error => this.handleError(error, "Error ocurred fetching products."));
   }
 
   deleteProduct(row) {
     if (confirm("Are you sure you want ot delete  record?")) {
       var productId = row.productId;
       this.productService.deleteProduct(productId)
-        .subscribe(this.handleSuccessResponseForDelete,
-          error => {
-            this.snackBarService.openTopCenter("Error ocurred while processing.");
-          });
+        .subscribe(resp => this.handleDeleteSuccess(resp),
+          error => this.handleError(error, "Error ocurred deleting product."));
     }
   }
 
-  handleSuccessResponseForGet(responseData: Product[]) {
+  handleGetSuccess(responseData: Product[]) {
       this.dataArr.splice(0, this.dataArr.length);
       responseData.forEach(element => {
         this.dataArr.push(element);
@@ -76,9 +72,13 @@ export class ProductListComponent implements OnInit {
       this.initializeAllComponents();
   }
 
-  handleSuccessResponseForDelete(responseData) {
+  handleDeleteSuccess(response) {
       this.snackBarService.openTopCenter("Product deleted successfully.", 'OK')
       this.getProducts();
+  }
+
+  handleError(error: any, message?: string) {
+      this.snackBarService.openTopCenter(message)
   }
 
   onSearchClear() {

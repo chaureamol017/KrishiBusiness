@@ -1,4 +1,4 @@
-<app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog()"></app-top-dialog-content>
+<app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog('CANCEL')"></app-top-dialog-content>
 
 <mat-dialog-content class="mat-typography">
     <form [formGroup]="productDetailsform" (ngSubmit)="onSubmit()">
