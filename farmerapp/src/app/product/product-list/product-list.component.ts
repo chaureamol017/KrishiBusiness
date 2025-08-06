@@ -6,9 +6,9 @@ import {
 import { DialogService } from '../../services/dialog.service';
 import { ProductService } from '../../services/product.service';
 import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
-import { Product } from 'src/app/model/product';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
-import { DialogData } from 'src/app/model/dialog-data';
+import { Product } from '../../model/product';
+import { SnackBarService } from '../../services/snack-bar.service';
+import { DialogData } from '../../model/dialog-data';
 
 @Component({
   selector: 'app-product-list',

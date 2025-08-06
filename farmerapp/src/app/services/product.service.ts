@@ -8,8 +8,6 @@ import { Product } from '../model/product';
 })
 export class ProductService {
   serverUrl: any = "http://localhost:8080/";
-  getByUserEndpoint: any = "byuser";
-  getSoldByUserEndpoint: any = "soldbyuser";
   productEndpoint: any = "v1/products";
 
   constructor(
@@ -31,41 +29,6 @@ export class ProductService {
     var url = this.serverUrl + this.productEndpoint;
 
     return this.httpCllient.put<Product>(url, product);
-  }
-  
-
-  
-  getProducts1(): Observable<any> {
-    var url = this.serverUrl + this.productEndpoint + '/all';
-    return this.httpCllient.get(url);
-  }
-
-  getAllUnsoldProducts(): Observable<any> {
-    var url = this.serverUrl + "allunsold";
-
-    return this.httpCllient.get(url);
-  }
-
-  getSoldProducts(): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
-    var parameters = "userId=" + userId;
-
-    var url = this.serverUrl + this.getSoldByUserEndpoint + "?" + parameters;
-
-    return this.httpCllient.get(url);
-  }
-
-  saveProduct1(productDetails): Observable<any> {
-    var url = this.serverUrl + this.productEndpoint;
-
-    return this.httpCllient.post(url, productDetails);
-  }
-
-  
-  updateProduct1(productDetails): Observable<any> {
-    var url = this.serverUrl + this.productEndpoint;
-
-    return this.httpCllient.put(url, productDetails);
   }
 
   deleteProduct(productId): Observable<any> {

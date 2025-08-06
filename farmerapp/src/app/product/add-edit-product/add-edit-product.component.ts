@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ProductService } from '../../services/product.service';
-import { ProductHelper } from 'src/app/util/product-helper';
+import { ProductHelper } from '../../util/product-helper';
 import { FormGroup } from '@angular/forms';
-import { ProductCategory } from 'src/app/model/product-category';
-import { Product } from 'src/app/model/product';
-import { DialogAction, DialogData } from 'src/app/model/dialog-data';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { ProductCategory } from '../../model/product-category';
+import { Product } from '../../model/product';
+import { DialogAction, DialogData } from '../../model/dialog-data';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-add-edit-product',

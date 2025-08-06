@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { FormValidationService } from '../../services/form-validation.service';
-import { ProductService } from '../../services/product.service';
+import { FarmerProductService } from '../../services/farmer-product.service';
 
 @Component({
   selector: 'app-selling-product',
@@ -11,7 +11,7 @@ import { ProductService } from '../../services/product.service';
 export class SellingProductComponent implements OnInit {
 
   constructor(
-    private productService: ProductService,
+    private farmerProductService: FarmerProductService,
     private validationService: FormValidationService,
     private dialogRef: MatDialogRef<SellingProductComponent>
   ) { }
@@ -48,7 +48,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   saveProduct(product) {
-    this.productService.saveProduct1(product).subscribe(
+    this.farmerProductService.saveProduct1(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },
@@ -59,7 +59,7 @@ export class SellingProductComponent implements OnInit {
   }
 
   updateProduct(product) {
-    this.productService.updateProduct1(product).subscribe(
+    this.farmerProductService.updateProduct1(product).subscribe(
       responseData => {
         this.handleSuccessResponse(responseData);
       },

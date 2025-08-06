@@ -4,8 +4,8 @@ import { TopBarButton } from '../../shared-components/model/top-bar-button';
 import { UserDetails } from '../../model/user-details';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { DialogService } from '../../services/dialog.service';
-import { ProductService } from '../../services/product.service';
 import { SellingProductComponent } from '../selling-product/selling-product.component';
+import { FarmerProductService } from '../../services/farmer-product.service';
 
 @Component({
   selector: 'app-sell-product',
@@ -30,7 +30,7 @@ export class SellProductComponent implements OnInit {
 
   constructor(
     private dialogService: DialogService,
-    private productService: ProductService,
+    private farmerProductService: FarmerProductService,
   ) {
 
   }
@@ -65,7 +65,7 @@ export class SellProductComponent implements OnInit {
 
   }
   getProductsForFarmer() {
-    this.productService.getProducts1()
+    this.farmerProductService.getProducts1()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -76,7 +76,7 @@ export class SellProductComponent implements OnInit {
       );
   }
   getProductsForBuyer() {
-    this.productService.getAllUnsoldProducts()
+    this.farmerProductService.getAllUnsoldProducts()
       .subscribe(
         responseData => {
           this.handleSuccessResponseForGet(responseData);
@@ -90,7 +90,7 @@ export class SellProductComponent implements OnInit {
   deleteProduct(row) {
     if (confirm("Are you sure you want ot delete  record?")) {
       var productId = row.productId;
-      this.productService.deleteProduct(productId)
+      this.farmerProductService.deleteProduct1(productId)
         .subscribe(
           responseData => {
             this.handleSuccessResponseForDelete(responseData);

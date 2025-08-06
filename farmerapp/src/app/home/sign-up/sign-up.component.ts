@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserSignup } from '../../model/user-signup';
 import { UserAuthService } from '../../services/user-auth.service';
-import { AuthUtil } from 'src/app/util/auth-util';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { AuthUtil } from '../../util/auth-util';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-sign-up',
