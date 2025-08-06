@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ProductService } from '../../services/product.service';
 import { ProductHelper } from '../../util/product-helper';
@@ -13,11 +13,14 @@ import { SnackBarService } from '../../services/snack-bar.service';
   templateUrl: './add-edit-product.component.html',
   styleUrls: ['./add-edit-product.component.scss']
 })
-export class AddEditProductComponent implements OnInit {
+export class AddEditProductComponent implements OnInit, AfterViewInit {
   productCategories: string[] = Object.keys(ProductCategory);
+  @ViewChild('productCategory', { static: false }) productCategory: ElementRef;
+
   formGroupInstance: FormGroup;
   isEdit: boolean = false;
   formTitle: string = '';
+
 
   constructor(
     private snackBarService: SnackBarService,
@@ -38,7 +41,12 @@ export class AddEditProductComponent implements OnInit {
       this.formTitle = 'Add Product';
       this.formGroupInstance = ProductHelper.getAddProductFormGroup();
     }
+  }
 
+  ngAfterViewInit() {
+    if (this.isEdit) {
+      this.productCategory.nativeElement.disabled = true;
+    }
   }
 
   onSubmit() {

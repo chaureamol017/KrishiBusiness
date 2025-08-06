@@ -91,7 +91,6 @@ export class ProductListComponent implements OnInit {
   }
 
   handleButtonClick($event: string) {
-    console.log($event)
     switch($event) {
       case 'add':
         this.addEditProduct();
@@ -99,7 +98,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onActionClick($event: any, row: Product) {
-    console.log($event, row)
     switch($event) {
       case 'edit':
         this.addEditProduct(row);
