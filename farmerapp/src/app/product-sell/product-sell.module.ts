@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SellProductComponent } from './sell-product/sell-product.component';
+import { ProductSellComponent } from './product-sell/product-sell.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
@@ -11,7 +11,7 @@ import { AddEditFarmerProductComponent } from './add-edit-farmer-product/add-edi
 
 @NgModule({
   declarations: [
-    SellProductComponent,
+    ProductSellComponent,
     ProductBidComponent,
     AddEditFarmerProductComponent,
   ],
@@ -24,7 +24,10 @@ import { AddEditFarmerProductComponent } from './add-edit-farmer-product/add-edi
       SharedModule,
   ],
   exports: [
-    SellProductComponent,
+    ProductSellComponent,
   ],
+  entryComponents: [
+    AddEditFarmerProductComponent,
+  ]
 })
 export class ProductSellModule { }

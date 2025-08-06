@@ -8,13 +8,13 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { AddEditFarmerProductComponent } from '../add-edit-farmer-product/add-edit-farmer-product.component';
 
 @Component({
-  selector: 'app-sell-product',
-  templateUrl: './sell-product.component.html',
-  styleUrls: ['./sell-product.component.scss']
+  selector: 'app-product-sell',
+  templateUrl: './product-sell.component.html',
+  styleUrls: ['./product-sell.component.scss']
 })
-export class SellProductComponent implements OnInit {
+export class ProductSellComponent implements OnInit {
   buttons: TopBarButton[] = [
-    { title: 'Create', action: 'create', icon: 'add' }
+    { title: 'Add Product', action: 'create', icon: 'add' }
   ];
 
   listData: MatTableDataSource<any>;
