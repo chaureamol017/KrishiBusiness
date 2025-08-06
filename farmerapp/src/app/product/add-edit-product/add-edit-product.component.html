@@ -1,10 +1,10 @@
 <app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog('CANCEL')"></app-top-dialog-content>
 
 <mat-dialog-content class="mat-typography">
-    <form [formGroup]="productDetailsform" (ngSubmit)="onSubmit()">
+    <form [formGroup]="formGroupInstance" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="name">Product Name</label>
-            <input type="text" class="form-control" formControlName="name" data-toggle="tooltip" data-placement="right"
+            <input type="text" class="form-control" [readonly]="isEdit" formControlName="name" data-toggle="tooltip" data-placement="right"
                 title="Enter Product Name">
 
         </div>
@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <label for="productCategoryId">Product Category</label>
-            <select class="form-control" formControlName="category" data-toggle="tooltip" data-placement="right" title="Select Product category">
+            <select class="form-control" [attr.disabled]="isEdit" formControlName="category" data-toggle="tooltip" data-placement="right" title="Select Product category">
                 <option value="null">--Select Category--</option>
                 <option *ngFor="let category of productCategories" value="{{category}}">{{category}}</option>
             </select>

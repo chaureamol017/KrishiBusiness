@@ -15,7 +15,7 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 })
 export class AddEditProductComponent implements OnInit {
   productCategories: string[] = Object.keys(ProductCategory);
-  productDetailsform: FormGroup;
+  formGroupInstance: FormGroup;
   isEdit: boolean = false;
   formTitle: string = '';
 
@@ -33,21 +33,23 @@ export class AddEditProductComponent implements OnInit {
       var selectedData = refData.selectedData;
 
       this.formTitle = 'Edit Product';
-      this.productDetailsform = ProductHelper.getEditProductFormGroup(selectedData);
+      this.formGroupInstance = ProductHelper.getEditProductFormGroup(selectedData);
     } else {
       this.formTitle = 'Add Product';
-      this.productDetailsform = ProductHelper.getAddProductFormGroup();
+      this.formGroupInstance = ProductHelper.getAddProductFormGroup();
     }
 
   }
 
   onSubmit() {
-    var product: Product = this.getProductForSave();
+    var product: Product = ProductHelper.getProductFromFormGroup(this.formGroupInstance);
     
     if(this.isEdit) {
-      this.productService.updateProduct(product).subscribe(resp => this.handleSuccess(resp), this.handleFailure);
+      this.productService.updateProduct(product)
+        .subscribe(resp => this.handleSuccess(resp), err => this.handleFailure(err));
     } else {
-      this.productService.saveProduct(product).subscribe(this.handleSuccess, this.handleFailure);
+      this.productService.saveProduct(product)
+        .subscribe(resp => this.handleSuccess(resp), err => this.handleFailure(err));
     }
   }
 
@@ -56,22 +58,13 @@ export class AddEditProductComponent implements OnInit {
     this.closeDialog('SAVE', true);
   }
 
-  handleFailure(error: any) {
-    this.snackBarService.openTopCenter('Error ocurred while processing.');
-  }
-
-  getProductForSave() : Product {
-    const formData: any = this.productDetailsform.value;
-
-    const product: Product = {
-      productId: (formData.productId) ? formData.productId : '',
-      name: (formData.name) ? formData.name : '',
-      description: (formData.description) ? formData.description : '',
-      category: (formData.category) ? formData.category : ''
+  handleFailure(error: any, message?: string) {
+    if (!message) {
+      message = 'Error ocurred while processing.';
     }
-
-    return product;
+    this.snackBarService.openTopCenter(message);
   }
+
 
   closeDialog(action: DialogAction, success?: boolean) {
     const data: DialogData = {

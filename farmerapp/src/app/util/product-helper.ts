@@ -21,4 +21,16 @@ export class ProductHelper {
     });
   }
 
+  public static getProductFromFormGroup(formGroup: FormGroup) : Product {
+    const formData: any = formGroup.value;
+
+    const product: Product = {
+      productId: (formData.productId) ? formData.productId : '',
+      name: (formData.name) ? formData.name : '',
+      description: (formData.description) ? formData.description : '',
+      category: (formData.category) ? formData.category : ''
+    }
+
+    return product;
+  }
 }
