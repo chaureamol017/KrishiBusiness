@@ -37,7 +37,7 @@ public class UserLoginSignupServiceImpl implements UserLoginSignupService {
 	@Autowired private UserLoginRepository userLoginRepository;
 
 	@Override
-	public Boolean signupUser(SignupRequestModel signupRequest) {
+	public Boolean signupUser(SignupRequestModel signupRequest) throws RuntimeException {
 		UserModel userModel = userService.saveUser(signupRequest);
 
 		signupRequest.setUserId(userModel.getUserId());

@@ -19,7 +19,7 @@ import com.mycomp.krishi.user.model.UserModel;
  */
 public interface UserLoginSignupService {
 
-    public Boolean signupUser(SignupRequestModel signupRequest);
+    public Boolean signupUser(SignupRequestModel signupRequest) throws RuntimeException;
     
     public UserModel validateUserByUserNameAndPassword(String userName, String password);
     

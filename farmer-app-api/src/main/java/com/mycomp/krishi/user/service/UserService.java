@@ -16,7 +16,7 @@ import com.mycomp.krishi.user.model.UserModel;
  */
 public interface UserService {
 
-    UserModel saveUser(SignupRequestModel signupRequest);
+    UserModel saveUser(SignupRequestModel signupRequest) throws RuntimeException;
 
     UserModel updateUser(UserModel userModel);
 

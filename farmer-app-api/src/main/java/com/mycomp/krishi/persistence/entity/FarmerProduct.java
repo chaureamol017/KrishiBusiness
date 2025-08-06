@@ -110,7 +110,7 @@ public class FarmerProduct implements Serializable {
 		this.soldOn = soldOn;
 	}
 
-	public Boolean getSold() {
+	public Boolean isSold() {
 		return sold;
 	}
 

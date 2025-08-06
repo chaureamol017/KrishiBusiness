@@ -30,18 +30,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl implements UserService {
-	private ModelAdapter<UserModel, User> modelAdapter = UserModelAdapter.INSTANCE;
-	private ModelAdapter<SignupRequestModel, UserLogin> userLoginAdapter = SignupRequestToUserLoginAdapter.INSTANCE;
+	private final ModelAdapter<UserModel, User> modelAdapter = UserModelAdapter.INSTANCE;
+	private final ModelAdapter<SignupRequestModel, UserLogin> userLoginAdapter = SignupRequestToUserLoginAdapter.INSTANCE;
 
 	@Autowired private UserRepository userRepository;
 	@Autowired private UserLoginRepository userLoginRepository;
 	
 	@Override
-	public UserModel saveUser(SignupRequestModel signupRequest) {
-		User user = SignupRequestToUserAdapter.INSTANCE.toEntityMinimal(signupRequest);
-		userRepository.saveAndFlush(user);
+	public UserModel saveUser(SignupRequestModel signupRequest) throws RuntimeException {
+		List<User> existingUsers = userRepository.findByEmailId(signupRequest.getEmailId());
+		if (existingUsers.isEmpty()) {
+			User user = SignupRequestToUserAdapter.INSTANCE.toEntityMinimal(signupRequest);
+			userRepository.saveAndFlush(user);
+			return modelAdapter.toModel(user);
+		} else {
+			throw new RuntimeException("User with same email id already present");
+		}
 
-		return modelAdapter.toModel(user);
 	}
 
 	@Override
@@ -59,18 +64,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserModel> getAllUsers() {
 		List<User> users = userRepository.findAll();
-		List<UserModel> models = modelAdapter.toModel(users);
-		
-		return models;
+
+        return modelAdapter.toModel(users);
 	}
 
 	@Override
 	public UserModel getUser(Long userId) {
 		try {
 			User user = userRepository.getOne(userId);
-			UserModel model = modelAdapter.toModel(user);
-			
-			return model;
+
+            return modelAdapter.toModel(user);
 		} catch(EntityNotFoundException e) {
 			
 		}

@@ -80,7 +80,7 @@ public class FarmerProductBid implements Serializable {
 		this.acceptedOn = acceptedOn;
 	}
 
-	public Boolean getAccepted() {
+	public Boolean isAccepted() {
 		return accepted;
 	}
 

@@ -87,7 +87,7 @@ public class FarmerProductModel {
 		this.soldOn = soldOn;
 	}
 
-	public Boolean getSold() {
+	public Boolean isSold() {
 		return sold;
 	}
 

@@ -60,7 +60,7 @@ public class FarmerProductBidModel {
 		this.acceptedOn = acceptedOn;
 	}
 
-	public Boolean getAccepted() {
+	public Boolean isAccepted() {
 		return accepted;
 	}
 

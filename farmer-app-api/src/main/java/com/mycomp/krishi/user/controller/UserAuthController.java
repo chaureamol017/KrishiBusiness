@@ -15,6 +15,7 @@ import com.mycomp.krishi.user.model.ChangePasswordRequestModel;
 import com.mycomp.krishi.user.model.ResetPasswordRequestModel;
 import com.mycomp.krishi.user.model.SignupRequestModel;
 import com.mycomp.krishi.user.model.UserModel;
+import com.mycomp.krishi.user.requests.ApiResponse;
 import com.mycomp.krishi.user.requests.ChangePasswordRequestParams;
 import com.mycomp.krishi.user.requests.ResetPasswordRequestParams;
 import com.mycomp.krishi.user.requests.SignupRequestParams;
@@ -23,6 +24,7 @@ import com.mycomp.krishi.user.service.UserLoginSignupService;
 
 import java.util.Map;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("v1/user")
-public class UserLoginSignupController {
+public class UserAuthController {
 	private WebAdapter<ResetPasswordRequestParams, ResetPasswordRequestModel> resetPasswordWebAdapter = ResetPasswordRequestParamsAdapter.INSTANCE;
 	private WebAdapter<ChangePasswordRequestParams, ChangePasswordRequestModel> changePasswordWebAdapter = ChangePasswordRequestParamsAdapter.INSTANCE;
 	private WebAdapter<SignupRequestParams, SignupRequestModel> webAdapter = SignupRequestParamsAdapter.INSTANCE;
@@ -51,11 +53,16 @@ public class UserLoginSignupController {
 	private UserLoginSignupService userLoginSignupService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<Boolean> signupUser(@RequestBody SignupRequestParams requestParams) {
-		SignupRequestModel model = webAdapter.toModel(requestParams);
-		Boolean success = userLoginSignupService.signupUser(model);
-
-		return new ResponseEntity<>(success, HttpStatus.OK);
+	public ResponseEntity<ApiResponse> signupUser(@RequestBody SignupRequestParams requestParams) {
+		ApiResponse response;
+		try {
+			SignupRequestModel model = webAdapter.toModel(requestParams);
+			Boolean success = userLoginSignupService.signupUser(model);
+			response = new ApiResponse(success, (success ? "SUCCESS" : "FAILURE"));
+		} catch (RuntimeException ex) {
+			response = new ApiResponse(false, ex.getMessage());
+		}
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/validate")
