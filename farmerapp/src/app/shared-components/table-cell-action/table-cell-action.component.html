@@ -1,0 +1,4 @@
+
+<button mat-icon-button *ngFor="let cellAction of actions" (click)="handleButtonClick(cellAction.action)">
+    <mat-icon>{{cellAction.icon}}</mat-icon>
+</button>

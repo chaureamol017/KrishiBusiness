@@ -31,6 +31,10 @@ export class LocalStorageService {
     return authenticated;
   }
 
+  isAdminUser(): boolean {
+    return this.isLoggedIn() && this.getItemFromLocalStorage("role").toLocaleUpperCase() == 'ADMIN';
+  }
+
   getRole(): string {
     return this.getItemFromLocalStorage("role");
   }

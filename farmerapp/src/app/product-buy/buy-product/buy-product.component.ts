@@ -14,7 +14,7 @@ import { FarmerProductService } from '../../services/farmer-product.service';
 })
 export class BuyProductComponent implements OnInit {
   buttons: TopBarButton[] = [
-    {title: 'Create', action: 'create', icon: 'add'}
+    // {title: 'Create', action: 'create', icon: 'add'}
   ];
 
   @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();

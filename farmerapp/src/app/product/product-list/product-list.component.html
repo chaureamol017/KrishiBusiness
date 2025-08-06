@@ -1,9 +1,4 @@
-<div class="topbar-view">
-  <button mat-raised-button (click)="addProduct()">
-    <mat-icon>add</mat-icon>Create
-  </button>
-</div>
-  
+<app-top-bar [name]="'Sell Products'" [rightButtons]="buttons" (buttonClick)="handleButtonClick($event)"></app-top-bar>
 
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData"  matSort>
@@ -22,16 +17,17 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <button mat-icon-button (click)="editProduct(row)"><mat-icon>edit</mat-icon></button>
-          <button mat-icon-button color="warn" (click)="deleteProduct(row)"><mat-icon>delete</mat-icon></button>
+          <app-table-cell-action [actions]="actions" (onActionClick)="onActionClick($event, row)"></app-table-cell-action>
         </mat-cell>
       </ng-container>
-      <ng-container *ngIf= matColumnDef="loading">
+      <!-- 
+      <ng-container *matColumnDef="loading">
         <mat-footer-cell *matFooterCellDef colspan="6">Loading data...</mat-footer-cell>
       </ng-container>
-      <ng-container matColumnDef="noData">
+      <ng-container *matColumnDef="noData">
         <mat-footer-cell *matFooterCellDef colspan="6">No data.</mat-footer-cell>
       </ng-container>
+       -->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

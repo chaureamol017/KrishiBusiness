@@ -9,6 +9,9 @@ import { AddEditProductComponent } from '../add-edit-product/add-edit-product.co
 import { Product } from '../../model/product';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { DialogData } from '../../model/dialog-data';
+import { CellActionButton } from 'src/app/shared-components/model/cell-action-button';
+import { TopBarButton } from 'src/app/shared-components/model/top-bar-button';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,6 +19,9 @@ import { DialogData } from '../../model/dialog-data';
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
+  buttons: TopBarButton[] = [];
+  actions: CellActionButton[] = [];
+
   displayedColumns: string[] = ['productName', 'description', 'category', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -26,11 +32,17 @@ export class ProductListComponent implements OnInit {
   dataArr: Product[] = [];
 
   constructor(
+    private localStorageService: LocalStorageService,
     private snackBarService: SnackBarService,
     private dialogService: DialogService,
     private productService: ProductService
   ) {
+    if (this.localStorageService.isAdminUser()){
+      this.buttons.push({ title: 'Create', action: 'add', icon: 'add' });
 
+      this.actions.push({ action: 'edit', icon: 'edit' });
+      // this.actions.push({ action: 'delete', icon: 'delete' });
+    }
   }
 
   ngOnInit() {
@@ -50,10 +62,53 @@ export class ProductListComponent implements OnInit {
     };
   }
 
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  handleError(error: any, message?: string) {
+    this.snackBarService.openTopCenter(message)
+  }
+
   getProducts() {
     this.productService.getProducts()
       .subscribe(resp => this.handleGetSuccess(resp),
         error => this.handleError(error, "Error ocurred fetching products."));
+  }
+
+  handleGetSuccess(responseData: Product[]) {
+    this.dataArr.splice(0, this.dataArr.length);
+    responseData.forEach(element => {
+      this.dataArr.push(element);
+    });
+
+    this.initializeAllComponents();
+  }
+
+  handleButtonClick($event: string) {
+    console.log($event)
+    switch($event) {
+      case 'add':
+        this.addEditProduct();
+    }
+  }
+
+  onActionClick($event: any, row: Product) {
+    console.log($event, row)
+    switch($event) {
+      case 'edit':
+        this.addEditProduct(row);
+        break;
+      case 'delete':
+        this.deleteProduct(row);
+        break;
+        default:
+    }
   }
 
   deleteProduct(row) {
@@ -65,44 +120,15 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  handleGetSuccess(responseData: Product[]) {
-      this.dataArr.splice(0, this.dataArr.length);
-      responseData.forEach(element => {
-        this.dataArr.push(element);
-      });
-
-      this.initializeAllComponents();
-  }
-
   handleDeleteSuccess(response) {
-      this.snackBarService.openTopCenter("Product deleted successfully.", 'OK')
-      this.getProducts();
+    this.snackBarService.openTopCenter("Product deleted successfully.", 'OK')
+    this.getProducts();
   }
 
-  handleError(error: any, message?: string) {
-      this.snackBarService.openTopCenter(message)
-  }
-
-  onSearchClear() {
-    this.searchKey = "";
-    this.applyFilter();
-  }
-
-  applyFilter() {
-    this.listData.filter = this.searchKey.trim().toLowerCase();
-  }
-
-  addProduct() {
-    this.addEditProduct();
-  }
-
-  editProduct(row: Product) {
-    this.addEditProduct(row);
-  }
   addEditProduct(product?: Product) {
     const data: any = product ? product : {};
     const isEdit: boolean = product ? true : false;
-    const ref: MatDialogRef<AddEditProductComponent, DialogData> = this.dialogService.openDialogAtRight(AddEditProductComponent, data, isEdit);
+    const ref: MatDialogRef<AddEditProductComponent, DialogData> = this.dialogService.openDialog(AddEditProductComponent, data, isEdit);
 
     ref.afterClosed().subscribe((resp: DialogData) => {
       if (resp && resp.action == 'SAVE' && resp.success) {
