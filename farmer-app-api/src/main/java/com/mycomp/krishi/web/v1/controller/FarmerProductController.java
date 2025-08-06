@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("v1/farmer_product")
+@RequestMapping("v1/farmer_products")
 public class FarmerProductController {
 
 	private WebAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> webAdapter = FarmerProductWebAdapter.INSTANCE;
