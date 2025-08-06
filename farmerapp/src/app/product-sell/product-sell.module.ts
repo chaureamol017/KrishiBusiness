@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
 import { ProductBidComponent } from './product-bid/product-bid.component';
-import { SellingProductComponent } from './selling-product/selling-product.component';
+import { AddEditFarmerProductComponent } from './add-edit-farmer-product/add-edit-farmer-product.component';
 
 
 
@@ -13,7 +13,7 @@ import { SellingProductComponent } from './selling-product/selling-product.compo
   declarations: [
     SellProductComponent,
     ProductBidComponent,
-    SellingProductComponent,
+    AddEditFarmerProductComponent,
   ],
   imports: [
       CommonModule,

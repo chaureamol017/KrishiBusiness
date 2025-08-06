@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
-import { FormValidationService } from '../../services/form-validation.service';
+import { MatDialogRef } from '@angular/material/dialog';
 import { FarmerProductService } from '../../services/farmer-product.service';
+import { FormValidationService } from '../../services/form-validation.service';
 
 @Component({
-  selector: 'app-selling-product',
-  templateUrl: './selling-product.component.html',
-  styleUrls: ['./selling-product.component.scss']
+  selector: 'app-add-edit-farmer-product',
+  templateUrl: './add-edit-farmer-product.component.html',
+  styleUrls: ['./add-edit-farmer-product.component.scss']
 })
-export class SellingProductComponent implements OnInit {
+export class AddEditFarmerProductComponent implements OnInit {
+  productDetailsform;
+  isEdit: boolean = false;
+  formTitle: any = "";
+
 
   constructor(
     private farmerProductService: FarmerProductService,
     private validationService: FormValidationService,
-    private dialogRef: MatDialogRef<SellingProductComponent>
+    private dialogRef: MatDialogRef<AddEditFarmerProductComponent>
   ) { }
-
-  productDetailsform;
-  isEdit: boolean = false;
-  formTitle: any = "";
 
   ngOnInit() {
     var refData = this.dialogRef._containerInstance._config.data;

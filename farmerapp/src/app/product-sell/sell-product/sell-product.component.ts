@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { TopBarButton } from '../../shared-components/model/top-bar-button';
-import { UserDetails } from '../../model/user-details';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { DialogService } from '../../services/dialog.service';
-import { SellingProductComponent } from '../selling-product/selling-product.component';
 import { FarmerProductService } from '../../services/farmer-product.service';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { AddEditFarmerProductComponent } from '../add-edit-farmer-product/add-edit-farmer-product.component';
 
 @Component({
   selector: 'app-sell-product',
@@ -17,8 +17,6 @@ export class SellProductComponent implements OnInit {
     { title: 'Create', action: 'create', icon: 'add' }
   ];
 
-  @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();
-  userRole: any = "Buyer";
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['productName', 'productCategory', 'grade', 'description', 'user', 'city', 'dateTobeAvailable', 'sellingRate', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -29,6 +27,7 @@ export class SellProductComponent implements OnInit {
   dataSource = [];
 
   constructor(
+    private snackBarService: SnackBarService,
     private dialogService: DialogService,
     private farmerProductService: FarmerProductService,
   ) {
@@ -36,10 +35,7 @@ export class SellProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userRole = localStorage.getItem("registrationFor");
-
     this.initializeAllComponents();
-
     this.getProducts();
   }
 
@@ -55,81 +51,6 @@ export class SellProductComponent implements OnInit {
     };
   }
 
-  getProducts() {
-
-    if (this.userRole == "Farmer") {
-      this.getProductsForFarmer();
-    } else {
-      this.getProductsForBuyer();
-    }
-
-  }
-  getProductsForFarmer() {
-    this.farmerProductService.getProducts1()
-      .subscribe(
-        responseData => {
-          this.handleSuccessResponseForGet(responseData);
-        },
-        error => {
-          console.log("Error ocurred while processing.");
-        }
-      );
-  }
-  getProductsForBuyer() {
-    this.farmerProductService.getAllUnsoldProducts()
-      .subscribe(
-        responseData => {
-          this.handleSuccessResponseForGet(responseData);
-        },
-        error => {
-          console.log("Error ocurred while processing.");
-        }
-      );
-  }
-
-  deleteProduct(row) {
-    if (confirm("Are you sure you want ot delete  record?")) {
-      var productId = row.productId;
-      this.farmerProductService.deleteProduct1(productId)
-        .subscribe(
-          responseData => {
-            this.handleSuccessResponseForDelete(responseData);
-          },
-          error => {
-            console.log("Error ocurred while processing.");
-          }
-        );
-    }
-  }
-
-  handleSuccessResponseForGet(responseData) {
-    if (responseData.success) {
-      var productDetails = eval("(" + responseData.data + ")");
-
-      // this.dataSource.;
-      productDetails.forEach(element => {
-        this.dataSource.push(element);
-      });
-
-      this.initializeAllComponents();
-    } else {
-      alert("Error ocurred while processing.")
-    }
-  }
-
-  handleSuccessResponseForDelete(responseData) {
-    if (responseData.success) {
-      var productDetails = eval("(" + responseData.data + ")");
-
-      alert("Product deleted successfully.")
-
-      this.getProducts();
-
-    } else {
-      alert("Error ocurred while processing.")
-    }
-  }
-
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter();
@@ -141,23 +62,66 @@ export class SellProductComponent implements OnInit {
 
   handleButtonClick($event) {
     switch ($event) {
-      case '':
+      case 'create':
         this.addProduct();
         break;
       default:
     }
   }
 
+  getProducts() {
+    this.farmerProductService.getProducts1()
+      .subscribe(response => this.handleGetSuccess(response),
+        error => {
+          this.snackBarService.openTopCenter("Error ocurred while processing.");
+        }
+      );
+  }
+
+  deleteProduct(row) {
+    if (confirm("Are you sure you want ot delete  record?")) {
+      var productId = row.productId;
+      this.farmerProductService.deleteProduct1(productId)
+        .subscribe(response => this.handleDeleteSuccess(response),
+          error => {
+            this.snackBarService.openTopCenter("Error ocurred while processing.");
+          }
+        );
+    }
+  }
+
+  handleGetSuccess(responseData) {
+    if (responseData.success) {
+      const productDetails = eval("(" + responseData.data + ")");
+      productDetails.forEach(element => {
+        this.dataSource.push(element);
+      });
+
+      this.initializeAllComponents();
+    } else {
+      this.snackBarService.openTopCenter("Error ocurred while processing.")
+    }
+  }
+
+  handleDeleteSuccess(responseData) {
+    if (responseData.success) {
+      this.snackBarService.openTopCenter("Product deleted successfully.")
+
+      this.getProducts();
+    } else {
+      this.snackBarService.openTopCenter("Error ocurred while processing.")
+    }
+  }
+
   addProduct() {
-    this.dialogService.openDialog(SellingProductComponent, {}, false);
+    this.dialogService.openDialog(AddEditFarmerProductComponent, {}, false);
   }
 
   editProduct(row) {
-    this.dialogService.openDialogAtRight(SellingProductComponent, row, true);
+    this.dialogService.openDialogAtRight(AddEditFarmerProductComponent, row, true);
   }
 
   viewBidProduct(selectedData, isEdit) {
     this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
   }
-
 }
