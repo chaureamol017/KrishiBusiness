@@ -13,7 +13,6 @@ export class TableCellActionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.actions)
   }
 
   handleButtonClick(action: string) {

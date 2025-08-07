@@ -35,6 +35,10 @@ export class LocalStorageService {
     return this.isLoggedIn() && this.getItemFromLocalStorage("role").toLocaleUpperCase() == 'ADMIN';
   }
 
+  getUserId(): string {
+    return this.getItemFromLocalStorage("userId");
+  }
+
   getRole(): string {
     return this.getItemFromLocalStorage("role");
   }

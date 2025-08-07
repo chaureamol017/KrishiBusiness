@@ -70,7 +70,7 @@ export class ProductSellComponent implements OnInit {
   }
 
   getProducts() {
-    this.farmerProductService.getProducts1()
+    this.farmerProductService.getProductToSell()
       .subscribe(response => this.handleGetSuccess(response),
         error => {
           this.snackBarService.openTopCenter("Error ocurred while processing.");

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,13 @@ export class FarmerProductService {
   apiEndpoint: any = "v1/farmer_product";
 
   constructor(
+    private localStorageService: LocalStorageService,
     private httpCllient: HttpClient,
   ) { }
 
   
-  getProducts1(): Observable<any> {
-    var url = this.serverUrl + this.apiEndpoint + '/all';
+  getProductToSell(): Observable<any> {
+    var url = this.serverUrl + this.apiEndpoint + '/sell?userId=' + this.localStorageService.getUserId();
     return this.httpCllient.get(url);
   }
 
