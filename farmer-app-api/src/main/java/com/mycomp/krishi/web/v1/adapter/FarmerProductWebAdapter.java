@@ -28,6 +28,7 @@ public class FarmerProductWebAdapter implements WebAdapter<FarmerProductRequest,
 		web.setQuantityUnit(model.getQuantityUnit());
 		web.setPricePerUnit(model.getPricePerUnit());
 		web.setExpectedPricePerUnit(model.getExpectedPricePerUnit());
+		web.setCity(model.getCity());
 		web.setAddedOn(model.getAddedOn());
 		web.setSoldOn(model.getSoldOn());
 		web.setSold(model.isSold());
@@ -52,6 +53,7 @@ public class FarmerProductWebAdapter implements WebAdapter<FarmerProductRequest,
 		model.setQuantityUnit(web.getQuantityUnit());
 		model.setPricePerUnit(web.getPricePerUnit());
 		model.setExpectedPricePerUnit(web.getExpectedPricePerUnit());
+		model.setCity(web.getCity());
 		model.setAddedOn(web.getAddedOn());
 		model.setSoldOn(web.getSoldOn());
 		model.setSold(web.isSold());

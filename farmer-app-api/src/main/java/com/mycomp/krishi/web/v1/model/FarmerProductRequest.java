@@ -11,6 +11,7 @@ public class FarmerProductRequest {
 	private String quantityUnit;
 	private double pricePerUnit;
 	private double expectedPricePerUnit;
+	private String city;
 	private Date addedOn;
 	private Date soldOn;
 	private Boolean sold;
@@ -69,6 +70,14 @@ public class FarmerProductRequest {
 
 	public void setExpectedPricePerUnit(double expectedPricePerUnit) {
 		this.expectedPricePerUnit = expectedPricePerUnit;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public Date getAddedOn() {

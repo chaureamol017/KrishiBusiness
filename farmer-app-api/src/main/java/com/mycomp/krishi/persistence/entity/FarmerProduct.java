@@ -34,6 +34,8 @@ public class FarmerProduct implements Serializable {
 	private double pricePerUnit;
 	@Column(name = "expected_price_per_unit")
 	private double expectedPricePerUnit;
+	@Column(name = "city")
+	private String city;
 	@Column(name = "added_on")
 	private Date addedOn;
 	@Column(name = "sold_on")
@@ -99,6 +101,14 @@ public class FarmerProduct implements Serializable {
 
 	public void setExpectedPricePerUnit(double expectedPricePerUnit) {
 		this.expectedPricePerUnit = expectedPricePerUnit;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 	public Date getAddedOn() {
