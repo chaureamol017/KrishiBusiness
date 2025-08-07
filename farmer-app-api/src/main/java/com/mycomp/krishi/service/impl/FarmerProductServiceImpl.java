@@ -46,12 +46,21 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 		}
 		return null;
 	}
+
 	@Override
-	public List<FarmerProductModel> getAll() {
-		final List<FarmerProduct> entities = repository.findAll();
+	public List<FarmerProductModel> getBySeller(Long userId) {
+		final List<FarmerProduct> entities = repository.findByUserId(userId);
 
 		return modelAdapter.toModel(entities);
 	}
+
+	@Override
+	public List<FarmerProductModel> getForSeller(Long userId) {
+		final List<FarmerProduct> entities = repository.findByUserIdNot(userId);
+
+		return modelAdapter.toModel(entities);
+	}
+
 	@Override
 		public Boolean deleteById(final Long id) {
 		repository.deleteById(id);

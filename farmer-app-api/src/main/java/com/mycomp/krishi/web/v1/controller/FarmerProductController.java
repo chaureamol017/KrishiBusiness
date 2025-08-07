@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,9 +55,16 @@ public class FarmerProductController {
 		return responseEntityAdapter.createResponseEntity(model);
 	}
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<FarmerProductResponse>> getAll() {
-		final List<FarmerProductModel> models = service.getAll();
+	@GetMapping(value = "sell")
+	public ResponseEntity<List<FarmerProductResponse>> getProductToSell(@RequestParam("userId") Long userId) {
+		final List<FarmerProductModel> models = service.getBySeller(userId);
+
+		return responseEntityAdapter.createResponseEntity(models);
+	}
+
+	@GetMapping(value = "buy")
+	public ResponseEntity<List<FarmerProductResponse>> getProductToBuy(@RequestParam("userId") Long userId) {
+		final List<FarmerProductModel> models = service.getBySeller(userId);
 
 		return responseEntityAdapter.createResponseEntity(models);
 	}

@@ -7,7 +7,8 @@ public interface FarmerProductService {
 	FarmerProductModel save(FarmerProductModel model);
 	FarmerProductModel update(FarmerProductModel model);
 	FarmerProductModel getById(Long id);
-	List<FarmerProductModel> getAll();
+	List<FarmerProductModel> getBySeller(Long userId);
+	List<FarmerProductModel> getForSeller(Long userId);
 	Boolean deleteById(Long id);
 }
 
