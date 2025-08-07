@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { TopBarButton } from '../../shared-components/model/top-bar-button';
+import { TopBarButton } from '../../shared/model/top-bar-button';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { DialogService } from '../../services/dialog.service';
 import { FarmerProductService } from '../../services/farmer-product.service';

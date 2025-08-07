@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { TopBarButton } from '../../shared-components/model/top-bar-button';
+import { TopBarButton } from '../../shared/model/top-bar-button';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { UserDetails } from '../../model/user-details';
 import { DialogService } from '../../services/dialog.service';

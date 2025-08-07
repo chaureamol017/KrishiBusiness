@@ -26,4 +26,4 @@ import { TableCellActionComponent } from './table-cell-action/table-cell-action.
     TableCellActionComponent,
   ]
 })
-export class SharedComponentsModule { }
+export class SharedModule { }

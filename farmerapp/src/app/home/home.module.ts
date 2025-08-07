@@ -15,7 +15,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
-import { SharedComponentsModule } from '../shared-components/shared-components.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { SharedComponentsModule } from '../shared-components/shared-components.m
     // MatToolbarModule,
     // MatSidenavModule,
     MaterialModule,
-    SharedComponentsModule,
+    SharedModule,
 
     // DashboardModule,
   ],

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { SharedComponentsModule } from '../shared-components/shared-components.module';
+import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material/material.module';
 import { AddEditProductComponent } from './add-edit-product/add-edit-product.component';
 
@@ -19,7 +19,7 @@ import { AddEditProductComponent } from './add-edit-product/add-edit-product.com
     ReactiveFormsModule,
     
     MaterialModule,
-    SharedComponentsModule,
+    SharedModule,
   ],
   exports: [
     ProductListComponent,
