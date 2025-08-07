@@ -3,9 +3,14 @@ package com.mycomp.krishi.service.adapter;
 import com.mycomp.krishi.common.adapter.ModelAdapter;
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
 import com.mycomp.krishi.service.model.FarmerProductModel;
-public class FarmerProductModelAdapter implements ModelAdapter<FarmerProductModel, FarmerProduct> {
+import com.mycomp.krishi.service.model.ProductModel;
 
-public static final FarmerProductModelAdapter INSTANCE = new FarmerProductModelAdapter();
+import java.util.Objects;
+
+public class FarmerProductModelAdapter implements ModelAdapter<FarmerProductModel, FarmerProduct> {
+	public static final FarmerProductModelAdapter INSTANCE = new FarmerProductModelAdapter();
+
+	private final ProductModelAdapter productAdapter = ProductModelAdapter.INSTANCE;
 
 	private FarmerProductModelAdapter() {
 	}
@@ -57,6 +62,11 @@ public static final FarmerProductModelAdapter INSTANCE = new FarmerProductModelA
 		model.setAddedOn(entity.getAddedOn());
 		model.setSoldOn(entity.getSoldOn());
 		model.setSold(entity.isSold());
+
+		if (Objects.nonNull(entity.getProduct())) {
+			ProductModel productModel = productAdapter.toModel(entity.getProduct());
+			model.setProduct(productModel);
+		}
 
 		return model;
 	}

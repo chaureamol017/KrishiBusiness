@@ -14,6 +14,7 @@ public class FarmerProductResponse {
 	private Date addedOn;
 	private Date soldOn;
 	private Boolean sold;
+	private ProductResponse product;
 
 	public Long getFarmerProductId() {
 		return farmerProductId;
@@ -95,5 +96,12 @@ public class FarmerProductResponse {
 		this.sold = sold;
 	}
 
+	public ProductResponse getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductResponse product) {
+		this.product = product;
+	}
 }
 

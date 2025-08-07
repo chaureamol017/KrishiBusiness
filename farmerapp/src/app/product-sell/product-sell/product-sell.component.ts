@@ -6,6 +6,7 @@ import { DialogService } from '../../services/dialog.service';
 import { FarmerProductService } from '../../services/farmer-product.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { AddEditFarmerProductComponent } from '../add-edit-farmer-product/add-edit-farmer-product.component';
+import { FarmerProduct } from 'src/app/model/farmer-product';
 
 @Component({
   selector: 'app-product-sell',
@@ -90,17 +91,13 @@ export class ProductSellComponent implements OnInit {
     }
   }
 
-  handleGetSuccess(responseData) {
-    if (responseData.success) {
-      const productDetails = eval("(" + responseData.data + ")");
-      productDetails.forEach(element => {
-        this.dataSource.push(element);
-      });
+  handleGetSuccess(response: FarmerProduct[]) {
+    this.dataSource.splice(0, this.dataSource.length);
+    response.forEach(element => {
+      this.dataSource.push(element);
+    });
 
-      this.initializeAllComponents();
-    } else {
-      this.snackBarService.openTopCenter("Error ocurred while processing.")
-    }
+    this.initializeAllComponents();
   }
 
   handleDeleteSuccess(responseData) {

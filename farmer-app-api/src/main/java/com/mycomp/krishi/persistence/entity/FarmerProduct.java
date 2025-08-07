@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -37,6 +40,10 @@ public class FarmerProduct implements Serializable {
 	private Date soldOn;
 	@Column(name = "sold")
 	private Boolean sold;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "product_id", updatable = false, insertable = false)
+	private Product product;
 
 	public Long getFarmerProductId() {
 		return farmerProductId;
@@ -118,5 +125,12 @@ public class FarmerProduct implements Serializable {
 		this.sold = sold;
 	}
 
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 }
 

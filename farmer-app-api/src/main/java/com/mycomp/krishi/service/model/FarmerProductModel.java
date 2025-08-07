@@ -14,6 +14,7 @@ public class FarmerProductModel {
 	private Date addedOn;
 	private Date soldOn;
 	private Boolean sold;
+	ProductModel product;
 
 	public Long getFarmerProductId() {
 		return farmerProductId;
@@ -95,5 +96,12 @@ public class FarmerProductModel {
 		this.sold = sold;
 	}
 
+	public ProductModel getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductModel product) {
+		this.product = product;
+	}
 }
 

@@ -4,10 +4,14 @@ import com.mycomp.krishi.common.adapter.WebAdapter;
 import com.mycomp.krishi.service.model.FarmerProductModel;
 import com.mycomp.krishi.web.v1.model.FarmerProductRequest;
 import com.mycomp.krishi.web.v1.model.FarmerProductResponse;
+import com.mycomp.krishi.web.v1.model.ProductResponse;
+
+import java.util.Objects;
 
 public class FarmerProductWebAdapter implements WebAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> {
-
 	public static final FarmerProductWebAdapter INSTANCE = new FarmerProductWebAdapter();
+
+	private ProductWebAdapter webAdapter = ProductWebAdapter.INSTANCE;;
 
 	private FarmerProductWebAdapter() {
 	}
@@ -27,6 +31,11 @@ public class FarmerProductWebAdapter implements WebAdapter<FarmerProductRequest,
 		web.setAddedOn(model.getAddedOn());
 		web.setSoldOn(model.getSoldOn());
 		web.setSold(model.isSold());
+
+		if (Objects.nonNull(model.getProduct())) {
+			ProductResponse productWeb = webAdapter.toWeb(model.getProduct());
+			web.setProduct(productWeb);
+		}
 
 		return web;
 	}

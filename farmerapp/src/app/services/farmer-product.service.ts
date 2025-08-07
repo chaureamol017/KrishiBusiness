@@ -10,7 +10,7 @@ export class FarmerProductService {
   serverUrl: any = "http://localhost:8080/";
   getByUserEndpoint: any = "byuser";
   getSoldByUserEndpoint: any = "soldbyuser";
-  apiEndpoint: any = "v1/farmer_product";
+  apiEndpoint: any = "v1/farmer-product";
 
   constructor(
     private localStorageService: LocalStorageService,
