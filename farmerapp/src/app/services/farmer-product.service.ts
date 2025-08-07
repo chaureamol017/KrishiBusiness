@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
+import { FarmerProduct } from '../model/farmer-product';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,9 @@ export class FarmerProductService {
   ) { }
 
   
-  getProductToSell(): Observable<any> {
+  getProductToSell(): Observable<FarmerProduct[]> {
     var url = this.serverUrl + this.apiEndpoint + '/sell?userId=' + this.localStorageService.getUserId();
-    return this.httpCllient.get(url);
+    return this.httpCllient.get<FarmerProduct[]>(url);
   }
 
   getAllUnsoldProducts(): Observable<any> {

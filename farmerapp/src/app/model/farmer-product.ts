@@ -3,8 +3,8 @@ import { Product } from "./product";
 export interface FarmerProduct {
 
 	farmerProductId: number,
-	productId: number,
 	userId: number,
+	productId: number,
 	produc: Product,
 	quantity: number,
 	quantityUnit: String,

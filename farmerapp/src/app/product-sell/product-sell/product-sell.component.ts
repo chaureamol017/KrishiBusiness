@@ -19,7 +19,7 @@ export class ProductSellComponent implements OnInit {
   ];
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['productName', 'productCategory', 'grade', 'description', 'user', 'city', 'dateTobeAvailable', 'sellingRate', 'actions'];
+  displayedColumns: string[] = ['name', 'category', 'description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'soldOn', 'sellingRate', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
@@ -73,21 +73,15 @@ export class ProductSellComponent implements OnInit {
   getProducts() {
     this.farmerProductService.getProductToSell()
       .subscribe(response => this.handleGetSuccess(response),
-        error => {
-          this.snackBarService.openTopCenter("Error ocurred while processing.");
-        }
-      );
+        error => this.notify());
   }
 
-  deleteProduct(row) {
+  deleteProduct(row: FarmerProduct) {
     if (confirm("Are you sure you want ot delete  record?")) {
-      var productId = row.productId;
-      this.farmerProductService.deleteProduct1(productId)
+      var farmerProductId = row.farmerProductId;
+      this.farmerProductService.deleteProduct1(farmerProductId)
         .subscribe(response => this.handleDeleteSuccess(response),
-          error => {
-            this.snackBarService.openTopCenter("Error ocurred while processing.");
-          }
-        );
+          error => this.notify());
     }
   }
 
@@ -100,25 +94,32 @@ export class ProductSellComponent implements OnInit {
     this.initializeAllComponents();
   }
 
-  handleDeleteSuccess(responseData) {
-    if (responseData.success) {
-      this.snackBarService.openTopCenter("Product deleted successfully.")
+  handleDeleteSuccess(response) {
+    if (response.success) {
+      this.notify("Product deleted successfully.")
 
       this.getProducts();
     } else {
-      this.snackBarService.openTopCenter("Error ocurred while processing.")
+      this.notify("Error ocurred while processing.")
     }
+  }
+
+  notify(message?: string) {
+    if (!message) {
+      message = 'Error ocurred while processing.';
+    }
+    this.snackBarService.openTopCenter(message);
   }
 
   addProduct() {
     this.dialogService.openDialog(AddEditFarmerProductComponent, {}, false);
   }
 
-  editProduct(row) {
+  editProduct(row: FarmerProduct) {
     this.dialogService.openDialogAtRight(AddEditFarmerProductComponent, row, true);
   }
 
-  viewBidProduct(selectedData, isEdit) {
-    this.dialogService.openDialogAtRight(ProductBidComponent, selectedData, isEdit);
+  viewBidProduct(row: FarmerProduct, isEdit) {
+    this.dialogService.openDialogAtRight(ProductBidComponent, row, isEdit);
   }
 }
