@@ -1,0 +1,15 @@
+<div class="banner-container">
+    <div class="banner-wrapper">
+        <div class="banner" *ngFor="let banner of banners; let i = index" [class.active]="i === currentBannerIndex">
+            <img [src]="banner.image" alt="Banner Image" />
+        </div>
+    </div>
+    <div class="indicator-container">
+        <div
+            class="indicator"
+            *ngFor="let banner of banners; let i = index"
+            [class.active]="i === currentBannerIndex"
+            (click)="showBannerAtIndex(i)"
+        ></div>
+    </div>
+</div>

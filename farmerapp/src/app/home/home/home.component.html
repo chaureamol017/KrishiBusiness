@@ -1,1 +1,6 @@
-<p>home works!</p>
+<div fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+    <app-banner *ngIf="hasBanners()" [banners]="banners"></app-banner>
+    <app-banner-card [title]="appName" [description]="cardDescription" [cards]="cards"></app-banner-card>
+
+    <h3 class="body-text">{{description}}</h3>
+</div>

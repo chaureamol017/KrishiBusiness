@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="30px">
+    <div>
+        <h2 class="section-title">{{title}}</h2>
+        <h3 class="body-text">{{description}}</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center stretch" fxLayoutGap="10px" *ngIf="hasCards()">
+        <div fxLayout="column" fxLayoutAlign=" stretch" class="card-banner" *ngFor="let card of cards">
+            <div fxFlex="60">
+                <img class="card-image" [src]="card.image" alt="Card Image"  />
+            </div>
+            <div class="card-description">
+                <h3 class="card-title">{{ card.title }}</h3>
+                <p class="card-description">{{ card.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>

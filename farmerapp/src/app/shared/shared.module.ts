@@ -5,6 +5,8 @@ import { TopDialogContentComponent } from './top-dialog-content/top-dialog-conte
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TableCellActionComponent } from './table-cell-action/table-cell-action.component';
+import { BannerComponent } from './banner/banner.component';
+import { BannerCardComponent } from './banner-card/banner-card.component';
 
 
 
@@ -13,6 +15,8 @@ import { TableCellActionComponent } from './table-cell-action/table-cell-action.
     TopBarComponent,
     TopDialogContentComponent,
     TableCellActionComponent,
+    BannerComponent,
+    BannerCardComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +28,8 @@ import { TableCellActionComponent } from './table-cell-action/table-cell-action.
     TopBarComponent,
     TopDialogContentComponent,
     TableCellActionComponent,
+    BannerComponent,
+    BannerCardComponent,
   ]
 })
 export class SharedModule { }
