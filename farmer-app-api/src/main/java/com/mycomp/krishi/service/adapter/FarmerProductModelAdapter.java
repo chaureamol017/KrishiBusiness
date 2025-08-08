@@ -24,6 +24,7 @@ public class FarmerProductModelAdapter implements ModelAdapter<FarmerProductMode
 		entity.setFarmerProductId(model.getFarmerProductId());
 		entity.setProductId(model.getProductId());
 		entity.setUserId(model.getUserId());
+		entity.setDescription(model.getDescription());
 		entity.setQuantity(model.getQuantity());
 		entity.setQuantityUnit(model.getQuantityUnit());
 		entity.setPricePerUnit(model.getPricePerUnit());
@@ -56,6 +57,7 @@ public class FarmerProductModelAdapter implements ModelAdapter<FarmerProductMode
 		model.setFarmerProductId(entity.getFarmerProductId());
 		model.setProductId(entity.getProductId());
 		model.setUserId(entity.getUserId());
+		model.setDescription(entity.getDescription());
 		model.setQuantity(entity.getQuantity());
 		model.setQuantityUnit(entity.getQuantityUnit());
 		model.setPricePerUnit(entity.getPricePerUnit());

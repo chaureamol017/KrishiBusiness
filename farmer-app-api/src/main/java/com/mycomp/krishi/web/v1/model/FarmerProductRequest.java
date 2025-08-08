@@ -7,6 +7,7 @@ public class FarmerProductRequest {
 	private Long farmerProductId;
 	private Long productId;
 	private Long userId;
+	private String description;
 	private double quantity;
 	private String quantityUnit;
 	private double pricePerUnit;
@@ -38,6 +39,14 @@ public class FarmerProductRequest {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public double getQuantity() {

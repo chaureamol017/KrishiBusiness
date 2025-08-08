@@ -26,6 +26,8 @@ public class FarmerProduct implements Serializable {
 	private Long productId;
 	@Column(name = "user_id")
 	private Long userId;
+	@Column(name = "description")
+	private String description;
 	@Column(name = "quantity")
 	private double quantity;
 	@Column(name = "quantity_unit")
@@ -69,6 +71,14 @@ public class FarmerProduct implements Serializable {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public double getQuantity() {
