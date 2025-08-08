@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from './local-storage.service';
-import { FarmerProduct } from '../model/farmer-product';
+import { FarmerProductRequest, FarmerProduct } from '../model/farmer-product';
 
 @Injectable({
   providedIn: 'root'
@@ -39,17 +39,17 @@ export class FarmerProductService {
     return this.httpCllient.get(url);
   }
 
-  saveProduct1(productDetails): Observable<any> {
+  addFarmerProduct(product: FarmerProductRequest): Observable<FarmerProduct> {
     var url = this.serverUrl + this.apiEndpoint;
 
-    return this.httpCllient.post(url, productDetails);
+    return this.httpCllient.post<FarmerProduct>(url, product);
   }
 
   
-  updateProduct1(productDetails): Observable<any> {
+  updateFarmerProduct(productDetails): Observable<FarmerProduct> {
     var url = this.serverUrl + this.apiEndpoint;
 
-    return this.httpCllient.put(url, productDetails);
+    return this.httpCllient.put<FarmerProduct>(url, productDetails);
   }
 
   deleteProduct1(productId): Observable<any> {

@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FarmerProductService } from '../../services/farmer-product.service';
 import { FormValidationService } from '../../services/form-validation.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { ProductService } from 'src/app/services/product.service';
+import { Product } from 'src/app/model/product';
+import { QunatityUnit } from 'src/app/model/quantity-unit.enum';
+import { FarmerProduct, FarmerProductRequest } from 'src/app/model/farmer-product';
+import { Observable } from 'rxjs';
+import { CommonUtil } from 'src/app/util/common.util';
 
 @Component({
   selector: 'app-add-edit-farmer-product',
@@ -9,88 +17,121 @@ import { FormValidationService } from '../../services/form-validation.service';
   styleUrls: ['./add-edit-farmer-product.component.scss']
 })
 export class AddEditFarmerProductComponent implements OnInit {
-  productDetailsform;
+  productDetailsform: FormGroup;
   isEdit: boolean = false;
-  formTitle: any = "";
+  formTitle: any = '';
+  products: Product[] = [];
+  quantityUnits: string[] = Object.keys(QunatityUnit);
+  selectedData: FarmerProduct;
 
 
   constructor(
+    private snackBarService: SnackBarService,
+    private productService: ProductService,
     private farmerProductService: FarmerProductService,
-    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<AddEditFarmerProductComponent>
   ) { }
 
   ngOnInit() {
-    var refData = this.dialogRef._containerInstance._config.data;
+    const refData = this.dialogRef._containerInstance._config.data;
     this.isEdit = refData.isEdit;
     if (this.isEdit) {
-      var selectedData = refData.selectedData;
-
-      this.formTitle = "Edit Product";
-      this.productDetailsform = this.validationService.getEditProductFormGroup(selectedData);
+      this.selectedData = refData.selectedData;
+      this.formTitle = 'Edit Product';
+      this.productDetailsform = this.getEditProductFormGroup();
     } else {
-      this.formTitle = "Add Product";
-      this.productDetailsform = this.validationService.getAddProductFormGroup();
+      this.formTitle = 'Add Product';
+      this.productDetailsform = this.getAddProductFormGroup();
     }
+
+    this.getProducts();
 
   }
 
-  addEditProduct(saveProduct) {
-    var productDetails = saveProduct.value;
+  getProducts() {
+    this.productService.getProducts()
+      .subscribe((response: Product[]) => this.products = response)
+  }
 
-    var product = this.getProductForSave(productDetails);
+
+  getAddProductFormGroup(): FormGroup {
+    return new FormGroup({
+      productId: new FormControl('', [Validators.required]),
+      description: new FormControl(),
+      quantity: new FormControl(1, [Validators.required]),
+      quantityUnit: new FormControl('Kilogram', [Validators.required]),
+      pricePerUnit: new FormControl('', [Validators.required]),
+      city: new FormControl(),
+    });
+  }
+
+  getEditProductFormGroup(): FormGroup {
+    return new FormGroup({
+      productId: new FormControl(this.selectedData.productId, [Validators.required]),
+      description: new FormControl(this.selectedData.description),
+      quantity: new FormControl(this.selectedData.quantity, [Validators.required]),
+      quantityUnit: new FormControl(this.selectedData.quantityUnit, [Validators.required]),
+      pricePerUnit: new FormControl(this.selectedData.pricePerUnit, [Validators.required]),
+      city: new FormControl(this.selectedData.city),
+      addedOn: new FormControl(this.selectedData.addedOn),
+    });
+  }
+
+
+  addEditProduct() {
+    if (!this.productDetailsform.valid) {
+      this.snackBarService.notify('Plase add all required values', 'OK')
+      return;
+    }
     
-    if(this.isEdit) {
-      this.updateProduct(product);
+    
+    let observable: Observable<FarmerProduct>;
+    if (this.isEdit) {
+      const product: FarmerProductRequest = this.getProductForUpdate();
+      observable = this.farmerProductService.updateFarmerProduct(product);
     } else {
-      this.saveProduct(product);
+      const product: FarmerProductRequest = this.getProductForSave();
+      observable = this.farmerProductService.addFarmerProduct(product);
     }
+
+    observable.subscribe(response => this.handleSuccess(response), error => this.snackBarService.notify())
   }
 
-  saveProduct(product) {
-    this.farmerProductService.saveProduct1(product).subscribe(
-      responseData => {
-        this.handleSuccessResponse(responseData);
-      },
-      error => {
-        alert("Error ocurred while processing.");
-      }
-    )
-  }
-
-  updateProduct(product) {
-    this.farmerProductService.updateProduct1(product).subscribe(
-      responseData => {
-        this.handleSuccessResponse(responseData);
-      },
-      error => {
-        alert("Error ocurred while processing.");
-      }
-    )
-  }
-
-  handleSuccessResponse(responseData) {
-    if (responseData.success) {
-      alert("Product saved successfully.");
-      this.closeDialog();
-    } else {
-      alert("Error ocurred while processing.");
-    }
+  handleSuccess(response) {
+    this.snackBarService.notify('Product saved successfully.', 'OK');
+    this.closeDialog();
   }
 
   closeDialog() {
     this.dialogRef.close();
   }
 
-  
-  getProductForSave(productDetails: any) : any {
-    var userId: string = localStorage.getItem("userId");
 
-    var product = {
-      productId: (productDetails.productId) ? productDetails.productId : "",
-      productName: (productDetails.productName) ? productDetails.productName : "",
-      description: (productDetails.description) ? productDetails.description : ""
+  getProductForSave(): FarmerProductRequest {
+    const productDetails = this.productDetailsform.value;
+    const userId: number = parseInt(localStorage.getItem('userId'));
+    const productId: number = CommonUtil.parseToInt(productDetails.productId);
+    const quantity: number = CommonUtil.parseToInt(productDetails.quantity);
+    const pricePerUnit: number = CommonUtil.parseToInt(productDetails.pricePerUnit);
+
+    const product: FarmerProductRequest = {
+      productId: productId,
+      userId: userId,
+      description: (productDetails.description) ? productDetails.description : '',
+      quantity: quantity,
+      quantityUnit: (productDetails.quantityUnit) ? productDetails.quantityUnit : '',
+      pricePerUnit: pricePerUnit,
+      city: (productDetails.city) ? productDetails.city : ''
     }
+
+    return product;
+  }
+
+  getProductForUpdate(): FarmerProductRequest {
+    const product: FarmerProductRequest = this.getProductForSave();
+    
+    product.farmerProductId = this.selectedData.farmerProductId;
+    product.addedOn = this.selectedData.addedOn;
 
     return product;
   }

@@ -19,11 +19,10 @@ export class ProductSellComponent implements OnInit {
   ];
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['name', 'category', 'description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'soldOn', 'sellingRate', 'actions'];
+  displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'soldOn', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
-
 
   dataSource = [];
 
@@ -73,7 +72,7 @@ export class ProductSellComponent implements OnInit {
   getProducts() {
     this.farmerProductService.getProductToSell()
       .subscribe(response => this.handleGetSuccess(response),
-        error => this.notify());
+        error => this.snackBarService.notify());
   }
 
   deleteProduct(row: FarmerProduct) {
@@ -81,7 +80,7 @@ export class ProductSellComponent implements OnInit {
       var farmerProductId = row.farmerProductId;
       this.farmerProductService.deleteProduct1(farmerProductId)
         .subscribe(response => this.handleDeleteSuccess(response),
-          error => this.notify());
+          error => this.snackBarService.notify());
     }
   }
 
@@ -96,19 +95,12 @@ export class ProductSellComponent implements OnInit {
 
   handleDeleteSuccess(response) {
     if (response.success) {
-      this.notify("Product deleted successfully.")
+      this.snackBarService.notify("Product deleted successfully.")
 
       this.getProducts();
     } else {
-      this.notify("Error ocurred while processing.")
+      this.snackBarService.notify()
     }
-  }
-
-  notify(message?: string) {
-    if (!message) {
-      message = 'Error ocurred while processing.';
-    }
-    this.snackBarService.openTopCenter(message);
   }
 
   addProduct() {

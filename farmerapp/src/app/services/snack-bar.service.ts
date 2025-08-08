@@ -10,8 +10,14 @@ export class SnackBarService {
     private snackBar: MatSnackBar,
   ) {}
 
-  openTopCenter(message: string, action?: string): MatSnackBarRef<SimpleSnackBar> {
-    
+  notify(message?: string, action?: string) {
+    if (!message) {
+      message = 'Error ocurred while processing.';
+    }
+    this.openTopCenter(message, action);
+  }
+
+  openTopCenter(message: string, action?: string): MatSnackBarRef<SimpleSnackBar> {    
     const horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     const verticalPosition: MatSnackBarVerticalPosition = 'top';
 

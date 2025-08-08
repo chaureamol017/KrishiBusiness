@@ -15,32 +15,6 @@ export class FormValidationService {
       });
   }
 
-  getAddProductFormGroup(): FormGroup {
-    return new FormGroup({
-        productId: new FormControl('', [Validators.required]),
-        productName: new FormControl('', [Validators.required]),
-        description: new FormControl(),
-        productCategoryId: new FormControl(),
-        productGradeId: new FormControl(),
-        city: new FormControl(),
-        availableOn: new FormControl(),
-        sellingRate: new FormControl(),
-      });
-  }
-
-  getEditProductFormGroup(selectedData: any): FormGroup {
-    return new FormGroup({
-        productId: new FormControl(selectedData.productId, [Validators.required]),
-        productName: new FormControl(selectedData.productName, [Validators.required]),
-        description: new FormControl(selectedData.description),
-        productCategoryId: new FormControl(selectedData.categoryid),
-        productGradeId: new FormControl(selectedData.gradeid),
-        city: new FormControl(selectedData.city),
-        availableOn: new FormControl(selectedData.availableOn),
-        sellingRate: new FormControl(selectedData.sellingRate),
-      });
-  }
-
   getAddProductBidFormGroup(): FormGroup {
     return new FormGroup({
         productBidId: new FormControl('', [Validators.required]),
