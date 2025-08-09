@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DefaultModule } from './default/default.module';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { MaterialModule } from './material/material.module';
@@ -32,7 +31,6 @@ import { ProductSellModule } from './product-sell/product-sell.module';
 
     MaterialModule,
 
-    DefaultModule,
     HomeModule,
     ProductModule,
     ProductBuyModule,

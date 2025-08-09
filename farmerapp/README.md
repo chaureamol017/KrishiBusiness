@@ -27,10 +27,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 
-"start1": "NODE_OPTIONS=--openssl-legacy-provider ng serve",
-"build1": "NODE_OPTIONS=--openssl-legacy-provider ng build",
 
 # h:79 this[kHandle] = new _Hash(algorithm, xofLen, algorithmId, getHashCache());
-## run below or start1 / build1
+## run below 
 export NODE_OPTIONS=--openssl-legacy-provider
-npm start
+npm install
+npm run start
