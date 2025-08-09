@@ -1,6 +1,6 @@
 <app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog()"></app-top-dialog-content>
 
-    <form [formGroup]="productDetailsform">
+    <form [formGroup]="productDetailsform" class="dialog-content">
         <div class="form-group">
             <label for="name">Product</label>
             <select class="form-control" formControlName="productId" data-toggle="tooltip"
@@ -41,7 +41,6 @@
         </div>
     </form>
 
-<div class="footer">
-    <!-- <button style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Save</button> -->
+<div class="dialog-footer">
     <button type="submit" class="btn btn-success" (click)="addEditProduct()">Submit</button>
 </div>

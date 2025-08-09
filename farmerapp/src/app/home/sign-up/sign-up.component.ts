@@ -9,7 +9,10 @@ import { SnackBarService } from '../../services/snack-bar.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 export class SignUpComponent implements OnInit {
   formTitle: any = "Sign up";

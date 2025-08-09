@@ -14,7 +14,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-left: 0;
 }
 
+.flex-column-stretch-gap {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
 // ::ng-deep 
 .mat-dialog-container {
     padding: 0 !important;
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+
+.dialog-footer-bottom-stretch {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0 0 0;
+}
+
+.dialog-content {
+    max-height: 425px;
+    overflow-y: auto;
+    padding: 0 20px;
 }

@@ -9,7 +9,10 @@ import { FormValidationService } from '../../services/form-validation.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 
 export class LoginComponent implements OnInit {

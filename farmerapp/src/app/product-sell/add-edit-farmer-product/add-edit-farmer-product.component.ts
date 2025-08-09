@@ -14,7 +14,10 @@ import { CommonUtil } from 'src/app/util/common.util';
 @Component({
   selector: 'app-add-edit-farmer-product',
   templateUrl: './add-edit-farmer-product.component.html',
-  styleUrls: ['./add-edit-farmer-product.component.scss']
+  styleUrls: ['./add-edit-farmer-product.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 export class AddEditFarmerProductComponent implements OnInit {
   productDetailsform: FormGroup;
