@@ -30,7 +30,6 @@ export class SignUpComponent implements OnInit {
 
   signupUser() {
     const [isValid, message] = AuthUtil.isValidPassword(this.signupForm);
-    var formValues = this.signupForm.value;
 
     if (!isValid) {
       this.snackBarService.openTopCenter(message, 'OK');
@@ -39,13 +38,15 @@ export class SignUpComponent implements OnInit {
 
     const signupDetails: UserSignup = AuthUtil.createSignUpDetailsFromFormValues(this.signupForm);
     this.adminApiService.signUp(signupDetails)
-      .subscribe(this.signupSuccess, this.signupFailure);
+      .subscribe(response => this.signupSuccess(response), error => this.signupFailure(error));
   }
 
   signupSuccess(response) {
     if (response.success) {
-      this.snackBarService.openTopCenter("Sign up successfull. Please login now!!!");
+      this.snackBarService.notify("Sign up successfull. Please login now!!!");
       this.closeDialog()
+    } else {
+      this.snackBarService.notify(response.message);
     }
   }
 
