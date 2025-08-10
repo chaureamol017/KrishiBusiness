@@ -126,6 +126,11 @@ export class ProductSellComponent implements OnInit {
   }
 
   viewBidProduct(row: FarmerProduct, isEdit) {
-    this.dialogService.openDialogAtRight(ProductBidComponent, row, isEdit);
+    const ref: MatDialogRef<any, DialogData> = this.dialogService.openDialogAtRight(ProductBidComponent, row, isEdit);
+     ref.afterClosed().subscribe((response: DialogData) => {
+      if (response && response.success && response.action == 'SAVE') {
+        this.getProducts();
+      }
+    });
   }
 }

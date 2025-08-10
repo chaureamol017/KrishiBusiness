@@ -8,9 +8,11 @@ public interface FarmerProductBidService {
 
 	FarmerProductBidModel save(FarmerProductBidModel model);
 	FarmerProductBidModel update(FarmerProductBidModel model);
+	int acceptBid(Long productBidId);
 	FarmerProductBidModel getById(Long id);
 	FarmerProductBidModel getBidForBuyerAndProduct(Long buyerUserId, Long farmerProductId);
 	List<FarmerProductBidModel> getBidForProduct(Long farmerProductId);
 	Boolean deleteById(Long id);
+
 }
 

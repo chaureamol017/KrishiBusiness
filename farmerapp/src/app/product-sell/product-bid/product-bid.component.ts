@@ -4,6 +4,8 @@ import { ProductBidService } from '../../services/product-bid.service';
 import { FarmerProduct } from '../../model/farmer-product';
 import { FarmerProductBid, FarmerProductBUyer, ViewFarmerProductBid } from '../../model/farmer-product-bid.model';
 import { SnackBarService } from '../../services/snack-bar.service';
+import { ApiResponse } from 'src/app/model/api-response.model';
+import { DialogAction, DialogData } from 'src/app/model/dialog-data';
 
 @Component({
   selector: 'app-product-bid',
@@ -14,7 +16,7 @@ export class ProductBidComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['buyer', 'sellingRate', 'biddingRate', 'actions'];
+  displayedColumns: string[] = ['buyer', 'sellingRate', 'biddingRate'];
 
   searchKey: string;
   selectedData: FarmerProduct;
@@ -24,8 +26,8 @@ export class ProductBidComponent implements OnInit {
   productBuyers: Map<number, FarmerProductBUyer> = new Map();
 
   constructor(
-    private productBidService: ProductBidService,
     private snackBarService: SnackBarService,
+    private productBidService: ProductBidService,
     private dialogRef: MatDialogRef<ProductBidComponent>
   ) { }
 
@@ -33,6 +35,10 @@ export class ProductBidComponent implements OnInit {
     var refData = this.dialogRef._containerInstance._config.data;
     this.selectedData = refData.selectedData;
     this.formTitle = 'View Bid For ' + this.selectedData.product.name;
+
+    if (!this.selectedData.sold) {
+      this.displayedColumns.push('actions');
+    }
 
     this.initializeAllComponents();
     this.getProductBid();
@@ -53,15 +59,15 @@ export class ProductBidComponent implements OnInit {
   }
 
   handleGetSuccess(response: ViewFarmerProductBid) {
-      response.bids.forEach(element => {
-        this.dataSource.push(element);
-      });
+    response.bids.forEach(element => {
+      this.dataSource.push(element);
+    });
 
-      response.buyers.forEach(element => {
-        this.productBuyers.set(element.userId, element);
-      });
+    response.buyers.forEach(element => {
+      this.productBuyers.set(element.userId, element);
+    });
 
-      this.initializeAllComponents();
+    this.initializeAllComponents();
   }
 
   getBuyerName(buyerUserId: number) {
@@ -73,15 +79,30 @@ export class ProductBidComponent implements OnInit {
     }
   }
 
-  acceptProductBid(row){
+  acceptProductBid(row: FarmerProductBid) {
+    this.productBidService.acceptProductBid(row.farmerProductBidId)
+      .subscribe((resp: ApiResponse<number>) => this.handleAcceptSuccess(resp),
+      error => this.snackBarService.notify("Error ocurred accepting bid."))
+  }
+
+  handleAcceptSuccess(resp: ApiResponse<number>): void {
+    this.snackBarService.notify('Bid accepted successfully.');
+    this.closeDialog('SAVE', true)
+  }
+
+  rejectProductBid(row) {
 
   }
 
-  rejectProductBid(row){
+  closeDialog(action?: DialogAction, success?: boolean) {
+    if (!action) {
+      action = 'CANCEL';
+    }
+    const data: DialogData = {
+      action: action,
+      success: success
+    };
 
-  }
-
-  closeDialog() {
-    this.dialogRef.close();
+    this.dialogRef.close(data);
   }
 }

@@ -1,27 +1,34 @@
 package com.mycomp.krishi.service.impl;
 
 import com.mycomp.krishi.common.adapter.ModelAdapter;
+import com.mycomp.krishi.persistence.entity.FarmerProduct;
 import com.mycomp.krishi.persistence.repository.FarmerProductBidRepository;
 import com.mycomp.krishi.persistence.entity.FarmerProductBid;
 import com.mycomp.krishi.service.adapter.FarmerProductBidModelAdapter;
 import com.mycomp.krishi.service.api.FarmerProductBidService;
+import com.mycomp.krishi.service.api.FarmerProductService;
 import com.mycomp.krishi.service.model.FarmerProductBidModel;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
 	private final ModelAdapter<FarmerProductBidModel, FarmerProductBid> modelAdapter = FarmerProductBidModelAdapter.INSTANCE;
 	private final FarmerProductBidRepository repository;
+	private final FarmerProductService farmerProductService;
 
 	@Autowired
-	public FarmerProductBidServiceImpl(FarmerProductBidRepository repository) {
+	public FarmerProductBidServiceImpl(FarmerProductBidRepository repository, FarmerProductService farmerProductService) {
 		this.repository = repository;
+		this.farmerProductService = farmerProductService;
 	}
 
 	@Override
@@ -44,6 +51,19 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
 		final FarmerProductBidModel result = modelAdapter.toModel(savedEntity);
 		return result;
+	}
+
+	@Override
+	public int acceptBid(Long productBidId) {
+		final FarmerProductBid farmerProductBid = repository.findById(productBidId)
+				.orElseThrow(() -> new EntityNotFoundException("FarmerProductBid not found"));
+
+		farmerProductBid.setAccepted(true);
+		farmerProductBid.setAcceptedOn(new Date());
+
+		farmerProductService.markSold(farmerProductBid.getFarmerProductId());
+
+		return 1;
 	}
 
 	@Override

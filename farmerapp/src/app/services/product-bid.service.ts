@@ -31,6 +31,12 @@ export class ProductBidService {
     return this.httpCllient.put<ApiResponse<FarmerProductBid>>(url, request);
   }
 
+  acceptProductBid(farmerProductBidId: number): Observable<ApiResponse<number>> {
+    const url = `${this.serverUrl}${this.apiEndpoint}/${farmerProductBidId}`;
+
+    return this.httpCllient.put<ApiResponse<number>>(url, {});
+  }
+
   getBidForProductByUser(productId: number): Observable<FarmerProductBid> {
     const userId = this.localStorageService.getUserId();
     const url = this.serverUrl + this.apiEndpoint + `/user/${userId}/product/${productId}`;

@@ -72,6 +72,13 @@ public class FarmerProductBidController {
 		}
 	}
 
+	@RequestMapping(value = "/{productBidId}", method = RequestMethod.PUT)
+	public ResponseEntity<ApiResponse<Integer>> acceptBid( @PathVariable("productBidId") final Long productBidId) {
+		final int updateCount = service.acceptBid(productBidId);
+
+		return ResponseEntityHelper.toSuccessResponseEntity(new ApiResponse<>(true, "", updateCount));
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<FarmerProductBidResponse> getById(@PathVariable(value = "id") final Long id) {
 		final FarmerProductBidModel model = service.getById(id);

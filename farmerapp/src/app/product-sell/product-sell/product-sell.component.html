@@ -42,7 +42,7 @@
         </ng-container>
         <ng-container matColumnDef="soldOn">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Sold On</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.soldOn}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.soldOn  | date:'short'}}</mat-cell>
         </ng-container>
         <!-- <ng-container matColumnDef="biddingRate">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Bidding Rate</mat-header-cell>
@@ -51,8 +51,8 @@
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button (click)="editProduct(row)"><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button color="warn" (click)="deleteProduct(row)"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button *ngIf="!row.sold" (click)="editProduct(row)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button *ngIf="!row.sold" color="warn" (click)="deleteProduct(row)"><mat-icon>delete</mat-icon></button>
                 <button mat-icon-button color="warn" (click)="viewBidProduct(row)"><mat-icon>dvr</mat-icon></button>
             </mat-cell>
         </ng-container>

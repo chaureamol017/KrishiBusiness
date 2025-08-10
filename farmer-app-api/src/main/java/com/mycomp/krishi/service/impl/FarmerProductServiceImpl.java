@@ -7,6 +7,7 @@ import com.mycomp.krishi.service.adapter.FarmerProductModelAdapter;
 import com.mycomp.krishi.service.api.FarmerProductService;
 import com.mycomp.krishi.service.model.FarmerProductModel;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,14 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 
 		return result;
 	}
+
+	@Override
+	public int markSold(final Long farmerProductId) {
+		final int updateCount = repository.markSold(farmerProductId, true, new Date());
+
+		return updateCount;
+	}
+
 	@Override
 	public FarmerProductModel getById(final Long productId) {
 		final Optional<FarmerProduct> optionalEntity = repository.findById(productId);

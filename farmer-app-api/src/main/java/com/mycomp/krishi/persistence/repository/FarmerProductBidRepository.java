@@ -1,15 +1,25 @@
 package com.mycomp.krishi.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.mycomp.krishi.persistence.entity.FarmerProductBid;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface FarmerProductBidRepository extends JpaRepository<FarmerProductBid, Long> {
     List<FarmerProductBid> findByBuyerUserIdAndFarmerProductId(Long buyerUserId, Long farmerProductId);
     List<FarmerProductBid> findByFarmerProductId(Long farmerProductId);
+    @Modifying
+    @Transactional
+    @Query("UPDATE FarmerProductBid fpb SET fpb.accepted = :accepted, fpb.acceptedOn =:acceptedOn WHERE fpb.farmerProductBidId = :productBidId")
+    int acceptBid(@Param("productBidId") Long productBidId, @Param("accepted") boolean accepted, @Param("acceptedOn") Date acceptedOn);
+
 }
 
