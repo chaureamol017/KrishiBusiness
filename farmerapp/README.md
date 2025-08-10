@@ -29,7 +29,14 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 # h:79 this[kHandle] = new _Hash(algorithm, xofLen, algorithmId, getHashCache());
-## run below 
-export NODE_OPTIONS=--openssl-legacy-provider
-npm install
-npm run start
+## To setup 
+1. Open terminal
+2. Navigate to project location
+    run below command one time
+        npm install --legacy-peer-deps
+
+## To run
+1. Windows
+    npm run startW
+2. Other
+    npm run startL

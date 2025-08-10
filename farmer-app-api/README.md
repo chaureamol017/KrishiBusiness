@@ -2,8 +2,10 @@
 Business
 
 
-## To run
+## To setup 
 1. Open terminal
 2. Navigate to project location
-3. Run command (mvn clean package)
-4. Run main function of KrishiBusinessApplication
+    Run command (mvn clean package)
+
+## To run
+1. Run main function of KrishiBusinessApplication
