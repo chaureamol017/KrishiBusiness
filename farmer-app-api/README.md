@@ -6,4 +6,4 @@ Business
 1. Open terminal
 2. Navigate to project location
 3. Run command (mvn clean package)
-4. Run maim function of KrishiBusinessApplication
+4. Run main function of KrishiBusinessApplication
