@@ -23,7 +23,7 @@ export class ProductSellComponent implements OnInit {
   ];
 
   listData: MatTableDataSource<FarmerProduct>;
-  displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'soldOn', 'actions'];
+  displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'city', 'addedOn', 'soldOn', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
