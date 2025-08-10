@@ -15,3 +15,18 @@ export interface FarmerProductBidRequest {
 	quotedPricePerUnit: number,
 	bidOn: Date,
 }
+
+export interface FarmerProductBUyer {
+	userId: number,
+    role: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    emailId: string;
+    mobile: string;
+}
+
+export interface ViewFarmerProductBid {
+	bids: FarmerProductBid[],
+	buyers: FarmerProductBUyer[],
+}

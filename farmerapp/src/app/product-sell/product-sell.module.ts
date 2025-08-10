@@ -28,6 +28,7 @@ import { AddEditFarmerProductComponent } from './add-edit-farmer-product/add-edi
   ],
   entryComponents: [
     AddEditFarmerProductComponent,
+    ProductBidComponent,
   ]
 })
 export class ProductSellModule { }

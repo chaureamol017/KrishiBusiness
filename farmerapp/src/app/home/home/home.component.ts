@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Banner } from 'src/app/shared/model/banner';
-import { BannerCard } from 'src/app/shared/model/banner-card';
-// import { MatDialog, MatDialogConfig } from "@angular/material"
+import { Banner } from '../../shared/model/banner';
+import { BannerCard } from '../../shared/model/banner-card';
 
 @Component({
   selector: 'app-home',

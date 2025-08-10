@@ -1,13 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TopBarButton } from '../../shared/model/top-bar-button';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { UserDetails } from '../../model/user-details';
 import { DialogService } from '../../services/dialog.service';
 import { AddEditProductBidComponent } from '../add-edit-product-bid/add-edit-product-bid.component';
 import { FarmerProductService } from '../../services/farmer-product.service';
-import { FarmerProduct } from 'src/app/model/farmer-product';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
-
+import { FarmerProduct } from '../../model/farmer-product';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'app-buy-product',

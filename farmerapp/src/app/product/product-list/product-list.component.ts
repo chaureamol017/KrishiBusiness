@@ -9,9 +9,9 @@ import { AddEditProductComponent } from '../add-edit-product/add-edit-product.co
 import { Product } from '../../model/product';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { DialogData } from '../../model/dialog-data';
-import { CellActionButton } from 'src/app/shared/model/cell-action-button';
-import { TopBarButton } from 'src/app/shared/model/top-bar-button';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { CellActionButton } from '../../shared/model/cell-action-button';
+import { TopBarButton } from '../../shared/model/top-bar-button';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-product-list',

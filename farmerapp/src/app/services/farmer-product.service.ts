@@ -41,9 +41,9 @@ export class FarmerProductService {
   }
 
 
-  deleteProduct1(productId): Observable<any> {
+  deleteProduct(productId): Observable<boolean> {
     const url = this.serverUrl + this.apiEndpoint + "/" + productId;
 
-    return this.httpCllient.delete(url);
+    return this.httpCllient.delete<boolean>(url);
   }
 }

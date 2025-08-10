@@ -4,10 +4,10 @@ import { TopBarButton } from '../../shared/model/top-bar-button';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { DialogService } from '../../services/dialog.service';
 import { FarmerProductService } from '../../services/farmer-product.service';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { SnackBarService } from '../../services/snack-bar.service';
 import { AddEditFarmerProductComponent } from '../add-edit-farmer-product/add-edit-farmer-product.component';
-import { FarmerProduct } from 'src/app/model/farmer-product';
-import { DialogData } from 'src/app/model/dialog-data';
+import { FarmerProduct } from '../../model/farmer-product';
+import { DialogData } from '../../model/dialog-data';
 
 @Component({
   selector: 'app-product-sell',
@@ -82,7 +82,7 @@ export class ProductSellComponent implements OnInit {
   deleteProduct(row: FarmerProduct) {
     if (confirm("Are you sure you want ot delete  record?")) {
       var farmerProductId = row.farmerProductId;
-      this.farmerProductService.deleteProduct1(farmerProductId)
+      this.farmerProductService.deleteProduct(farmerProductId)
         .subscribe(response => this.handleDeleteSuccess(response),
           error => this.snackBarService.notify());
     }
@@ -97,8 +97,8 @@ export class ProductSellComponent implements OnInit {
     this.initializeAllComponents();
   }
 
-  handleDeleteSuccess(response) {
-    if (response.success) {
+  handleDeleteSuccess(response: boolean) {
+    if (response) {
       this.snackBarService.notify("Product deleted successfully.")
 
       this.getProducts();

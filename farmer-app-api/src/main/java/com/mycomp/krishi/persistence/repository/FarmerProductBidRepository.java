@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface FarmerProductBidRepository extends JpaRepository<FarmerProductBid, Long> {
     List<FarmerProductBid> findByBuyerUserIdAndFarmerProductId(Long buyerUserId, Long farmerProductId);
+    List<FarmerProductBid> findByFarmerProductId(Long farmerProductId);
 }
 

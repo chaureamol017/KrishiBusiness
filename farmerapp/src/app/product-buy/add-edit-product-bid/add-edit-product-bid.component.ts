@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { ProductBidService } from '../../services/product-bid.service';
-import { FarmerProduct } from 'src/app/model/farmer-product';
-import { FarmerProductBid, FarmerProductBidRequest } from 'src/app/model/farmer-product-bid.model';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
-import { CommonUtil } from 'src/app/util/common.util';
-import { DialogAction, DialogData } from 'src/app/model/dialog-data';
-import { ApiResponse } from 'src/app/model/api-response.model';
+import { FarmerProduct } from '../../model/farmer-product';
+import { FarmerProductBid, FarmerProductBidRequest } from '../../model/farmer-product-bid.model';
+import { SnackBarService } from '../../services/snack-bar.service';
+import { CommonUtil } from '../../util/common.util';
+import { DialogAction, DialogData } from '../../model/dialog-data';
+import { ApiResponse } from '../../model/api-response.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -47,7 +47,7 @@ export class AddEditProductBidComponent implements OnInit {
 
   checkExistingBid() {
     const productId: number = this.selectedProduct.productId;
-    this.productBidService.getBid(productId).subscribe(
+    this.productBidService.getBidForProductByUser(productId).subscribe(
       (response: FarmerProductBid) => this.handleGetSuccess(response),
       error => this.handleError(error, 'Error occurred while fetching existing bid.')
     );

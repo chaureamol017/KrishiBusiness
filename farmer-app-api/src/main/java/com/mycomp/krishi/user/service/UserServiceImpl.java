@@ -69,6 +69,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<UserModel> getUsers(List<Long> userIds) {
+		List<User> users = userRepository.findAllById(userIds);
+
+        return modelAdapter.toModel(users);
+	}
+
+	@Override
 	public UserModel getUser(Long userId) {
 		try {
 			User user = userRepository.getOne(userId);

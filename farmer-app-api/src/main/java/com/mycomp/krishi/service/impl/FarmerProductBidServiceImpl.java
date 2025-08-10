@@ -26,7 +26,7 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
 	@Override
 	public FarmerProductBidModel save(final FarmerProductBidModel model) {
-		final FarmerProductBidModel existingBid =  getBid(model.getBuyerUserId(), model.getFarmerProductId());
+		final FarmerProductBidModel existingBid =  getBidForBuyerAndProduct(model.getBuyerUserId(), model.getFarmerProductId());
 		if (existingBid != null) {
 			throw new RuntimeException("You already have bid for this product.");
 		}
@@ -57,10 +57,17 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 	}
 
 	@Override
-	public FarmerProductBidModel getBid(Long buyerUserId, Long farmerProductId) {
+	public FarmerProductBidModel getBidForBuyerAndProduct(Long buyerUserId, Long farmerProductId) {
 		final List<FarmerProductBid> entities = repository.findByBuyerUserIdAndFarmerProductId(buyerUserId, farmerProductId);
 
 		return entities.isEmpty() ? null : modelAdapter.toModel(entities.get(0));
+	}
+
+	@Override
+	public List<FarmerProductBidModel> getBidForProduct(Long farmerProductId) {
+		final List<FarmerProductBid> entities = repository.findByFarmerProductId(farmerProductId);
+
+		return modelAdapter.toModel(entities);
 	}
 
 	@Override

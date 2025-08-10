@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FarmerProductService } from '../../services/farmer-product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SnackBarService } from 'src/app/services/snack-bar.service';
-import { ProductService } from 'src/app/services/product.service';
-import { Product } from 'src/app/model/product';
-import { QunatityUnit } from 'src/app/model/quantity-unit.enum';
-import { FarmerProduct, FarmerProductRequest } from 'src/app/model/farmer-product';
+import { SnackBarService } from '../../services/snack-bar.service';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../model/product';
+import { QunatityUnit } from '../../model/quantity-unit.enum';
+import { FarmerProduct, FarmerProductRequest } from '../../model/farmer-product';
 import { Observable } from 'rxjs';
-import { CommonUtil } from 'src/app/util/common.util';
-import { DialogAction, DialogData } from 'src/app/model/dialog-data';
+import { CommonUtil } from '../../util/common.util';
+import { DialogAction, DialogData } from '../../model/dialog-data';
 
 @Component({
   selector: 'app-add-edit-farmer-product',

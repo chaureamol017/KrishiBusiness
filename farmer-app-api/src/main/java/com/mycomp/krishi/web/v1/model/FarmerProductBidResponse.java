@@ -3,7 +3,6 @@ package com.mycomp.krishi.web.v1.model;
 import java.util.Date;
 
 public class FarmerProductBidResponse {
-
 	private Long farmerProductBidId;
 	private Long farmerProductId;
 	private Long buyerUserId;

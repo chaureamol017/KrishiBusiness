@@ -4,25 +4,17 @@
   
   <div class="mat-elevation-z8">
       <mat-table [dataSource]="listData"  matSort>
-        <ng-container matColumnDef="productName">
-          <mat-header-cell *matHeaderCellDef  mat-sort-header>Product Name</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.productName}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="productCategory">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.productCategoryId}}</mat-cell>
-        </ng-container>
         <ng-container matColumnDef="buyer">
           <mat-header-cell *matHeaderCellDef  mat-sort-header>Buyer</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.buyerFirstName}} {{element.buyerLastName}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{getBuyerName(element.buyerUserId)}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="sellingRate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Selling Rate</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.sellingRate}}</mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Quoted price per unit</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{selectedData.pricePerUnit}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="biddingRate">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Bidding Rate</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.biddingRate}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{element.quotedPricePerUnit}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>

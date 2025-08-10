@@ -21,6 +21,7 @@ public interface UserService {
     UserModel updateUser(UserModel userModel);
 
     List<UserModel> getAllUsers();
+    List<UserModel> getUsers(List<Long> userIds);
 
     UserModel getUser(Long id);
 
