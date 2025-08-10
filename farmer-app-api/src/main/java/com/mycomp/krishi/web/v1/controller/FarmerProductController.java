@@ -27,10 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("v1/farmer-product")
 public class FarmerProductController {
 
-	private WebAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> webAdapter = FarmerProductWebAdapter.INSTANCE;
-	private ResponseEntityAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> responseEntityAdapter = new ResponseEntityAdapter<>(webAdapter);
+	private final WebAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> webAdapter = FarmerProductWebAdapter.INSTANCE;
+	private final ResponseEntityAdapter<FarmerProductRequest, FarmerProductResponse, FarmerProductModel> responseEntityAdapter = new ResponseEntityAdapter<>(webAdapter);
 
-	@Autowired private FarmerProductService service;
+	private final FarmerProductService service;
+
+	@Autowired
+	public FarmerProductController(final FarmerProductService service) {
+		this.service = service;
+	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<FarmerProductResponse> save(@RequestBody final FarmerProductRequest requestWeb) {
@@ -64,7 +69,7 @@ public class FarmerProductController {
 
 	@GetMapping(value = "buy")
 	public ResponseEntity<List<FarmerProductResponse>> getProductToBuy(@RequestParam("userId") Long userId) {
-		final List<FarmerProductModel> models = service.getBySeller(userId);
+		final List<FarmerProductModel> models = service.getForSeller(userId);
 
 		return responseEntityAdapter.createResponseEntity(models);
 	}
