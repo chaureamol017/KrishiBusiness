@@ -1,4 +1,4 @@
-<app-top-bar [name]="'Sell Products'" [rightButtons]="buttons" (buttonClick)="handleButtonClick($event)"></app-top-bar>
+<app-top-bar [name]="'Sell Products'" [rightButtons]="buttons" (buttonClick)="handleButtonClick($event)" [setPadding]="true"></app-top-bar>
 
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData"  matSort>

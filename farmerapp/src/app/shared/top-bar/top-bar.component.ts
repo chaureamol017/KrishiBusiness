@@ -10,6 +10,7 @@ export class TopBarComponent implements OnInit {
   @Input('name') name = '';
   @Input('leftButtons') leftButtons: TopBarButton[] = [];
   @Input('rightButtons') rightButtons: TopBarButton[] = [];
+  @Input('setPadding') setPadding: boolean = false;
   @Output() buttonClick: EventEmitter<string> = new EventEmitter();
 
   constructor() { }

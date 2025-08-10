@@ -16,7 +16,10 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 export class ProductListComponent implements OnInit {
   buttons: TopBarButton[] = [];

@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between stretch" class="header">
+<div fxLayout="row" fxLayoutAlign="space-between stretch" class="header" [ngClass]="{'top-bar': setPadding}">
 
   <div fxLayout="row" fxLayoutAlign="start none">
     <button mat-raised-button *ngFor="let button of leftButtons" (click)="onClick(button.action)">

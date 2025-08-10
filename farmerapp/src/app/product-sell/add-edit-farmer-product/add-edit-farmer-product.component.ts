@@ -10,6 +10,7 @@ import { QunatityUnit } from 'src/app/model/quantity-unit.enum';
 import { FarmerProduct, FarmerProductRequest } from 'src/app/model/farmer-product';
 import { Observable } from 'rxjs';
 import { CommonUtil } from 'src/app/util/common.util';
+import { DialogAction, DialogData } from 'src/app/model/dialog-data';
 
 @Component({
   selector: 'app-add-edit-farmer-product',
@@ -102,11 +103,18 @@ export class AddEditFarmerProductComponent implements OnInit {
 
   handleSuccess(response) {
     this.snackBarService.notify('Product saved successfully.', 'OK');
-    this.closeDialog();
+    this.closeDialog('SAVE', true);
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(action?: DialogAction, success?: boolean) {
+    if (!action) {
+      action = 'CANCEL';
+    }
+    const data: DialogData = {
+          action: action,
+          success: success
+    }
+    this.dialogRef.close(data);
   }
 
 

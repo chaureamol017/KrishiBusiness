@@ -1,26 +1,27 @@
 <app-top-dialog-content [title]="formTitle" (closeClick)="closeDialog('CANCEL')"></app-top-dialog-content>
 
-<mat-dialog-content class="mat-typography">
-    <form [formGroup]="formGroupInstance" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="name">Product Name</label>
-            <input type="text" class="form-control" [readonly]="isEdit" formControlName="name" data-toggle="tooltip" data-placement="right"
-                title="Enter Product Name">
+<form [formGroup]="formGroupInstance" class="dialog-content">
+    <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" class="form-control" [readonly]="isEdit" formControlName="name" data-toggle="tooltip"
+            data-placement="right" title="Enter Product Name">
 
-        </div>
-        <div class="form-group">
-            <label for="name">Product Description</label>
-            <input type="text" class="form-control" formControlName="description" data-toggle="tooltip"
-                data-placement="right" title="Enter Product Description">
-        </div>
+    </div>
+    <div class="form-group">
+        <label for="name">Product Description</label>
+        <input type="text" class="form-control" formControlName="description" data-toggle="tooltip"
+            data-placement="right" title="Enter Product Description">
+    </div>
 
-        <div class="form-group">
-            <label for="productCategoryId">Product Category</label>
-            <select class="form-control" #productCategory formControlName="category" data-toggle="tooltip" data-placement="right" title="Select Product category">
-                <option value="null">--Select Category--</option>
-                <option *ngFor="let category of productCategories" value="{{category}}">{{category}}</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-success btn-block">Submit</button>
-    </form>
-</mat-dialog-content>
+    <div class="form-group">
+        <label for="productCategoryId">Product Category</label>
+        <select class="form-control" #productCategory formControlName="category" data-toggle="tooltip"
+            data-placement="right" title="Select Product category">
+            <option value="null">--Select Category--</option>
+            <option *ngFor="let category of productCategories" value="{{category}}">{{category}}</option>
+        </select>
+    </div>
+</form>
+<div class="dialog-footer-bottom-stretch">
+    <button type="submit" class="btn btn-success btn-block" (click)="onSubmit()">Submit</button>
+</div>

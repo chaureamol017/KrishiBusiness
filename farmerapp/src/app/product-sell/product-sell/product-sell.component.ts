@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialogRef, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { TopBarButton } from '../../shared/model/top-bar-button';
 import { ProductBidComponent } from '../product-bid/product-bid.component';
 import { DialogService } from '../../services/dialog.service';
@@ -7,24 +7,28 @@ import { FarmerProductService } from '../../services/farmer-product.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { AddEditFarmerProductComponent } from '../add-edit-farmer-product/add-edit-farmer-product.component';
 import { FarmerProduct } from 'src/app/model/farmer-product';
+import { DialogData } from 'src/app/model/dialog-data';
 
 @Component({
   selector: 'app-product-sell',
   templateUrl: './product-sell.component.html',
-  styleUrls: ['./product-sell.component.scss']
+  styleUrls: ['./product-sell.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 export class ProductSellComponent implements OnInit {
   buttons: TopBarButton[] = [
     { title: 'Add Product', action: 'create', icon: 'add' }
   ];
 
-  listData: MatTableDataSource<any>;
+  listData: MatTableDataSource<FarmerProduct>;
   displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'soldOn', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
 
-  dataSource = [];
+  dataSource: FarmerProduct[] = [];
 
   constructor(
     private snackBarService: SnackBarService,
@@ -104,11 +108,21 @@ export class ProductSellComponent implements OnInit {
   }
 
   addProduct() {
-    this.dialogService.openDialog(AddEditFarmerProductComponent, {}, false);
+    const ref: MatDialogRef<any, DialogData> = this.dialogService.openDialog(AddEditFarmerProductComponent, {}, false);
+    ref.afterClosed().subscribe((response: DialogData) => {
+      if (response && response.success && response.action == 'SAVE') {
+        this.getProducts();
+      }
+    });
   }
 
   editProduct(row: FarmerProduct) {
-    this.dialogService.openDialogAtRight(AddEditFarmerProductComponent, row, true);
+    const ref: MatDialogRef<any, DialogData> = this.dialogService.openDialogAtRight(AddEditFarmerProductComponent, row, true);
+    ref.afterClosed().subscribe((response: DialogData) => {
+      if (response && response.success && response.action == 'SAVE') {
+        this.getProducts();
+      }
+    });
   }
 
   viewBidProduct(row: FarmerProduct, isEdit) {
