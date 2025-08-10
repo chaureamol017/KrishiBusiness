@@ -5,6 +5,8 @@ import { UserDetails } from '../../model/user-details';
 import { DialogService } from '../../services/dialog.service';
 import { AddEditProductBidComponent } from '../add-edit-product-bid/add-edit-product-bid.component';
 import { FarmerProductService } from '../../services/farmer-product.service';
+import { FarmerProduct } from 'src/app/model/farmer-product';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 
 @Component({
@@ -17,18 +19,16 @@ export class BuyProductComponent implements OnInit {
     // {title: 'Create', action: 'create', icon: 'add'}
   ];
 
-  @Input('loggedInUser') loggedInUser: UserDetails = new UserDetails();
-  userRole: any = "Buyer";
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['productName', 'productCategory', 'grade', 'description', 'user', 'city', 'dateTobeAvailable', 'sellingRate', 'actions'];
+  listData: MatTableDataSource<FarmerProduct>;
+  displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   searchKey: string;
 
-
-  dataSource = [];
+  dataSource: FarmerProduct[] = [];
 
   constructor(
+    private snackBarService: SnackBarService,
     private dialogService: DialogService,
     private farmerProductService: FarmerProductService,
   ) {
@@ -36,10 +36,7 @@ export class BuyProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userRole = localStorage.getItem("registrationFor");
-
     this.initializeAllComponents();
-
     this.getProducts();
   }
 
@@ -56,30 +53,17 @@ export class BuyProductComponent implements OnInit {
   }
 
   getProducts() {
-    this.farmerProductService.getAllUnsoldProducts()
-      .subscribe(
-        responseData => {
-          this.handleSuccessResponseForGet(responseData);
-        },
-        error => {
-          console.log("Error ocurred while processing.");
-        }
-      );
+    this.farmerProductService.getProductToBuy()
+      .subscribe((response: FarmerProduct[]) => this.handleGetSuccess(response),
+        error => this.snackBarService.notify());
   }
 
-  handleSuccessResponseForGet(responseData) {
-    if (responseData.success) {
-      var productDetails = eval("(" + responseData.data + ")");
+  handleGetSuccess(response: FarmerProduct[]) {
+    response.forEach(element => {
+      this.dataSource.push(element);
+    });
 
-      // this.dataSource.;
-      productDetails.forEach(element => {
-        this.dataSource.push(element);
-      });
-
-      this.initializeAllComponents();
-    } else {
-      alert("Error ocurred while processing.")
-    }
+    this.initializeAllComponents();
   }
 
   onSearchClear() {
@@ -97,12 +81,7 @@ export class BuyProductComponent implements OnInit {
     }
   }
 
-  addBidProduct(selectedData) {
-    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, false);
+  addEditBidForProduct(selectedData) {
+    this.dialogService.openDialog(AddEditProductBidComponent, selectedData);
   }
-
-  editBidProduct(selectedData) {
-    this.dialogService.openDialog(AddEditProductBidComponent, selectedData, true);
-  }
-
 }

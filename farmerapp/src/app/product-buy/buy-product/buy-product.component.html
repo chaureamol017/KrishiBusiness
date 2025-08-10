@@ -2,43 +2,46 @@
 
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData" matSort>
-        <ng-container matColumnDef="productName">
+        <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.productName}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.product ? element.product.name : ''}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="productCategory">
+        <ng-container matColumnDef="category">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.productCategoryId}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="grade">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Grade</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.productGradeId}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.product ? element.product.category : ''}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="description">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.product ? element.product.description : ''}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="additional_description">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Additional Description</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="user">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.firstName}} {{element.lastName}}</mat-cell>
+        <ng-container matColumnDef="quantity">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.quantity}} {{element.quantityUnit}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="pricePerUnit">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Price Per Unit</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.pricePerUnit}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="expectedPrice">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Expected Price Per Unit</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.expectedPricePerUnit}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="city">
             <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.city}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="dateTobeAvailable">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Date To be Available</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.dateTobeAvailable}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="sellingRate">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Selling Rate</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.sellingRate}}</mat-cell>
+        <ng-container matColumnDef="addedOn">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Added On</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.addedOn}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button color="warn"
-                    (click)="addBidProduct(row)"><mat-icon>dvr</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="addEditBidForProduct(row)"><mat-icon>monetization_on</mat-icon></button>
             </mat-cell>
         </ng-container>
         <ng-container *ngIf=matColumnDef="loading">

@@ -4,7 +4,7 @@ export interface FarmerProduct {
 	farmerProductId: number,
 	userId: number,
 	productId: number,
-	produc: Product,
+	product: Product,
 	description: string,
 	quantity: number,
 	quantityUnit: String,

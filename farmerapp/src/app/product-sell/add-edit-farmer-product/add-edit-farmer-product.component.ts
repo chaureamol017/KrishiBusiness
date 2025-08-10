@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FarmerProductService } from '../../services/farmer-product.service';
-import { FormValidationService } from '../../services/form-validation.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { ProductService } from 'src/app/services/product.service';

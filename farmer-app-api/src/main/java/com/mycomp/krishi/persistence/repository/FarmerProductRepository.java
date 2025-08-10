@@ -11,5 +11,6 @@ import java.util.List;
 public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Long> {
     List<FarmerProduct> findByUserId(Long userId);
     List<FarmerProduct> findByUserIdNot(Long userId);
+    List<FarmerProduct> findByUserIdNotAndSoldIsFalseOrSoldIsNull(Long userId);
 }
 

@@ -1,71 +1,114 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { FormValidationService } from '../../services/form-validation.service';
 import { ProductBidService } from '../../services/product-bid.service';
+import { FarmerProduct } from 'src/app/model/farmer-product';
+import { FarmerProductBid, FarmerProductBidRequest } from 'src/app/model/farmer-product-bid.model';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { CommonUtil } from 'src/app/util/common.util';
+import { DialogAction, DialogData } from 'src/app/model/dialog-data';
+import { ApiResponse } from 'src/app/model/api-response.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-product-bid',
   templateUrl: './add-edit-product-bid.component.html',
-  styleUrls: ['./add-edit-product-bid.component.scss']
+  styleUrls: ['./add-edit-product-bid.component.scss'],
+  host: {
+    'class': 'flex-column-stretch-gap',
+  }
 })
 export class AddEditProductBidComponent implements OnInit {
+  productBidForm: FormGroup;
+  formTitle: string = 'Bid for product';
+  selectedProduct: FarmerProduct;
+  existingBid: FarmerProductBid;
 
-
-  productBidform: FormGroup;
-  selectedData: any;
-  selectedProductName: any;
-  formTitle: any = "Bid For";
   constructor(
+    private snackBarService: SnackBarService,
     private productBidService: ProductBidService,
-    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<AddEditProductBidComponent>
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    var refData = this.dialogRef._containerInstance._config.data;
-    this.selectedData = refData.selectedData;
-    this.selectedProductName = this.selectedData.productName;
+    const refData = this.dialogRef._containerInstance._config.data;
+    this.selectedProduct = refData.selectedData;
+    this.productBidForm = this.getProductBidFormGroup();
+    this.formTitle = 'Bid for ' + this.selectedProduct.product.name;
+    this.checkExistingBid();
+  }
 
-    if (refData.isEdit) {
-      var selectedBidData = refData.selectedBidData;
-      this.productBidform = this.validationService.getEditProductBidFormGroup(selectedBidData);
-    } else {
-      this.productBidform = this.validationService.getAddProductBidFormGroup();
+  getProductBidFormGroup(): FormGroup {
+    return new FormGroup({
+      bidAmount: new FormControl('', [Validators.required])
+    });
+  }
+
+  checkExistingBid() {
+    const productId: number = this.selectedProduct.productId;
+    this.productBidService.getBid(productId).subscribe(
+      (response: FarmerProductBid) => this.handleGetSuccess(response),
+      error => this.handleError(error, 'Error occurred while fetching existing bid.')
+    );
+  }
+
+  handleGetSuccess(response: FarmerProductBid): void {
+    if (response) {
+      this.existingBid = response;
+      this.productBidForm.setValue({ 'bidAmount': response.quotedPricePerUnit });
     }
   }
-  
-  saveProductBid(productBidform) {
-    var productBidDetails = productBidform.value;
-    var userId: string = localStorage.getItem("userId");
 
-    var product = {
-      buyerId: userId,
-      productBidId: (this.selectedData.productBidId) ? this.selectedData.productBidId : "",
-      productId: (this.selectedData.productId) ? this.selectedData.productId : "",
-      biddingRate: (productBidDetails.bidAmount) ? productBidDetails.bidAmount : "",
-    }
-    this.productBidService.saveProductBid(product).subscribe(
-      responseData => {
-        this.handleSuccessResponse(responseData);
-      },
-      error => {
-        alert("Error ocurred while processing.");
+  handleError(error: any, message?: string): void {
+    this.snackBarService.notify(message)
+  }
+
+  saveProductBid() {
+    const productBidDetails = this.productBidForm.value;
+    const userId: number = CommonUtil.parseToInt(localStorage.getItem("userId"));
+    const productId: number = this.selectedProduct.farmerProductId;
+    const bidAmount: number = CommonUtil.parseToInt(productBidDetails.bidAmount);
+
+    let observable: Observable<ApiResponse<FarmerProductBid>>;
+    if (this.existingBid) {
+      const request: FarmerProductBidRequest = {
+        farmerProductBidId: this.existingBid.farmerProductBidId,
+        farmerProductId: productId,
+        buyerUserId: userId,
+        quotedPricePerUnit: bidAmount,
+        bidOn: new Date()
       }
+      observable = this.productBidService.updateProductBid(request)
+    } else {
+      const request: FarmerProductBidRequest = {
+        farmerProductId: productId,
+        buyerUserId: userId,
+        quotedPricePerUnit: bidAmount,
+        bidOn: new Date()
+      }
+      observable = this.productBidService.saveProductBid(request)
+    }
+    observable.subscribe(
+      (response: ApiResponse<FarmerProductBid>) => this.handleSaveSuccess(response),
+      error => this.handleError(error)
     )
   }
 
-  
-  handleSuccessResponse(responseData) {
-    if (responseData.success) {
-      alert("Product bid saved successfully.");
-      this.closeDialog();
+  handleSaveSuccess(response: ApiResponse<FarmerProductBid>) {
+    if (response.success) {
+      this.snackBarService.notify("Product bid saved successfully.");
+      this.closeDialog('SAVE', true);
     } else {
-      alert("Error ocurred while processing.");
+      this.snackBarService.notify("Error occurred while saving product bid.");
     }
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  closeDialog(action: DialogAction, success?: boolean) {
+    const data: DialogData = {
+      action: action,
+      success: success
+    };
+    this.dialogRef.close(data);
   }
 }

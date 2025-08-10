@@ -56,7 +56,7 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 
 	@Override
 	public List<FarmerProductModel> getForSeller(Long userId) {
-		final List<FarmerProduct> entities = repository.findByUserIdNot(userId);
+		final List<FarmerProduct> entities = repository.findByUserIdNotAndSoldIsFalseOrSoldIsNull(userId);
 
 		return modelAdapter.toModel(entities);
 	}

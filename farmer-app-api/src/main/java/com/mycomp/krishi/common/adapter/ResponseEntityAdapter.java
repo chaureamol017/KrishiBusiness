@@ -12,7 +12,7 @@ public class ResponseEntityAdapter<I, R, M> {
         this.webAdaptor = webAdaptor;
     }
 
-    public ResponseEntity<List<R>> createResponseEntity(List<M> models) {
+    public ResponseEntity<List<R>> createResponseEntity(List<M> models, Boolean successIfNull) {
         if (models != null) {
             final List<R> response = webAdaptor.toWeb(models);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -21,12 +21,17 @@ public class ResponseEntityAdapter<I, R, M> {
         }
     }
 
-    public ResponseEntity<R> createResponseEntity(M model) {
+    public ResponseEntity<R> createResponseEntity(M model, Boolean successIfNull) {
         if (model != null) {
             final R response = webAdaptor.toWeb(model);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return toResponseEntity(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            final HttpStatus httpStatus = successIfNull ?  HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(null, httpStatus);
         }
+    }
+
+    private <R> ResponseEntity<R> toResponseEntity(R response, HttpStatus httpStatus) {
+        return new ResponseEntity<>(response, httpStatus);
     }
 }

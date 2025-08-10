@@ -15,7 +15,7 @@ import com.mycomp.krishi.user.model.ChangePasswordRequestModel;
 import com.mycomp.krishi.user.model.ResetPasswordRequestModel;
 import com.mycomp.krishi.user.model.SignupRequestModel;
 import com.mycomp.krishi.user.model.UserModel;
-import com.mycomp.krishi.user.requests.ApiResponse;
+import com.mycomp.krishi.user.requests.AuthApiResponse;
 import com.mycomp.krishi.user.requests.ChangePasswordRequestParams;
 import com.mycomp.krishi.user.requests.ResetPasswordRequestParams;
 import com.mycomp.krishi.user.requests.SignupRequestParams;
@@ -24,7 +24,6 @@ import com.mycomp.krishi.user.service.UserLoginSignupService;
 
 import java.util.Map;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,14 +52,14 @@ public class UserAuthController {
 	private UserLoginSignupService userLoginSignupService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<ApiResponse> signupUser(@RequestBody SignupRequestParams requestParams) {
-		ApiResponse response;
+	public ResponseEntity<AuthApiResponse> signupUser(@RequestBody SignupRequestParams requestParams) {
+		AuthApiResponse response;
 		try {
 			SignupRequestModel model = webAdapter.toModel(requestParams);
 			Boolean success = userLoginSignupService.signupUser(model);
-			response = new ApiResponse(success, (success ? "SUCCESS" : "FAILURE"));
+			response = new AuthApiResponse(success, (success ? "SUCCESS" : "FAILURE"));
 		} catch (RuntimeException ex) {
-			response = new ApiResponse(false, ex.getMessage());
+			response = new AuthApiResponse(false, ex.getMessage());
 		}
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}

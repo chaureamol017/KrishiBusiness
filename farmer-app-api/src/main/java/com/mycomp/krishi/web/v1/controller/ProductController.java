@@ -41,7 +41,7 @@ public class ProductController {
 		final ProductModel model = webAdapter.toModel(requestWeb);
 		final ProductModel responseModel = service.save(model);
 
-		return responseEntityAdapter.createResponseEntity(responseModel);
+		return responseEntityAdapter.createResponseEntity(responseModel, false);
 	}
 
 	@PutMapping()
@@ -49,21 +49,21 @@ public class ProductController {
 		final ProductModel model = webAdapter.toModel(requestWeb);
 		final ProductModel responseModel = service.update(model);
 
-		return responseEntityAdapter.createResponseEntity(responseModel);
+		return responseEntityAdapter.createResponseEntity(responseModel, false);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductResponse> getById(@PathVariable(value = "id") final Long id) {
 		final ProductModel model = service.getById(id);
 
-		return responseEntityAdapter.createResponseEntity(model);
+		return responseEntityAdapter.createResponseEntity(model, false);
 	}
 
 	@GetMapping(value = "/all")
 	public ResponseEntity<List<ProductResponse>> getAll() {
 		final List<ProductModel> models = service.getAll();
 
-		return responseEntityAdapter.createResponseEntity(models);
+		return responseEntityAdapter.createResponseEntity(models, false);
 	}
 
 	@DeleteMapping(value = "/{id}")

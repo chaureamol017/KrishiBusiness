@@ -1,10 +1,10 @@
 package com.mycomp.krishi.user.requests;
 
-public class ApiResponse {
+public class AuthApiResponse {
     private Boolean success;
     private String message;
 
-    public ApiResponse(Boolean success, String message) {
+    public AuthApiResponse(Boolean success, String message) {
         this.success = success;
         this.message = message;
     }

@@ -29,7 +29,7 @@ export class ProductBidComponent implements OnInit {
 
     this.initializeAllComponents();
 
-    this.getProductBid();
+    // this.getProductBid();
   }
   initializeAllComponents() {
     this.listData = new MatTableDataSource(this.dataSource);
@@ -41,36 +41,36 @@ export class ProductBidComponent implements OnInit {
     this.selectedProductName = this.selectedData.productName;
   }
 
-  getProductBid() {
-    if (localStorage.getItem("registrationFor") == "Farmer") {
-      this.getProductBidForFarmer();
-    } else {
-      this.getProductBidForBuyer();
-    }
-  }
-  getProductBidForBuyer() {
-    var productId = this.selectedData.productId;
-    this.productBidService.getProductBid(productId).subscribe(
-      responseData => {
-        this.handleSuccessResponseForGet(responseData);
-      },
-      error => {
-        console.log("Error ocurred while processing.");
-      }
-    );
-  }
+  // getProductBid() {
+  //   if (localStorage.getItem("registrationFor") == "Farmer") {
+  //     this.getProductBidForFarmer();
+  //   } else {
+  //     this.getProductBidForBuyer();
+  //   }
+  // }
+  // getProductBidForBuyer() {
+  //   var productId = this.selectedData.productId;
+  //   this.productBidService.getProductBid(productId).subscribe(
+  //     responseData => {
+  //       this.handleSuccessResponseForGet(responseData);
+  //     },
+  //     error => {
+  //       console.log("Error ocurred while processing.");
+  //     }
+  //   );
+  // }
 
-  getProductBidForFarmer() {
-    var productId = this.selectedData.productId;
-    this.productBidService.getProductBid(productId).subscribe(
-      responseData => {
-        this.handleSuccessResponseForGet(responseData);
-      },
-      error => {
-        console.log("Error ocurred while processing.");
-      }
-    );
-  }
+  // getProductBidForFarmer() {
+  //   var productId = this.selectedData.productId;
+  //   this.productBidService.getProductBid(productId).subscribe(
+  //     responseData => {
+  //       this.handleSuccessResponseForGet(responseData);
+  //     },
+  //     error => {
+  //       console.log("Error ocurred while processing.");
+  //     }
+  //   );
+  // }
 
   handleSuccessResponseForGet(responseData) {
     if (responseData.success) {

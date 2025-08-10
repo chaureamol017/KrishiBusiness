@@ -23,6 +23,9 @@ import { AddEditProductBidComponent } from './add-edit-product-bid/add-edit-prod
   ],
   exports: [
     BuyProductComponent,
-  ]
+  ],
+  entryComponents: [
+    AddEditProductBidComponent,
+  ],
 })
 export class ProductBuyModule { }

@@ -16,27 +16,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 
-	private ModelAdapter<FarmerProductBidModel, FarmerProductBid> modelAdapter = FarmerProductBidModelAdapter.INSTANCE;
-	@Autowired private FarmerProductBidRepository repository;
+	private final ModelAdapter<FarmerProductBidModel, FarmerProductBid> modelAdapter = FarmerProductBidModelAdapter.INSTANCE;
+	private final FarmerProductBidRepository repository;
+
+	@Autowired
+	public FarmerProductBidServiceImpl(FarmerProductBidRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public FarmerProductBidModel save(final FarmerProductBidModel model) {
+		final FarmerProductBidModel existingBid =  getBid(model.getBuyerUserId(), model.getFarmerProductId());
+		if (existingBid != null) {
+			throw new RuntimeException("You already have bid for this product.");
+		}
 		final FarmerProductBid entityToSave = modelAdapter.toEntityMinimal(model);
 		final FarmerProductBid savedEntity = repository.save(entityToSave);
 
 		final FarmerProductBidModel result = modelAdapter.toModel(savedEntity);
-
 		return result;
 	}
+
 	@Override
 	public FarmerProductBidModel update(final FarmerProductBidModel model) {
 		final FarmerProductBid entityToUpdate = modelAdapter.toEntity(model);
 		final FarmerProductBid savedEntity = repository.saveAndFlush(entityToUpdate);
 
 		final FarmerProductBidModel result = modelAdapter.toModel(savedEntity);
-
 		return result;
 	}
+
 	@Override
 	public FarmerProductBidModel getById(final Long productId) {
 		final Optional<FarmerProductBid> optionalEntity = repository.findById(productId);
@@ -46,12 +55,14 @@ public class FarmerProductBidServiceImpl implements FarmerProductBidService {
 		}
 		return null;
 	}
-	@Override
-	public List<FarmerProductBidModel> getAll() {
-		final List<FarmerProductBid> entities = repository.findAll();
 
-		return modelAdapter.toModel(entities);
+	@Override
+	public FarmerProductBidModel getBid(Long buyerUserId, Long farmerProductId) {
+		final List<FarmerProductBid> entities = repository.findByBuyerUserIdAndFarmerProductId(buyerUserId, farmerProductId);
+
+		return entities.isEmpty() ? null : modelAdapter.toModel(entities.get(0));
 	}
+
 	@Override
 		public Boolean deleteById(final Long id) {
 		repository.deleteById(id);

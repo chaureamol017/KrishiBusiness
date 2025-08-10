@@ -9,7 +9,7 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  openDialog(dialogComponent, selectedData, isEdit: boolean): MatDialogRef<any, DialogData> {
+  openDialog(dialogComponent, selectedData, isEdit?: boolean): MatDialogRef<any, DialogData> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "40%";
@@ -17,7 +17,7 @@ export class DialogService {
     return this.open(dialogComponent, dialogConfig, selectedData, isEdit);
   }
 
-  openDialogAtRight(dialogComponent, selectedData, isEdit: boolean): MatDialogRef<any, DialogData> {
+  openDialogAtRight(dialogComponent, selectedData, isEdit?: boolean): MatDialogRef<any, DialogData> {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
@@ -27,7 +27,7 @@ export class DialogService {
     return this.open(dialogComponent, dialogConfig, selectedData, isEdit);
   }
 
-  private open(dialogComponent, dialogConfig: MatDialogConfig, selectedData, isEdit: boolean): MatDialogRef<any, DialogData> {
+  private open(dialogComponent, dialogConfig: MatDialogConfig, selectedData, isEdit?: boolean): MatDialogRef<any, DialogData> {
     dialogConfig.data = {
       selectedData: selectedData,
       isEdit: isEdit
