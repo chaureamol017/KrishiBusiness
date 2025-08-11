@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserApiService } from '../../../services/user-api.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-bank-details',
@@ -13,6 +14,7 @@ export class BankDetailsComponent implements OnInit {
   bankDetailsForm;
 
   constructor(
+    private localStorageService: LocalStorageService,
     private userApiService: UserApiService
   ) {
     this.createBankDetailsFormControl("", "", "", "");
@@ -45,7 +47,7 @@ export class BankDetailsComponent implements OnInit {
   }
 
   saveBankDetailsForm(bankDetailsForm) {
-    var userId: string = localStorage.getItem("userId");
+    var userId: number = this.localStorageService.getUserId();
     var userBankDetailsId = bankDetailsForm.value.userBankDetailsId;
     var bankName = bankDetailsForm.value.bankName;
     var branchName = bankDetailsForm.value.branchName;

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class UserApiService {
   addressEndpoint: any = "addressdetails";
 
   constructor(
+    private localStorageService: LocalStorageService,
     private httpCllient: HttpClient
   ) { }
 
@@ -24,7 +26,7 @@ export class UserApiService {
   }
 
   changePassword(oldPassword, newPassword): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
+    var userId: number = this.localStorageService.getUserId();
     var userData = {
       userId: userId,
       oldPassword: oldPassword,
@@ -43,7 +45,7 @@ export class UserApiService {
   }
 
   getBankDetails(): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
+    var userId: number = this.localStorageService.getUserId();
     var parameters = "userId=" + userId;
     var url = this.serverUrl + this.bankEndpoint + "?" + parameters;
 
@@ -57,7 +59,7 @@ export class UserApiService {
   }
 
   getAddressDetails(): Observable<any> {
-    var userId: string = localStorage.getItem("userId");
+    var userId: number = this.localStorageService.getUserId();
     var parameters = "userId=" + userId;
     var url = this.serverUrl + this.addressEndpoint + "?" + parameters;
 

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { ProductBidService } from '../../services/product-bid.service';
+import { Observable } from 'rxjs';
+import { ApiResponse } from '../../model/api-response.model';
+import { DialogAction, DialogData } from '../../model/dialog-data';
 import { FarmerProduct } from '../../model/farmer-product';
 import { FarmerProductBid, FarmerProductBidRequest } from '../../model/farmer-product-bid.model';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { ProductBidService } from '../../services/product-bid.service';
 import { SnackBarService } from '../../services/snack-bar.service';
 import { CommonUtil } from '../../util/common.util';
-import { DialogAction, DialogData } from '../../model/dialog-data';
-import { ApiResponse } from '../../model/api-response.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-product-bid',
@@ -26,6 +27,7 @@ export class AddEditProductBidComponent implements OnInit {
 
   constructor(
     private snackBarService: SnackBarService,
+    private localStorageService: LocalStorageService,
     private productBidService: ProductBidService,
     private dialogRef: MatDialogRef<AddEditProductBidComponent>
   ) {
@@ -60,13 +62,13 @@ export class AddEditProductBidComponent implements OnInit {
     }
   }
 
-  handleError(error: any, message?: string): void {
+  handleError(_error: any, message?: string): void {
     this.snackBarService.notify(message)
   }
 
   saveProductBid() {
     const productBidDetails = this.productBidForm.value;
-    const userId: number = CommonUtil.parseToInt(localStorage.getItem("userId"));
+    const userId: number = this.localStorageService.getUserId();
     const productId: number = this.selectedProduct.farmerProductId;
     const bidAmount: number = CommonUtil.parseToInt(productBidDetails.bidAmount);
 

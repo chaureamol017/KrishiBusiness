@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FarmerProductService } from '../../services/farmer-product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SnackBarService } from '../../services/snack-bar.service';
-import { ProductService } from '../../services/product.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { DialogAction, DialogData } from '../../model/dialog-data';
+import { FarmerProduct, FarmerProductRequest } from '../../model/farmer-product';
 import { Product } from '../../model/product';
 import { QunatityUnit } from '../../model/quantity-unit.enum';
-import { FarmerProduct, FarmerProductRequest } from '../../model/farmer-product';
-import { Observable } from 'rxjs';
+import { FarmerProductService } from '../../services/farmer-product.service';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { ProductService } from '../../services/product.service';
+import { SnackBarService } from '../../services/snack-bar.service';
 import { CommonUtil } from '../../util/common.util';
-import { DialogAction, DialogData } from '../../model/dialog-data';
 
 @Component({
   selector: 'app-add-edit-farmer-product',
@@ -30,6 +31,7 @@ export class AddEditFarmerProductComponent implements OnInit {
 
   constructor(
     private snackBarService: SnackBarService,
+    private localStorageService: LocalStorageService,
     private productService: ProductService,
     private farmerProductService: FarmerProductService,
     private dialogRef: MatDialogRef<AddEditFarmerProductComponent>
@@ -119,7 +121,7 @@ export class AddEditFarmerProductComponent implements OnInit {
 
   getProductForSave(): FarmerProductRequest {
     const productDetails = this.productDetailsform.value;
-    const userId: number = parseInt(localStorage.getItem('userId'));
+    const userId: number = this.localStorageService.getUserId();
     const productId: number = CommonUtil.parseToInt(productDetails.productId);
     const quantity: number = CommonUtil.parseToInt(productDetails.quantity);
     const pricePerUnit: number = CommonUtil.parseToInt(productDetails.pricePerUnit);

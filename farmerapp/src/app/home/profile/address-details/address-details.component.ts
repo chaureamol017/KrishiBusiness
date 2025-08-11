@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserApiService } from '../../../services/user-api.service';
+import { LocalStorageService } from '../../../services/local-storage.service';
 
 @Component({
   selector: 'app-address-details',
@@ -13,6 +14,7 @@ export class AddressDetailsComponent implements OnInit {
   addressDetailsForm;
 
   constructor(
+    private localStorageService: LocalStorageService,
     private userApiService: UserApiService
   ) {
 
@@ -48,10 +50,10 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   saveAddressDetailsForm(addressDetailsForm) {
-    var userId: string = localStorage.getItem("userId");
-    var addressDetails = addressDetailsForm.value;
+    const userId = this.localStorageService.getUserId();
+    const addressDetails = addressDetailsForm.value;
 
-    var addressDetailsData = {
+    const addressDetailsData = {
       userId: userId,
       userAddressDetailsId: (addressDetails.userAddressDetailsId) ? addressDetails.userAddressDetailsId : "",
       addressLine1: (addressDetails.addressLine1) ? addressDetails.addressLine1 : "",
@@ -75,16 +77,16 @@ export class AddressDetailsComponent implements OnInit {
 
   handleSuccessResponseForGet(responseData) {
     if (responseData.success) {
-      var addressDetails = eval("(" + responseData.data + ")");
+      const addressDetails = eval("(" + responseData.data + ")");
 
-      var userAddressDetailsId = (addressDetails.userAddressDetailsId) ? addressDetails.userAddressDetailsId : "";
-      var addressLine1 = (addressDetails.addressLine1) ? addressDetails.addressLine1 : "";
-      var addressLine2 = (addressDetails.addressLine2) ? addressDetails.addressLine2 : "";
-      var locality = (addressDetails.locality) ? addressDetails.locality : "";
-      var cityName = (addressDetails.cityName) ? addressDetails.cityName : "";
-      var tahsilName = (addressDetails.tahsilName) ? addressDetails.tahsilName : "";
-      var stateName = (addressDetails.stateName) ? addressDetails.stateName : "";
-      var pincode = (addressDetails.pincode) ? addressDetails.pincode : "";
+      const userAddressDetailsId = (addressDetails.userAddressDetailsId) ? addressDetails.userAddressDetailsId : "";
+      const addressLine1 = (addressDetails.addressLine1) ? addressDetails.addressLine1 : "";
+      const addressLine2 = (addressDetails.addressLine2) ? addressDetails.addressLine2 : "";
+      const locality = (addressDetails.locality) ? addressDetails.locality : "";
+      const cityName = (addressDetails.cityName) ? addressDetails.cityName : "";
+      const tahsilName = (addressDetails.tahsilName) ? addressDetails.tahsilName : "";
+      const stateName = (addressDetails.stateName) ? addressDetails.stateName : "";
+      const pincode = (addressDetails.pincode) ? addressDetails.pincode : "";
 
       this.createAddressDetailsFormControl(userAddressDetailsId, addressLine1, addressLine2, locality, cityName,
         tahsilName, stateName, pincode);

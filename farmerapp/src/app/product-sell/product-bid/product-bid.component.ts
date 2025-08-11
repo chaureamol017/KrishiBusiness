@@ -4,8 +4,8 @@ import { ProductBidService } from '../../services/product-bid.service';
 import { FarmerProduct } from '../../model/farmer-product';
 import { FarmerProductBid, FarmerProductBUyer, ViewFarmerProductBid } from '../../model/farmer-product-bid.model';
 import { SnackBarService } from '../../services/snack-bar.service';
-import { ApiResponse } from 'src/app/model/api-response.model';
-import { DialogAction, DialogData } from 'src/app/model/dialog-data';
+import { ApiResponse } from '../../model/api-response.model';
+import { DialogAction, DialogData } from '../../model/dialog-data';
 
 @Component({
   selector: 'app-product-bid',

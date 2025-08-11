@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDetails } from '../model/user-details';
+import { CommonUtil } from '../util/common.util';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,11 @@ export class LocalStorageService {
   }
 
   isAdminUser(): boolean {
-    return this.isLoggedIn() && this.getItemFromLocalStorage("role").toLocaleUpperCase() == 'ADMIN';
+    return this.isLoggedIn() && this.getRole().toLocaleUpperCase() == 'ADMIN';
   }
 
-  getUserId(): string {
-    return this.getItemFromLocalStorage("userId");
+  getUserId(): number {
+    return CommonUtil.parseToInt(this.getItemFromLocalStorage("userId"));
   }
 
   getRole(): string {
@@ -57,6 +58,10 @@ export class LocalStorageService {
 
   getEmailId(): string {
     return this.getItemFromLocalStorage("emailId");
+  }
+
+  getMobile(): string {
+    return this.getItemFromLocalStorage("mobile");
   }
 
 

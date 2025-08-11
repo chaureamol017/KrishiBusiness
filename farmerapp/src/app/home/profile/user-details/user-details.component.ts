@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LocalStorageService } from '../../../services/local-storage.service';
 import { UserApiService } from '../../../services/user-api.service';
 
 @Component({
@@ -13,13 +14,14 @@ export class UserDetailsComponent implements OnInit {
   userDetailsForm;
 
   constructor(
+    private localStorageService: LocalStorageService,
     private userApiService: UserApiService
   ) {
-    var firstName = localStorage.getItem("firstName") ? localStorage.getItem("firstName") : "";
-    var middleName = localStorage.getItem("middleName") ? localStorage.getItem("middleName") : "";
-    var lastName = localStorage.getItem("lastName") ? localStorage.getItem("lastName") : "";
-    var emailId = localStorage.getItem("emailId") ? localStorage.getItem("emailId") : "";
-    var mobile = localStorage.getItem("mobile") ? localStorage.getItem("mobile") : "";
+    const firstName = this.localStorageService.getFirstName();
+    const middleName = this.localStorageService.getMiddleName();
+    const lastName = this.localStorageService.getLastName();
+    const emailId = this.localStorageService.getEmailId();
+    const mobile = this.localStorageService.getMobile();
 
     this.userDetailsForm = new FormGroup({
       firstName: new FormControl(firstName, [Validators.required]),
@@ -34,10 +36,10 @@ export class UserDetailsComponent implements OnInit {
   }
 
   saveUserDetailsForm(userDetailsForm) {
-    var userId: string = localStorage.getItem("userId");
-    var registrationFor = localStorage.getItem("registrationFor");
+    const userId: number = this.localStorageService.getUserId();
+    const registrationFor: string = this.localStorageService.getRole();
 
-    var userDetailsData = {
+    const userDetailsData = {
       userId: userId,
       registrationFor: registrationFor,
       firstName: (userDetailsForm.value.firstName) ? userDetailsForm.value.firstName : "",

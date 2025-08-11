@@ -38,7 +38,7 @@ export class ProductBidService {
   }
 
   getBidForProductByUser(productId: number): Observable<FarmerProductBid> {
-    const userId = this.localStorageService.getUserId();
+    const userId: number = this.localStorageService.getUserId();
     const url = this.serverUrl + this.apiEndpoint + `/user/${userId}/product/${productId}`;
     return this.httpCllient.get<FarmerProductBid>(url);
   }
