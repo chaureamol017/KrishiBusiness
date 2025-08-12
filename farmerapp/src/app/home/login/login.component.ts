@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material';
 import { UserDetails } from '../../model/user-details';
 import { UserAuthService } from '../../services/user-auth.service';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { FormValidationService } from '../../services/form-validation.service';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -21,15 +21,15 @@ export class LoginComponent implements OnInit {
   loggedInUser: UserDetails = new UserDetails();
 
   constructor(
+    private snackBarService: SnackBarService,
     private localStorageService: LocalStorageService,
     private adminApiService: UserAuthService,
-    private validationService: FormValidationService,
     private dialogRef: MatDialogRef<LoginComponent>,
   ) {
   }
 
   ngOnInit() {
-    this.loginForm = this.validationService.getMyLoginFormGroup();
+    this.loginForm = this.getMyLoginFormGroup();
   }
 
   validateLogin(loginData) {
@@ -37,21 +37,26 @@ export class LoginComponent implements OnInit {
       var userName = loginData.value.userName;
       var password = loginData.value.password;
       this.adminApiService.validateLogin(userName, password)
-        .subscribe(
-          responseData => {
-            if (responseData) {
-              this.loggedInUser = responseData;
-              this.localStorageService.onValidateCall(this.loggedInUser);
-              this.closeDialog();
-            } else {
-              alert("Email or password is incorrect")
-            }
-          },
-          error => {
-            alert("Error ocurred while processing.");
-          }
-        )
+        .subscribe(response => this.handleSuccess(response),
+          error => this.snackBarService.notify("Error ocurred while processing."));
     }
+  }
+
+  handleSuccess(response) {
+    if (response) {
+      this.loggedInUser = response;
+      this.localStorageService.onValidateCall(this.loggedInUser);
+      this.closeDialog();
+    } else {
+      this.snackBarService.notify("Email or password is incorrect", undefined, 4000)
+    }
+  }
+
+  getMyLoginFormGroup(): FormGroup {
+    return new FormGroup({
+        userName: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
+      });
   }
 
   closeDialog() {
