@@ -49,7 +49,7 @@ export class AdminReportComponent implements OnInit {
           this.report = response.data;
           this.buildCharts();
         } else {
-          this.errorMessage = (response && response.message) ? response.message : 'Failed to load report.';
+          this.errorMessage = (response && response.message) ? response.message.toString() : 'Failed to load report.';
         }
       },
       error => {

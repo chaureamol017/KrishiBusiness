@@ -52,7 +52,7 @@ export class SellerReportComponent implements OnInit {
           this.listData.paginator = this.paginator;
           this.buildCharts();
         } else {
-          this.errorMessage = (response && response.message) ? response.message : 'Failed to load report.';
+          this.errorMessage = (response && response.message) ? response.message.toString() : 'Failed to load report.';
         }
       },
       error => {
