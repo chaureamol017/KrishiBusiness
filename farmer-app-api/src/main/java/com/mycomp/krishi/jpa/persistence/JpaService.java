@@ -2,7 +2,7 @@ package com.mycomp.krishi.jpa.persistence;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

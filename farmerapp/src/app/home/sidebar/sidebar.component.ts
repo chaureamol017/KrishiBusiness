@@ -14,9 +14,10 @@ export class SidebarComponent implements OnInit {
   products: NavLink = { title: 'Products', icon: 'business', path: '/products', role: ['*'] };
   sellProducts: NavLink = { title: 'Sell Products', icon: 'shop', path: '/sell-products', role: ['SELLER'] };
   buyProducts: NavLink = { title: 'Buy Products', icon: 'store', path: '/buy-products', role: ['*'] };
+  reports: NavLink = { title: 'Reports', icon: 'assessment', path: '/reports', role: ['*'] };
   settings: NavLink = { title: 'Settings', icon: 'settings', path: '/settings', role: ['ADMIN'] };
   
-  allNavLinks: NavLink[] = [this.home, this.products, this.sellProducts, this.buyProducts, this.settings];
+  allNavLinks: NavLink[] = [this.home, this.products, this.sellProducts, this.buyProducts, this.reports, this.settings];
   navLinks: NavLink[] = [];
 
   constructor(

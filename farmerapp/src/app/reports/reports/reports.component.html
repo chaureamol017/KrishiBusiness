@@ -1,0 +1,22 @@
+<app-top-bar [name]="'Reports'"></app-top-bar>
+
+<div class="report-tabs">
+  <button mat-raised-button *ngIf="showAdminReport" [color]="activeTab === 'admin' ? 'primary' : ''"
+    (click)="setActiveTab('admin')">
+    Admin Overview
+  </button>
+  <button mat-raised-button *ngIf="showSellerReport" [color]="activeTab === 'seller' ? 'primary' : ''"
+    (click)="setActiveTab('seller')">
+    Seller Report
+  </button>
+  <button mat-raised-button *ngIf="showBuyerReport" [color]="activeTab === 'buyer' ? 'primary' : ''"
+    (click)="setActiveTab('buyer')">
+    Buyer Report
+  </button>
+</div>
+
+<div class="report-content">
+  <app-admin-report *ngIf="activeTab === 'admin'"></app-admin-report>
+  <app-seller-report *ngIf="activeTab === 'seller'"></app-seller-report>
+  <app-buyer-report *ngIf="activeTab === 'buyer'"></app-buyer-report>
+</div>

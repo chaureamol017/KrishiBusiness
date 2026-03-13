@@ -1,0 +1,76 @@
+<div *ngIf="report" class="report-container">
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-label">Total Listed</div>
+      <div class="card-value">{{ report.totalProductsListed }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Total Sold</div>
+      <div class="card-value sold">{{ report.totalProductsSold }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Unsold</div>
+      <div class="card-value unsold">{{ report.totalProductsUnsold }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Total Revenue</div>
+      <div class="card-value revenue">&#8377; {{ report.totalRevenue | number:'1.2-2' }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Avg Price/Unit</div>
+      <div class="card-value">&#8377; {{ report.averagePricePerUnit | number:'1.2-2' }}</div>
+    </div>
+  </div>
+
+  <h3>Product Details</h3>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+      <ng-container matColumnDef="productName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Product</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.productName }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.category }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.quantity }} {{ element.quantityUnit }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pricePerUnit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Price/Unit</mat-header-cell>
+        <mat-cell *matCellDef="let element">&#8377; {{ element.pricePerUnit | number:'1.2-2' }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.city }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="addedOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Added On</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.addedOn }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="soldOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sold On</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.soldOn }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="sold">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span [class]="element.sold ? 'status-sold' : 'status-unsold'">
+            {{ element.sold ? 'Sold' : 'Available' }}
+          </span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalValue">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Value</mat-header-cell>
+        <mat-cell *matCellDef="let element">&#8377; {{ element.totalValue | number:'1.2-2' }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+<div *ngIf="!report" class="loading">Loading seller report...</div>

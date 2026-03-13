@@ -13,6 +13,7 @@ import { MaterialModule } from './material/material.module';
 import { LocalStorageService } from './services/local-storage.service';
 import { ProductBuyModule } from './product-buy/product-buy.module';
 import { ProductSellModule } from './product-sell/product-sell.module';
+import { ReportsModule } from './reports/reports.module';
 
 @NgModule({
   schemas: [
@@ -35,6 +36,7 @@ import { ProductSellModule } from './product-sell/product-sell.module';
     ProductModule,
     ProductBuyModule,
     ProductSellModule,
+    ReportsModule,
   ],
   entryComponents: [
   ],

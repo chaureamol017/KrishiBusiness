@@ -1,0 +1,61 @@
+.report-container {
+  h3 {
+    margin: 16px 0 8px;
+  }
+}
+
+.summary-cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px 24px;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .card-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .card-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+
+    &.accepted {
+      color: #4caf50;
+    }
+
+    &.pending {
+      color: #ff9800;
+    }
+
+    &.spent {
+      color: #1976d2;
+    }
+  }
+}
+
+.status-accepted {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.status-pending {
+  color: #ff9800;
+  font-weight: 500;
+}
+
+.loading {
+  padding: 32px;
+  text-align: center;
+  color: #666;
+}

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycomp.krishi.persistence.entity.FarmerProductBid;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +16,19 @@ import java.util.List;
 public interface FarmerProductBidRepository extends JpaRepository<FarmerProductBid, Long> {
     List<FarmerProductBid> findByBuyerUserIdAndFarmerProductId(Long buyerUserId, Long farmerProductId);
     List<FarmerProductBid> findByFarmerProductId(Long farmerProductId);
+
+    long countByBuyerUserId(Long buyerUserId);
+    long countByBuyerUserIdAndAcceptedIsTrue(Long buyerUserId);
+
+    List<FarmerProductBid> findByBuyerUserId(Long buyerUserId);
+    List<FarmerProductBid> findByBuyerUserIdAndAcceptedIsTrue(Long buyerUserId);
+
+    @Query("SELECT COUNT(fpb) FROM FarmerProductBid fpb")
+    long countAllBids();
+
+    @Query("SELECT COUNT(fpb) FROM FarmerProductBid fpb WHERE fpb.accepted = true")
+    long countAllAcceptedBids();
+
     @Modifying
     @Transactional
     @Query("UPDATE FarmerProductBid fpb SET fpb.accepted = :accepted, fpb.acceptedOn =:acceptedOn WHERE fpb.farmerProductBidId = :productBidId")

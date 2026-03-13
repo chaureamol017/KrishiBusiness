@@ -1,0 +1,64 @@
+<div *ngIf="report" class="report-container">
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-label">Total Bids Placed</div>
+      <div class="card-value">{{ report.totalBidsPlaced }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Bids Accepted</div>
+      <div class="card-value accepted">{{ report.totalBidsAccepted }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Bids Pending</div>
+      <div class="card-value pending">{{ report.totalBidsPending }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Total Spent</div>
+      <div class="card-value spent">&#8377; {{ report.totalAmountSpent | number:'1.2-2' }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Avg Quoted Price</div>
+      <div class="card-value">&#8377; {{ report.averageQuotedPrice | number:'1.2-2' }}</div>
+    </div>
+  </div>
+
+  <h3>Bid Details</h3>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+      <ng-container matColumnDef="productName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Product</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.productName }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.category }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="quotedPricePerUnit">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Quoted Price/Unit</mat-header-cell>
+        <mat-cell *matCellDef="let element">&#8377; {{ element.quotedPricePerUnit | number:'1.2-2' }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="bidOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Bid Date</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.bidOn }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="acceptedOn">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Accepted On</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.acceptedOn }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="accepted">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span [class]="element.accepted ? 'status-accepted' : 'status-pending'">
+            {{ element.accepted ? 'Accepted' : 'Pending' }}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+<div *ngIf="!report" class="loading">Loading buyer report...</div>

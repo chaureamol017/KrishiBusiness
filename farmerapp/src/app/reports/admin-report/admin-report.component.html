@@ -1,0 +1,39 @@
+<div *ngIf="report" class="report-container">
+  <h3>Platform Overview</h3>
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="card-label">Total Users</div>
+      <div class="card-value">{{ report.totalUsers }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Products (Catalog)</div>
+      <div class="card-value">{{ report.totalProducts }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Farmer Listings</div>
+      <div class="card-value">{{ report.totalFarmerProducts }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Products Sold</div>
+      <div class="card-value sold">{{ report.totalFarmerProductsSold }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Products Unsold</div>
+      <div class="card-value unsold">{{ report.totalFarmerProductsUnsold }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Total Bids</div>
+      <div class="card-value">{{ report.totalBids }}</div>
+    </div>
+    <div class="summary-card">
+      <div class="card-label">Accepted Bids</div>
+      <div class="card-value accepted">{{ report.totalAcceptedBids }}</div>
+    </div>
+    <div class="summary-card wide">
+      <div class="card-label">Platform Total Revenue</div>
+      <div class="card-value revenue">&#8377; {{ report.platformTotalRevenue | number:'1.2-2' }}</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!report" class="loading">Loading admin report...</div>

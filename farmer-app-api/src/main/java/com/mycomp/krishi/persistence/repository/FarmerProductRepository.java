@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +17,16 @@ public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Lo
     List<FarmerProduct> findByUserId(Long userId);
     List<FarmerProduct> findByUserIdNot(Long userId);
     List<FarmerProduct> findByUserIdNotAndSoldIsFalseOrSoldIsNull(Long userId);
+
+    long countByUserId(Long userId);
+    long countByUserIdAndSoldIsTrue(Long userId);
+    long countByUserIdAndSoldIsFalseOrUserIdAndSoldIsNull(Long userId1, Long userId2);
+
+    @Query("SELECT COUNT(fp) FROM FarmerProduct fp")
+    long countAllProducts();
+
+    @Query("SELECT COUNT(fp) FROM FarmerProduct fp WHERE fp.sold = true")
+    long countAllSoldProducts();
 
     @Modifying
     @Transactional
