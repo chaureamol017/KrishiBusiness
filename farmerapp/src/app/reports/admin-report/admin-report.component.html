@@ -77,7 +77,7 @@
 </div>
 
 <div *ngIf="isLoading" class="loading">Loading admin report...</div>
-<div *ngIf="!isLoading && errorMessage" class="error-message">
+<div *ngIf="!isLoading && errorMessage.length > 0" class="error-message">
   <mat-icon>error_outline</mat-icon>
   {{ errorMessage }}
 </div>

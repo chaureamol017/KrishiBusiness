@@ -12,7 +12,7 @@ import { SnackBarService } from '../../services/snack-bar.service';
 export class SellerReportComponent implements OnInit {
   report: SellerReport;
   isLoading = true;
-  errorMessage: string;
+  errorMessage = '';
   listData: MatTableDataSource<ProductSalesDetail>;
   displayedColumns: string[] = ['productName', 'category', 'quantity', 'pricePerUnit', 'city', 'addedOn', 'soldOn', 'sold', 'totalValue'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -41,7 +41,7 @@ export class SellerReportComponent implements OnInit {
 
   loadReport() {
     this.isLoading = true;
-    this.errorMessage = null;
+    this.errorMessage = '';
     this.reportService.getSellerReport().subscribe(
       response => {
         this.isLoading = false;
@@ -64,12 +64,16 @@ export class SellerReportComponent implements OnInit {
   }
 
   private buildCharts() {
-    this.doughnutData = [this.report.totalProductsSold, this.report.totalProductsUnsold];
-
-    const top10 = [...this.report.productSalesDetails]
-      .sort((a, b) => b.totalValue - a.totalValue)
-      .slice(0, 10);
-    this.barLabels = top10.map(p => p.productName || 'Unknown');
-    this.barData = [{ data: top10.map(p => p.totalValue), label: 'Total Value (₹)' }];
+    try {
+      this.doughnutData = [this.report.totalProductsSold, this.report.totalProductsUnsold];
+      const details = this.report.productSalesDetails || [];
+      const top10 = [...details]
+        .sort((a, b) => b.totalValue - a.totalValue)
+        .slice(0, 10);
+      this.barLabels = top10.map(p => p.productName || 'Unknown');
+      this.barData = [{ data: top10.map(p => p.totalValue), label: 'Total Value (₹)' }];
+    } catch (e) {
+      console.error('Chart build error:', e);
+    }
   }
 }

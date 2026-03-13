@@ -11,7 +11,7 @@ import { SnackBarService } from '../../services/snack-bar.service';
 export class AdminReportComponent implements OnInit {
   report: AdminReport;
   isLoading = true;
-  errorMessage: string;
+  errorMessage = '';
 
   // Doughnut: Products sold vs unsold
   productDoughnutLabels: string[] = ['Sold', 'Unsold'];
@@ -41,7 +41,7 @@ export class AdminReportComponent implements OnInit {
 
   loadReport() {
     this.isLoading = true;
-    this.errorMessage = null;
+    this.errorMessage = '';
     this.reportService.getAdminReport().subscribe(
       response => {
         this.isLoading = false;

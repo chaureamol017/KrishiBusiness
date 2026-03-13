@@ -12,7 +12,7 @@ import { SnackBarService } from '../../services/snack-bar.service';
 export class BuyerReportComponent implements OnInit {
   report: BuyerReport;
   isLoading = true;
-  errorMessage: string;
+  errorMessage = '';
   listData: MatTableDataSource<BidDetail>;
   displayedColumns: string[] = ['productName', 'category', 'quotedPricePerUnit', 'bidOn', 'acceptedOn', 'accepted'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -41,7 +41,7 @@ export class BuyerReportComponent implements OnInit {
 
   loadReport() {
     this.isLoading = true;
-    this.errorMessage = null;
+    this.errorMessage = '';
     this.reportService.getBuyerReport().subscribe(
       response => {
         this.isLoading = false;
@@ -64,10 +64,14 @@ export class BuyerReportComponent implements OnInit {
   }
 
   private buildCharts() {
-    this.doughnutData = [this.report.totalBidsAccepted, this.report.totalBidsPending];
-
-    const top10 = [...this.report.bidDetails].slice(0, 10);
-    this.barLabels = top10.map(b => b.productName || 'Unknown');
-    this.barData = [{ data: top10.map(b => b.quotedPricePerUnit), label: 'Quoted Price/Unit (₹)' }];
+    try {
+      this.doughnutData = [this.report.totalBidsAccepted, this.report.totalBidsPending];
+      const bids = this.report.bidDetails || [];
+      const top10 = [...bids].slice(0, 10);
+      this.barLabels = top10.map(b => b.productName || 'Unknown');
+      this.barData = [{ data: top10.map(b => b.quotedPricePerUnit), label: 'Quoted Price/Unit (₹)' }];
+    } catch (e) {
+      console.error('Chart build error:', e);
+    }
   }
 }
