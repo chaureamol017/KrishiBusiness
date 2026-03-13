@@ -11,6 +11,8 @@ import { SnackBarService } from '../../services/snack-bar.service';
 })
 export class SellerReportComponent implements OnInit {
   report: SellerReport;
+  isLoading = true;
+  errorMessage: string;
   listData: MatTableDataSource<ProductSalesDetail>;
   displayedColumns: string[] = ['productName', 'category', 'quantity', 'pricePerUnit', 'city', 'addedOn', 'soldOn', 'sold', 'totalValue'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -38,17 +40,26 @@ export class SellerReportComponent implements OnInit {
   }
 
   loadReport() {
+    this.isLoading = true;
+    this.errorMessage = null;
     this.reportService.getSellerReport().subscribe(
       response => {
-        if (response.success) {
+        this.isLoading = false;
+        if (response && response.success) {
           this.report = response.data;
           this.listData = new MatTableDataSource(this.report.productSalesDetails);
           this.listData.sort = this.sort;
           this.listData.paginator = this.paginator;
           this.buildCharts();
+        } else {
+          this.errorMessage = (response && response.message) ? response.message : 'Failed to load report.';
         }
       },
-      error => this.snackBarService.notify()
+      error => {
+        this.isLoading = false;
+        this.errorMessage = 'Could not connect to server. Please ensure the backend is running.';
+        console.error('Seller report error:', error);
+      }
     );
   }
 

@@ -10,6 +10,8 @@ import { SnackBarService } from '../../services/snack-bar.service';
 })
 export class AdminReportComponent implements OnInit {
   report: AdminReport;
+  isLoading = true;
+  errorMessage: string;
 
   // Doughnut: Products sold vs unsold
   productDoughnutLabels: string[] = ['Sold', 'Unsold'];
@@ -38,14 +40,23 @@ export class AdminReportComponent implements OnInit {
   }
 
   loadReport() {
+    this.isLoading = true;
+    this.errorMessage = null;
     this.reportService.getAdminReport().subscribe(
       response => {
-        if (response.success) {
+        this.isLoading = false;
+        if (response && response.success) {
           this.report = response.data;
           this.buildCharts();
+        } else {
+          this.errorMessage = (response && response.message) ? response.message : 'Failed to load report.';
         }
       },
-      error => this.snackBarService.notify()
+      error => {
+        this.isLoading = false;
+        this.errorMessage = 'Could not connect to server. Please ensure the backend is running.';
+        console.error('Admin report error:', error);
+      }
     );
   }
 
