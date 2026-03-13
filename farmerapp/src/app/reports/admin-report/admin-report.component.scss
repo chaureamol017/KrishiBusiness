@@ -88,3 +88,12 @@
   text-align: center;
   color: #666;
 }
+
+.error-message {
+  padding: 24px;
+  color: #c62828;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}

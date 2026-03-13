@@ -100,4 +100,8 @@
   </div>
 </div>
 
-<div *ngIf="!report" class="loading">Loading seller report...</div>
+<div *ngIf="isLoading" class="loading">Loading seller report...</div>
+<div *ngIf="!isLoading && errorMessage" class="error-message">
+  <mat-icon>error_outline</mat-icon>
+  {{ errorMessage }}
+</div>
