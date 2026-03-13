@@ -14,6 +14,7 @@ import { LocalStorageService } from './services/local-storage.service';
 import { ProductBuyModule } from './product-buy/product-buy.module';
 import { ProductSellModule } from './product-sell/product-sell.module';
 import { ReportsModule } from './reports/reports.module';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 
 @NgModule({
   schemas: [
@@ -31,6 +32,7 @@ import { ReportsModule } from './reports/reports.module';
     HttpClientModule,
 
     MaterialModule,
+    ChartsModule,
 
     HomeModule,
     ProductModule,
@@ -42,6 +44,7 @@ import { ReportsModule } from './reports/reports.module';
   ],
   providers: [
     LocalStorageService,
+    ThemeService,
   ],
   bootstrap: [AppComponent]
 })
