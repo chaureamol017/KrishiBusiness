@@ -1,4 +1,31 @@
 <div *ngIf="report" class="report-container">
+  <div class="charts-row">
+    <div class="chart-card">
+      <h4>Accepted vs Pending Bids</h4>
+      <div class="chart-wrap">
+        <canvas baseChart
+          [data]="doughnutData"
+          [labels]="doughnutLabels"
+          [chartType]="'doughnut'"
+          [colors]="doughnutColors"
+          [options]="doughnutOptions">
+        </canvas>
+      </div>
+    </div>
+    <div class="chart-card bar-chart-card">
+      <h4>Quoted Price per Product (&#8377;)</h4>
+      <div class="chart-wrap">
+        <canvas baseChart
+          [datasets]="barData"
+          [labels]="barLabels"
+          [chartType]="'bar'"
+          [colors]="barColors"
+          [options]="barOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
   <div class="summary-cards">
     <div class="summary-card">
       <div class="card-label">Total Bids Placed</div>

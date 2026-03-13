@@ -16,6 +16,18 @@ export class BuyerReportComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
+  // Doughnut: Accepted vs Pending bids
+  doughnutLabels: string[] = ['Accepted', 'Pending'];
+  doughnutData: number[] = [0, 0];
+  doughnutColors = [{ backgroundColor: ['#4caf50', '#ff9800'] }];
+  doughnutOptions = { responsive: true, maintainAspectRatio: false };
+
+  // Bar: Quoted price per product
+  barLabels: string[] = [];
+  barData: Array<any> = [{ data: [], label: 'Quoted Price/Unit (₹)' }];
+  barColors = [{ backgroundColor: '#7b1fa2' }];
+  barOptions = { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
+
   constructor(
     private reportService: ReportService,
     private snackBarService: SnackBarService,
@@ -33,9 +45,18 @@ export class BuyerReportComponent implements OnInit {
           this.listData = new MatTableDataSource(this.report.bidDetails);
           this.listData.sort = this.sort;
           this.listData.paginator = this.paginator;
+          this.buildCharts();
         }
       },
       error => this.snackBarService.notify()
     );
+  }
+
+  private buildCharts() {
+    this.doughnutData = [this.report.totalBidsAccepted, this.report.totalBidsPending];
+
+    const top10 = [...this.report.bidDetails].slice(0, 10);
+    this.barLabels = top10.map(b => b.productName || 'Unknown');
+    this.barData = [{ data: top10.map(b => b.quotedPricePerUnit), label: 'Quoted Price/Unit (₹)' }];
   }
 }

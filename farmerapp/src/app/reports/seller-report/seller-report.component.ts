@@ -16,6 +16,18 @@ export class SellerReportComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
+  // Doughnut: Sold vs Unsold
+  doughnutLabels: string[] = ['Sold', 'Unsold'];
+  doughnutData: number[] = [0, 0];
+  doughnutColors = [{ backgroundColor: ['#4caf50', '#ff9800'] }];
+  doughnutOptions = { responsive: true, maintainAspectRatio: false };
+
+  // Bar: Revenue per product
+  barLabels: string[] = [];
+  barData: Array<any> = [{ data: [], label: 'Total Value (₹)' }];
+  barColors = [{ backgroundColor: '#1976d2' }];
+  barOptions = { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
+
   constructor(
     private reportService: ReportService,
     private snackBarService: SnackBarService,
@@ -33,9 +45,20 @@ export class SellerReportComponent implements OnInit {
           this.listData = new MatTableDataSource(this.report.productSalesDetails);
           this.listData.sort = this.sort;
           this.listData.paginator = this.paginator;
+          this.buildCharts();
         }
       },
       error => this.snackBarService.notify()
     );
+  }
+
+  private buildCharts() {
+    this.doughnutData = [this.report.totalProductsSold, this.report.totalProductsUnsold];
+
+    const top10 = [...this.report.productSalesDetails]
+      .sort((a, b) => b.totalValue - a.totalValue)
+      .slice(0, 10);
+    this.barLabels = top10.map(p => p.productName || 'Unknown');
+    this.barData = [{ data: top10.map(p => p.totalValue), label: 'Total Value (₹)' }];
   }
 }
