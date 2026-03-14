@@ -2,9 +2,11 @@ package com.mycomp.krishi.web.v1.controller;
 
 import com.mycomp.common.helper.ResponseEntityHelper;
 import com.mycomp.common.response.ApiResponse;
+import com.mycomp.krishi.service.api.CategoryAnalyticsService;
 import com.mycomp.krishi.service.api.ReportService;
 import com.mycomp.krishi.web.v1.model.AdminReportResponse;
 import com.mycomp.krishi.web.v1.model.BuyerReportResponse;
+import com.mycomp.krishi.web.v1.model.CategoryAnalyticsResponse;
 import com.mycomp.krishi.web.v1.model.SellerReportResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
 	private final ReportService reportService;
+	private final CategoryAnalyticsService categoryAnalyticsService;
 
 	@Autowired
-	public ReportController(ReportService reportService) {
+	public ReportController(ReportService reportService, CategoryAnalyticsService categoryAnalyticsService) {
 		this.reportService = reportService;
+		this.categoryAnalyticsService = categoryAnalyticsService;
 	}
 
 	@GetMapping("/seller")
@@ -43,5 +47,11 @@ public class ReportController {
 	public ResponseEntity<ApiResponse<AdminReportResponse>> getAdminReport() {
 		AdminReportResponse report = reportService.getAdminReport();
 		return ResponseEntityHelper.toSuccessResponseEntity(new ApiResponse<>(true, "Admin report generated", report));
+	}
+
+	@GetMapping("/category-analytics")
+	public ResponseEntity<ApiResponse<CategoryAnalyticsResponse>> getCategoryAnalytics() {
+		CategoryAnalyticsResponse analytics = categoryAnalyticsService.getCategoryAnalytics();
+		return ResponseEntityHelper.toSuccessResponseEntity(new ApiResponse<>(true, "Category analytics generated", analytics));
 	}
 }

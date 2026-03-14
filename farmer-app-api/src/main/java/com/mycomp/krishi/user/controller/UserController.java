@@ -69,5 +69,10 @@ public class UserController {
     	return new ResponseEntity<>(success, HttpStatus.OK);
     }
 
+    @PutMapping("/toggle-active/{userId}")
+    public ResponseEntity<Boolean> toggleActive(@PathVariable(name = "userId") Long userId) {
+        Boolean isNowActive = userService.toggleActive(userId);
+        return new ResponseEntity<>(isNowActive, HttpStatus.OK);
+    }
 
 }

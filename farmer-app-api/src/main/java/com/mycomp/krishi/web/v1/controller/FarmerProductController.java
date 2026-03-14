@@ -74,6 +74,17 @@ public class FarmerProductController {
 		return responseEntityAdapter.createResponseEntity(models, false);
 	}
 
+	@GetMapping(value = "search")
+	public ResponseEntity<List<FarmerProductResponse>> searchProducts(
+			@RequestParam("userId") Long userId,
+			@RequestParam(value = "category", required = false) String category,
+			@RequestParam(value = "city", required = false) String city,
+			@RequestParam(value = "search", required = false) String search) {
+		final List<FarmerProductModel> models = service.searchProducts(userId, category, city, search);
+
+		return responseEntityAdapter.createResponseEntity(models, false);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Boolean> deleteById(@PathVariable(value = "id") Long id) {
 		Boolean success = service.deleteById(id);

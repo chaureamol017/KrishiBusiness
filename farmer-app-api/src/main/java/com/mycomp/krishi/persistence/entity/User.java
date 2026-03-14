@@ -63,6 +63,9 @@ public class User implements Serializable {
     @Column(name = "birth_date")
     private Date birthDate;
 
+    @Column(name = "active")
+    private Boolean active = true;
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -141,5 +144,13 @@ public class User implements Serializable {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

@@ -1,0 +1,75 @@
+<app-top-bar [name]="'Category-wise Analytics'"></app-top-bar>
+
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+  <p>Loading analytics...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <mat-icon>error</mat-icon>
+  <span>{{ errorMessage }}</span>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage">
+  <!-- Charts -->
+  <div class="charts-container" fxLayout="row" fxLayoutGap="16px" fxLayout.lt-md="column">
+    <div class="chart-card" fxFlex="50">
+      <h3>Products by Category</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart
+          [datasets]="barData"
+          [labels]="barLabels"
+          [colors]="barColors"
+          [options]="barOptions"
+          chartType="bar">
+        </canvas>
+      </div>
+    </div>
+    <div class="chart-card" fxFlex="50">
+      <h3>Revenue by Category</h3>
+      <div class="chart-wrapper">
+        <canvas baseChart
+          [data]="doughnutData"
+          [labels]="doughnutLabels"
+          [colors]="doughnutColors"
+          [options]="doughnutOptions"
+          chartType="doughnut">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.category }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalProducts">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Products</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.totalProducts }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalSold">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sold</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.totalSold }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalUnsold">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Unsold</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.totalUnsold }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalRevenue">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Revenue (₹)</mat-header-cell>
+        <mat-cell *matCellDef="let row">₹{{ row.totalRevenue | number:'1.2-2' }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalBids">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Bids</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.totalBids }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

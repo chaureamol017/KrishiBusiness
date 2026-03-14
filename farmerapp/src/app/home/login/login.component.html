@@ -4,15 +4,30 @@
     <div class="form-group">
         <label for="emailId">Email address</label>
         <input type="email" class="form-control" id="emailId" formControlName="userName"
-            aria-describedby="emailHelp" placeholder="Enter email">
+            aria-describedby="emailHelp" placeholder="Enter email"
+            [class.is-invalid]="loginForm.get('userName').invalid && loginForm.get('userName').touched">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <div class="invalid-feedback" *ngIf="loginForm.get('userName').invalid && loginForm.get('userName').touched">
+            Email is required.
+        </div>
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password"
+            [class.is-invalid]="loginForm.get('password').invalid && loginForm.get('password').touched">
+        <div class="invalid-feedback" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+            Password is required.
+        </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+        <span>&#9888;</span> {{ errorMessage }}
     </div>
 </form>
 
 <div class="dialog-footer-bottom-stretch">
-  <button type="submit" class="btn btn-primary btn-block" (click)="validateLogin(loginForm)">Login</button>
+  <button type="submit" class="btn btn-primary btn-block" (click)="validateLogin(loginForm)" [disabled]="isLoading">
+    <span *ngIf="!isLoading">Login</span>
+    <span *ngIf="isLoading">Logging in...</span>
+  </button>
 </div>

@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   formTitle: any = "Login";
   loginForm: FormGroup;
   loggedInUser: UserDetails = new UserDetails();
+  errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private snackBarService: SnackBarService,
@@ -33,22 +35,34 @@ export class LoginComponent implements OnInit {
   }
 
   validateLogin(loginData) {
+    this.errorMessage = '';
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
     if (loginData) {
+      this.isLoading = true;
       var userName = loginData.value.userName;
       var password = loginData.value.password;
       this.adminApiService.validateLogin(userName, password)
-        .subscribe(response => this.handleSuccess(response),
-          error => this.snackBarService.notify("Error ocurred while processing."));
+        .subscribe(
+          response => this.handleSuccess(response),
+          error => {
+            this.isLoading = false;
+            this.errorMessage = 'Invalid email or password. Please try again.';
+          }
+        );
     }
   }
 
   handleSuccess(response) {
+    this.isLoading = false;
     if (response) {
       this.loggedInUser = response;
       this.localStorageService.onValidateCall(this.loggedInUser);
       this.closeDialog();
     } else {
-      this.snackBarService.notify("Email or password is incorrect", undefined, 4000)
+      this.errorMessage = 'Invalid email or password. Please try again.';
     }
   }
 

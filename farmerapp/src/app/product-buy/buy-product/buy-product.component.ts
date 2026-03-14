@@ -3,9 +3,11 @@ import { TopBarButton } from '../../shared/model/top-bar-button';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { DialogService } from '../../services/dialog.service';
 import { AddEditProductBidComponent } from '../add-edit-product-bid/add-edit-product-bid.component';
+import { AddRatingReviewComponent } from '../add-rating-review/add-rating-review.component';
 import { FarmerProductService } from '../../services/farmer-product.service';
 import { FarmerProduct } from '../../model/farmer-product';
 import { SnackBarService } from '../../services/snack-bar.service';
+import { ProductCategory } from '../../model/product-category';
 
 @Component({
   selector: 'app-buy-product',
@@ -21,9 +23,15 @@ export class BuyProductComponent implements OnInit {
   displayedColumns: string[] = ['name', 'category', 'description', 'additional_description', 'quantity', 'pricePerUnit', 'expectedPrice', 'city', 'addedOn', 'actions'];
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  searchKey: string;
+  searchKey: string = '';
 
   dataSource: FarmerProduct[] = [];
+
+  // Search/Filter
+  categories = Object.values(ProductCategory);
+  selectedCategory: string = '';
+  cityFilter: string = '';
+  searchText: string = '';
 
   constructor(
     private snackBarService: SnackBarService,
@@ -45,7 +53,7 @@ export class BuyProductComponent implements OnInit {
     this.listData.paginator = this.paginator;
     this.listData.filterPredicate = (data, filter) => {
       return this.displayedColumns.some(ele => {
-        return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
+        return ele != 'actions' && data[ele] && data[ele].toString().toLowerCase().indexOf(filter) != -1;
       });
     };
   }
@@ -57,10 +65,7 @@ export class BuyProductComponent implements OnInit {
   }
 
   handleGetSuccess(response: FarmerProduct[]) {
-    response.forEach(element => {
-      this.dataSource.push(element);
-    });
-
+    this.dataSource = response || [];
     this.initializeAllComponents();
   }
 
@@ -73,6 +78,23 @@ export class BuyProductComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
+  searchProducts() {
+    const category = this.selectedCategory || undefined;
+    const city = this.cityFilter.trim() || undefined;
+    const search = this.searchText.trim() || undefined;
+
+    this.farmerProductService.searchProducts(category, city, search)
+      .subscribe((response: FarmerProduct[]) => this.handleGetSuccess(response),
+        error => this.snackBarService.notify());
+  }
+
+  clearFilters() {
+    this.selectedCategory = '';
+    this.cityFilter = '';
+    this.searchText = '';
+    this.getProducts();
+  }
+
   handleButtonClick($event) {
     switch ($event) {
       default:
@@ -81,5 +103,9 @@ export class BuyProductComponent implements OnInit {
 
   addEditBidForProduct(selectedData) {
     this.dialogService.openDialog(AddEditProductBidComponent, selectedData);
+  }
+
+  openRatingReview(selectedData) {
+    this.dialogService.openDialog(AddRatingReviewComponent, selectedData);
   }
 }

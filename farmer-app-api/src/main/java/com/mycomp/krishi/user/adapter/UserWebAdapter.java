@@ -34,6 +34,7 @@ public class UserWebAdapter implements WebAdapter<UserWeb, UserModel> {
 		model.setGender(web.getGender());
 		model.setMaritalStatus(web.getMaritalStatus());
 		model.setBirthDate(web.getBirthDate());
+		model.setActive(web.getActive());
 
 		return model;
 	}
@@ -55,6 +56,7 @@ public class UserWebAdapter implements WebAdapter<UserWeb, UserModel> {
 		web.setGender(model.getGender());
 		web.setMaritalStatus(model.getMaritalStatus());
 		web.setBirthDate(model.getBirthDate());
+		web.setActive(model.getActive());
 
 		return web;
 	}

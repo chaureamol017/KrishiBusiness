@@ -5,3 +5,16 @@
     width: 100%;
     gap: 20px;
 }
+
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    padding: 0 16px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    mat-form-field {
+        flex: 1;
+        min-width: 150px;
+    }
+}

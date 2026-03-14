@@ -15,6 +15,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatInputModule} from '@angular/material/input';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
@@ -32,8 +36,14 @@ import {MatSelectModule} from '@angular/material/select';
     MatMenuModule,
     MatSidenavModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatSortModule,
     MatToolbarModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
     MatSnackBarModule,
   ],
   exports: [
@@ -50,6 +60,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatTableModule,
     MatPaginatorModule,
     MatDatepickerModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatSortModule,
     MatSnackBarModule,
   ]
 })

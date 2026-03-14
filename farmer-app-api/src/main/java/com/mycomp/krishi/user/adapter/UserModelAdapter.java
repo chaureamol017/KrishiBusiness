@@ -61,6 +61,7 @@ public final class UserModelAdapter implements ModelAdapter<UserModel, User> {
 		model.setGender(CommonUtils.getString(entity.getGender()));
 		model.setMaritalStatus(CommonUtils.getString(entity.getMaritalStatus()));
 		model.setBirthDate(entity.getBirthDate());
+		model.setActive(entity.getActive() != null ? entity.getActive() : true);
 
 		return model;
 	}

@@ -13,6 +13,7 @@ public class UserModel {
     private String gender;
     private String maritalStatus;
     private Date birthDate;
+    private Boolean active;
 
 	public Long getUserId() {
 		return userId;
@@ -73,5 +74,11 @@ public class UserModel {
 	}
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+	public Boolean getActive() {
+		return active;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

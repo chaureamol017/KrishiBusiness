@@ -40,6 +40,14 @@ export class FarmerProductService {
     return this.httpCllient.get<FarmerProduct[]>(url);
   }
 
+  searchProducts(category?: string, city?: string, search?: string): Observable<FarmerProduct[]> {
+    let url = this.serverUrl + this.apiEndpoint + '/search?userId=' + this.localStorageService.getUserId();
+    if (category) { url += '&category=' + encodeURIComponent(category); }
+    if (city) { url += '&city=' + encodeURIComponent(city); }
+    if (search) { url += '&search=' + encodeURIComponent(search); }
+    return this.httpCllient.get<FarmerProduct[]>(url);
+  }
+
 
   deleteProduct(productId): Observable<boolean> {
     const url = this.serverUrl + this.apiEndpoint + "/" + productId;

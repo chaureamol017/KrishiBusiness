@@ -5,6 +5,9 @@ import { BuyProductComponent } from './product-buy/buy-product/buy-product.compo
 import { ProductSellComponent } from './product-sell/product-sell/product-sell.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ReportsComponent } from './reports/reports/reports.component';
+import { TransactionHistoryComponent } from './transactions/transaction-history/transaction-history.component';
+import { UserManagementComponent } from './user-management/user-management/user-management.component';
+import { CategoryAnalyticsComponent } from './category-analytics/category-analytics/category-analytics.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
@@ -32,6 +35,18 @@ const routes: Routes = [
   }, {
     path: 'reports',
     component: ReportsComponent,
+    canActivate: [AuthGuard],
+  }, {
+    path: 'transactions',
+    component: TransactionHistoryComponent,
+    canActivate: [AuthGuard],
+  }, {
+    path: 'user-management',
+    component: UserManagementComponent,
+    canActivate: [AuthGuard],
+  }, {
+    path: 'category-analytics',
+    component: CategoryAnalyticsComponent,
     canActivate: [AuthGuard],
   }];
 

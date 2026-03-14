@@ -14,6 +14,9 @@ import { LocalStorageService } from './services/local-storage.service';
 import { ProductBuyModule } from './product-buy/product-buy.module';
 import { ProductSellModule } from './product-sell/product-sell.module';
 import { ReportsModule } from './reports/reports.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { UserManagementModule } from './user-management/user-management.module';
+import { CategoryAnalyticsModule } from './category-analytics/category-analytics.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 
 @NgModule({
@@ -39,6 +42,9 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
     ProductBuyModule,
     ProductSellModule,
     ReportsModule,
+    TransactionsModule,
+    UserManagementModule,
+    CategoryAnalyticsModule,
   ],
   entryComponents: [
   ],

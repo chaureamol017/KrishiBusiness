@@ -1,0 +1,52 @@
+.avg-rating {
+  padding: 8px 0;
+  font-size: 16px;
+}
+
+.reviews-list {
+  margin-bottom: 16px;
+}
+
+.review-item {
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rating-stars .mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  color: #ccc;
+}
+
+.rating-stars .mat-icon.filled {
+  color: #ffc107;
+}
+
+.review-text {
+  margin: 4px 0;
+  color: #333;
+}
+
+.review-date {
+  color: #999;
+}
+
+.no-reviews {
+  color: #666;
+  padding: 8px 0;
+}
+
+.review-form {
+  margin-top: 8px;
+}
+
+.full-width {
+  width: 100%;
+}

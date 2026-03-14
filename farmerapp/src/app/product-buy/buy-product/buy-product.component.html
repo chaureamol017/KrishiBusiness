@@ -1,5 +1,33 @@
 <app-top-bar [name]="'Buy Products'" [rightButtons]="buttons" (buttonClick)="handleButtonClick($event)"></app-top-bar>
 
+<!-- Search & Filter Bar -->
+<div class="filter-bar">
+    <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="selectedCategory">
+            <mat-option value="">All Categories</mat-option>
+            <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput [(ngModel)]="cityFilter" placeholder="Filter by city">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput [(ngModel)]="searchText" placeholder="Search products...">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="searchProducts()">
+        <mat-icon>search</mat-icon> Search
+    </button>
+    <button mat-button (click)="clearFilters()">
+        <mat-icon>clear</mat-icon> Clear
+    </button>
+</div>
+
 <div class="mat-elevation-z8">
     <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="name">
@@ -41,7 +69,8 @@
         <ng-container matColumnDef="actions">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button color="warn" (click)="addEditBidForProduct(row)"><mat-icon>monetization_on</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="addEditBidForProduct(row)" matTooltip="Place Bid"><mat-icon>monetization_on</mat-icon></button>
+                <button mat-icon-button color="accent" (click)="openRatingReview(row)" matTooltip="Rate & Review"><mat-icon>star_rate</mat-icon></button>
             </mat-cell>
         </ng-container>
         <ng-container *ngIf=matColumnDef="loading">

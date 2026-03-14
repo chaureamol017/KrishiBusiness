@@ -18,6 +18,25 @@ public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Lo
     List<FarmerProduct> findByUserIdNot(Long userId);
     List<FarmerProduct> findByUserIdNotAndSoldIsFalseOrSoldIsNull(Long userId);
 
+    // Search & Filter
+    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId <> :userId " +
+           "AND (fp.sold IS NULL OR fp.sold = false) " +
+           "AND (:category IS NULL OR fp.product.category = :category) " +
+           "AND (:city IS NULL OR fp.city = :city) " +
+           "AND (:search IS NULL OR fp.product.name LIKE CONCAT('%', :search, '%') OR fp.description LIKE CONCAT('%', :search, '%'))")
+    List<FarmerProduct> searchProducts(@Param("userId") Long userId,
+                                       @Param("category") String category,
+                                       @Param("city") String city,
+                                       @Param("search") String search);
+
+    // All products (for admin)
+    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.sold = true")
+    List<FarmerProduct> findAllSoldProducts();
+
+    // Transactions: accepted bids with product info
+    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.sold = true AND fp.userId = :userId")
+    List<FarmerProduct> findSoldByUserId(@Param("userId") Long userId);
+
     long countByUserId(Long userId);
     long countByUserIdAndSoldIsTrue(Long userId);
     long countByUserIdAndSoldIsFalseOrUserIdAndSoldIsNull(Long userId1, Long userId2);

@@ -71,6 +71,13 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 	}
 
 	@Override
+	public List<FarmerProductModel> searchProducts(Long userId, String category, String city, String search) {
+		final List<FarmerProduct> entities = repository.searchProducts(userId, category, city, search);
+
+		return modelAdapter.toModel(entities);
+	}
+
+	@Override
 		public Boolean deleteById(final Long id) {
 		repository.deleteById(id);
 		return true;

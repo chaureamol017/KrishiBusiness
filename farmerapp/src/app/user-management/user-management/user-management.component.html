@@ -1,0 +1,80 @@
+<app-top-bar [name]="'User Management'"></app-top-bar>
+
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+  <p>Loading users...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <mat-icon>error</mat-icon>
+  <span>{{ errorMessage }}</span>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage">
+  <div class="search-bar">
+    <mat-form-field appearance="outline">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput placeholder="Search users" [(ngModel)]="searchKey" (keyup)="applyFilter()" autocomplete="off">
+      <button mat-icon-button matSuffix *ngIf="searchKey" (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.userId }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.firstName }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.lastName }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="emailId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.emailId }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="mobile">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.mobile }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Role</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.role }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <span class="status-badge" [class.active]="row.active !== false" [class.inactive]="row.active === false">
+            {{ row.active === false ? 'Inactive' : 'Active' }}
+          </span>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-stroked-button
+            [color]="row.active === false ? 'primary' : 'warn'"
+            (click)="toggleActive(row)"
+            matTooltip="{{ row.active === false ? 'Re-activate user' : 'Deactivate user' }}">
+            <mat-icon>{{ row.active === false ? 'person_add' : 'person_off' }}</mat-icon>
+            {{ row.active === false ? 'Re-activate' : 'Deactivate' }}
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" [class.inactive-row]="row.active === false"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+
+    <div *ngIf="users.length === 0" class="no-data">
+      <p>No users found.</p>
+    </div>
+  </div>
+</div>

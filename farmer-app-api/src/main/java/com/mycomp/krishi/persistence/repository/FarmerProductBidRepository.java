@@ -23,6 +23,13 @@ public interface FarmerProductBidRepository extends JpaRepository<FarmerProductB
     List<FarmerProductBid> findByBuyerUserId(Long buyerUserId);
     List<FarmerProductBid> findByBuyerUserIdAndAcceptedIsTrue(Long buyerUserId);
 
+    // All accepted bids (transactions)
+    List<FarmerProductBid> findByAcceptedIsTrue();
+
+    // Accepted bids for a specific farmer product
+    @Query("SELECT fpb FROM FarmerProductBid fpb WHERE fpb.farmerProductId = :farmerProductId AND fpb.accepted = true")
+    FarmerProductBid findAcceptedBidForProduct(@Param("farmerProductId") Long farmerProductId);
+
     @Query("SELECT COUNT(fpb) FROM FarmerProductBid fpb")
     long countAllBids();
 

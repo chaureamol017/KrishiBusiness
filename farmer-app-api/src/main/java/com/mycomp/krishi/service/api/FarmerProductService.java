@@ -12,6 +12,7 @@ public interface FarmerProductService {
 	FarmerProductModel getById(Long id);
 	List<FarmerProductModel> getBySeller(Long userId);
 	List<FarmerProductModel> getForSeller(Long userId);
+	List<FarmerProductModel> searchProducts(Long userId, String category, String city, String search);
 	Boolean deleteById(Long id);
 }
 

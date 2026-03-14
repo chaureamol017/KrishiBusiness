@@ -1,0 +1,66 @@
+<app-top-bar [name]="'Transaction History'"></app-top-bar>
+
+<div class="tab-bar">
+  <button mat-raised-button *ngIf="showAllTab" [color]="activeTab === 'all' ? 'primary' : ''" (click)="setActiveTab('all')">All Transactions</button>
+  <button mat-raised-button *ngIf="showSellerTab" [color]="activeTab === 'seller' ? 'primary' : ''" (click)="setActiveTab('seller')">My Sales</button>
+  <button mat-raised-button *ngIf="showBuyerTab" [color]="activeTab === 'buyer' ? 'primary' : ''" (click)="setActiveTab('buyer')">My Purchases</button>
+</div>
+
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+  <p>Loading transactions...</p>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  <mat-icon>error</mat-icon>
+  <span>{{ errorMessage }}</span>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage" class="mat-elevation-z8">
+  <mat-table [dataSource]="listData" matSort>
+    <ng-container matColumnDef="productName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Product</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.productName }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.category }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.quantity }} {{ row.quantityUnit }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="pricePerUnit">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Price/Unit</mat-header-cell>
+      <mat-cell *matCellDef="let row">₹{{ row.pricePerUnit }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="totalAmount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</mat-header-cell>
+      <mat-cell *matCellDef="let row">₹{{ row.totalAmount }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="city">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.city }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="sellerName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Seller</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.sellerName }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="buyerName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Buyer</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.buyerName }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="soldOn">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.soldOn | date:'dd-MM-yyyy' }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+
+  <div *ngIf="transactions.length === 0" class="no-data">
+    <p>No transactions found.</p>
+  </div>
+</div>

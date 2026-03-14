@@ -27,5 +27,7 @@ public interface UserService {
 
     Boolean deleteUser(Long id);
 
+    Boolean toggleActive(Long userId);
+
 	UserModel signupUser(SignupRequestModel model);
 }

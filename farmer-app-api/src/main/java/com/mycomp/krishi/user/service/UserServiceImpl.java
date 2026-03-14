@@ -100,6 +100,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Boolean toggleActive(Long userId) {
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			boolean current = Boolean.TRUE.equals(user.getActive());
+			user.setActive(!current);
+			userRepository.saveAndFlush(user);
+			return !current;
+		}
+		return false;
+	}
+
+	@Override
 	public UserModel signupUser(SignupRequestModel requestModel) {
 		UserModel model = saveUser(requestModel);
 		
