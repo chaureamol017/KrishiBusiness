@@ -7,6 +7,7 @@ package com.mycomp.krishi.user.controller;
 
 import com.mycomp.common.adapter.ResponseEntityAdapter;
 import com.mycomp.common.adapter.WebAdapter;
+import com.mycomp.krishi.security.JwtUtil;
 import com.mycomp.krishi.user.adapter.ChangePasswordRequestParamsAdapter;
 import com.mycomp.krishi.user.adapter.ResetPasswordRequestParamsAdapter;
 import com.mycomp.krishi.user.adapter.SignupRequestParamsAdapter;
@@ -17,6 +18,7 @@ import com.mycomp.krishi.user.model.SignupRequestModel;
 import com.mycomp.krishi.user.model.UserModel;
 import com.mycomp.krishi.user.requests.AuthApiResponse;
 import com.mycomp.krishi.user.requests.ChangePasswordRequestParams;
+import com.mycomp.krishi.user.requests.LoginResponse;
 import com.mycomp.krishi.user.requests.ResetPasswordRequestParams;
 import com.mycomp.krishi.user.requests.SignupRequestParams;
 import com.mycomp.krishi.user.requests.UserWeb;
@@ -51,6 +53,9 @@ public class UserAuthController {
 	@Autowired
 	private UserLoginSignupService userLoginSignupService;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	@PostMapping("/signup")
 	public ResponseEntity<AuthApiResponse> signupUser(@RequestBody SignupRequestParams requestParams) {
 		AuthApiResponse response;
@@ -65,11 +70,18 @@ public class UserAuthController {
 	}
 
 	@GetMapping("/validate")
-	public ResponseEntity<UserWeb> validateUserByEmailAndPassword(@RequestParam(value = "userName") String userName,
+	public ResponseEntity<LoginResponse> validateUserByEmailAndPassword(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "password") String password) {
 		final UserModel userModel = userLoginSignupService.validateUserByUserNameAndPassword(userName, password);
 
-		return responseEntityAdapter.createResponseEntity(userModel);
+		if (userModel == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+		UserWeb userWeb = UserWebAdapter.INSTANCE.toWeb(userModel);
+		String token = jwtUtil.generateToken(userModel.getEmailId(), userModel.getUserId(), userModel.getRole());
+		LoginResponse loginResponse = new LoginResponse(token, userWeb);
+		return new ResponseEntity<>(loginResponse, HttpStatus.OK);
 	}
 
 	@PostMapping("/password/change")
@@ -85,6 +97,12 @@ public class UserAuthController {
 		final ResetPasswordRequestModel model = resetPasswordWebAdapter.toModel(requestParams);
 		Map<String, Object> response = userLoginSignupService.resetPassword(model);
 
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@PostMapping("/password/forgot")
+	public ResponseEntity<Map<String, Object>> forgotPassword(@RequestParam(value = "emailId") String emailId) {
+		Map<String, Object> response = userLoginSignupService.forgotPassword(emailId);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

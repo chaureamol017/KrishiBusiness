@@ -12,18 +12,18 @@ export class LocalStorageService {
   ) {
   }
 
-  onValidateCall(loggedInUser: UserDetails) {
+  onValidateCall(loggedInUser: UserDetails, token?: string) {
     this.setItemsToLocalStorage(loggedInUser, ['registrationFor']);
-
-    // this.router.navigate(['home']);
+    if (token) {
+      localStorage.setItem('jwtToken', token);
+    }
     window.location.href = "home";
   }
 
   logOut() {
-    const keys: string[] = ['token', 'userId', 'emailId', 'mobile', 'firstName', 'middleName', 'lastName'];
+    const keys: string[] = ['token', 'userId', 'emailId', 'mobile', 'firstName', 'middleName', 'lastName', 'role', 'jwtToken'];
     this.removeItemsFromLocalStorage(keys);
 
-    // this.router.navigate(['']);
     window.location.href = "";
   }
 
@@ -62,6 +62,10 @@ export class LocalStorageService {
 
   getMobile(): string {
     return this.getItemFromLocalStorage("mobile");
+  }
+
+  getToken(): string {
+    return this.getItemFromLocalStorage("jwtToken");
   }
 
 

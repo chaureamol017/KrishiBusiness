@@ -2,7 +2,176 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  .container {
-    padding-bottom: 30px;
+  overflow-y: auto;
+}
+
+.dashboard-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// Welcome Banner (not logged in)
+.welcome-banner {
+  background: linear-gradient(135deg, #1b5e20 0%, #4caf50 100%);
+  border-radius: 12px;
+  padding: 48px 32px;
+  margin-bottom: 32px;
+  color: white;
+  text-align: center;
+
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    font-weight: 300;
+    .brand { font-weight: 700; }
   }
+
+  p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.how-it-works {
+  h2 { text-align: center; font-size: 1.6rem; margin-bottom: 24px; color: #333; }
+}
+
+.step-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 28px 24px;
+  flex: 1 1 240px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  .step-icon { font-size: 2rem; margin-bottom: 12px; }
+  h3 { color: #2e7d32; margin-bottom: 8px; }
+  p { color: #666; font-size: 14px; line-height: 1.5; }
+}
+
+// Dashboard header
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #333;
+    flex: 1;
+    .user-name { color: #2e7d32; font-weight: 700; }
+  }
+}
+
+.role-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.role-admin { background: #e8eaf6; color: #3949ab; }
+  &.role-seller { background: #e8f5e9; color: #2e7d32; }
+  &.role-buyer { background: #e3f2fd; color: #1565c0; }
+  &.role-both { background: #fce4ec; color: #880e4f; }
+}
+
+.section-title {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 28px 0 16px;
+  border-left: 4px solid #4caf50;
+  padding-left: 12px;
+}
+
+// KPI cards
+.kpi-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.kpi-card {
+  border-radius: 12px;
+  padding: 20px 24px;
+  min-width: 160px;
+  flex: 1 1 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: relative;
+
+  .kpi-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .kpi-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+    opacity: 0.8;
+  }
+
+  .kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  &.kpi-blue { background: #e3f2fd; color: #1565c0; }
+  &.kpi-green { background: #e8f5e9; color: #2e7d32; }
+  &.kpi-orange { background: #fff3e0; color: #e65100; }
+  &.kpi-purple { background: #f3e5f5; color: #6a1b9a; }
+  &.kpi-teal { background: #e0f2f1; color: #00695c; }
+}
+
+// Quick actions
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Loading / Error
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 0;
+  color: #555;
+}
+
+.error-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #c62828;
+  padding: 12px;
+  background: #ffebee;
+  border-radius: 8px;
+  margin-top: 16px;
 }

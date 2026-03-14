@@ -7,11 +7,7 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root'
 })
 export class UserApiService {
-  serverUrl: any = "http://localhost:8080/user/";
-  getUserByIdEndpoint: any = "byid";
-  passwordEndpoint: any = "changepassword";
-  bankEndpoint: any = "bankdetails";
-  addressEndpoint: any = "addressdetails";
+  serverUrl: any = "http://localhost:8080/";
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -19,56 +15,41 @@ export class UserApiService {
   ) { }
 
   getUserById(id): Observable<any> {
-    var parameters = "id=" + id;
-    var url = this.serverUrl + this.getUserByIdEndpoint + "?" + parameters;
-
+    const url = `${this.serverUrl}v1/user/byid/${id}`;
     return this.httpCllient.get(url);
   }
 
   changePassword(oldPassword, newPassword): Observable<any> {
-    var userId: number = this.localStorageService.getUserId();
-    var userData = {
-      userId: userId,
-      oldPassword: oldPassword,
-      newPassword: newPassword
-    }
-
-    var url = this.serverUrl + this.passwordEndpoint;
-
-    return this.httpCllient.post(url,userData);
+    const userName = this.localStorageService.getEmailId();
+    const body = { userName, oldPassword, newPassword };
+    const url = `${this.serverUrl}v1/user/password/change`;
+    return this.httpCllient.post(url, body);
   }
-  
-  saveUserDetails(bankDetailsData): Observable<any> {
-    var url = this.serverUrl + this.bankEndpoint;
 
-    return this.httpCllient.post(url, bankDetailsData);
+  saveUserDetails(userDetailsData): Observable<any> {
+    const url = `${this.serverUrl}v1/user/update`;
+    return this.httpCllient.put(url, userDetailsData);
   }
 
   getBankDetails(): Observable<any> {
-    var userId: number = this.localStorageService.getUserId();
-    var parameters = "userId=" + userId;
-    var url = this.serverUrl + this.bankEndpoint + "?" + parameters;
-
+    const userId = this.localStorageService.getUserId();
+    const url = `${this.serverUrl}v1/bankdetails/byUserId/${userId}`;
     return this.httpCllient.get(url);
   }
 
   saveBankDetails(bankDetailsData): Observable<any> {
-    var url = this.serverUrl + this.bankEndpoint;
-
+    const url = `${this.serverUrl}v1/bankdetails`;
     return this.httpCllient.put(url, bankDetailsData);
   }
 
   getAddressDetails(): Observable<any> {
-    var userId: number = this.localStorageService.getUserId();
-    var parameters = "userId=" + userId;
-    var url = this.serverUrl + this.addressEndpoint + "?" + parameters;
-
+    const userId = this.localStorageService.getUserId();
+    const url = `${this.serverUrl}v1/address/addressDetails/byUserId/${userId}`;
     return this.httpCllient.get(url);
   }
-  
-  saveAddressDetails(addressDetailsData): Observable<any> {
-    var url = this.serverUrl + this.addressEndpoint;
 
+  saveAddressDetails(addressDetailsData): Observable<any> {
+    const url = `${this.serverUrl}v1/address/addressDetails`;
     return this.httpCllient.post(url, addressDetailsData);
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -18,6 +19,7 @@ import { AdminReportComponent } from './admin-report/admin-report.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule,
     MaterialModule,
     SharedModule,

@@ -1,33 +1,67 @@
 <app-top-dialog-content [titleBarColor]="primary" [title]="formTitle" (closeClick)="closeDialog()"></app-top-dialog-content>
 
-<form [formGroup]="loginForm" class="dialog-content">
-    <div class="form-group">
-        <label for="emailId">Email address</label>
-        <input type="email" class="form-control" id="emailId" formControlName="userName"
-            aria-describedby="emailHelp" placeholder="Enter email"
-            [class.is-invalid]="loginForm.get('userName').invalid && loginForm.get('userName').touched">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        <div class="invalid-feedback" *ngIf="loginForm.get('userName').invalid && loginForm.get('userName').touched">
-            Email is required.
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password"
-            [class.is-invalid]="loginForm.get('password').invalid && loginForm.get('password').touched">
-        <div class="invalid-feedback" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
-            Password is required.
-        </div>
-    </div>
+<!-- Login Form -->
+<ng-container *ngIf="!showForgotPassword">
+  <form [formGroup]="loginForm" class="dialog-content">
+      <div class="form-group">
+          <label for="emailId">Email address</label>
+          <input type="email" class="form-control" id="emailId" formControlName="userName"
+              aria-describedby="emailHelp" placeholder="Enter email"
+              [class.is-invalid]="loginForm.get('userName').invalid && loginForm.get('userName').touched">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <div class="invalid-feedback" *ngIf="loginForm.get('userName').invalid && loginForm.get('userName').touched">
+              Email is required.
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password"
+              [class.is-invalid]="loginForm.get('password').invalid && loginForm.get('password').touched">
+          <div class="invalid-feedback" *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+              Password is required.
+          </div>
+      </div>
 
-    <div class="error-message" *ngIf="errorMessage">
-        <span>&#9888;</span> {{ errorMessage }}
-    </div>
-</form>
+      <div class="error-message" *ngIf="errorMessage">
+          <span>&#9888;</span> {{ errorMessage }}
+      </div>
 
-<div class="dialog-footer-bottom-stretch">
-  <button type="submit" class="btn btn-primary btn-block" (click)="validateLogin(loginForm)" [disabled]="isLoading">
-    <span *ngIf="!isLoading">Login</span>
-    <span *ngIf="isLoading">Logging in...</span>
-  </button>
-</div>
+      <div style="text-align: right; margin-top: -10px; margin-bottom: 10px;">
+        <a href="javascript:void(0)" (click)="openForgotPassword()" style="font-size: 13px; color: #1976d2;">Forgot Password?</a>
+      </div>
+  </form>
+
+  <div class="dialog-footer-bottom-stretch">
+    <button type="submit" class="btn btn-primary btn-block" (click)="validateLogin(loginForm)" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Login</span>
+      <span *ngIf="isLoading">Logging in...</span>
+    </button>
+  </div>
+</ng-container>
+
+<!-- Forgot Password Form -->
+<ng-container *ngIf="showForgotPassword">
+  <div class="dialog-content">
+    <p style="color: #555; margin-bottom: 16px;">Enter your registered email address. Your password will be reset to a default password.</p>
+    <div class="form-group">
+      <label for="forgotEmail">Email address</label>
+      <input type="email" class="form-control" id="forgotEmail" [(ngModel)]="forgotEmail" placeholder="Enter your email">
+    </div>
+    <div class="alert alert-success" *ngIf="forgotMessage" style="font-size: 13px;">
+      &#10003; {{ forgotMessage }}
+    </div>
+    <div class="error-message" *ngIf="forgotError">
+      <span>&#9888;</span> {{ forgotError }}
+    </div>
+    <div style="text-align: left; margin-top: 10px;">
+      <a href="javascript:void(0)" (click)="backToLogin()" style="font-size: 13px; color: #1976d2;">&#8592; Back to Login</a>
+    </div>
+  </div>
+
+  <div class="dialog-footer-bottom-stretch">
+    <button class="btn btn-primary btn-block" (click)="submitForgotPassword()" [disabled]="isForgotLoading">
+      <span *ngIf="!isForgotLoading">Reset Password</span>
+      <span *ngIf="isForgotLoading">Resetting...</span>
+    </button>
+  </div>
+</ng-container>

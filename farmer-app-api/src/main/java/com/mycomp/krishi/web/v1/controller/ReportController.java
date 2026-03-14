@@ -10,12 +10,15 @@ import com.mycomp.krishi.web.v1.model.CategoryAnalyticsResponse;
 import com.mycomp.krishi.web.v1.model.SellerReportResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -32,14 +35,20 @@ public class ReportController {
 	}
 
 	@GetMapping("/seller")
-	public ResponseEntity<ApiResponse<SellerReportResponse>> getSellerReport(@RequestParam("userId") Long userId) {
-		SellerReportResponse report = reportService.getSellerReport(userId);
+	public ResponseEntity<ApiResponse<SellerReportResponse>> getSellerReport(
+			@RequestParam("userId") Long userId,
+			@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+			@RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+		SellerReportResponse report = reportService.getSellerReport(userId, startDate, endDate);
 		return ResponseEntityHelper.toSuccessResponseEntity(new ApiResponse<>(true, "Seller report generated", report));
 	}
 
 	@GetMapping("/buyer")
-	public ResponseEntity<ApiResponse<BuyerReportResponse>> getBuyerReport(@RequestParam("userId") Long userId) {
-		BuyerReportResponse report = reportService.getBuyerReport(userId);
+	public ResponseEntity<ApiResponse<BuyerReportResponse>> getBuyerReport(
+			@RequestParam("userId") Long userId,
+			@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+			@RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+		BuyerReportResponse report = reportService.getBuyerReport(userId, startDate, endDate);
 		return ResponseEntityHelper.toSuccessResponseEntity(new ApiResponse<>(true, "Buyer report generated", report));
 	}
 

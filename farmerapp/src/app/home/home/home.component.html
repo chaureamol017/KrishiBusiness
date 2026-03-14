@@ -1,8 +1,170 @@
-<div class="container" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
-    <app-banner *ngIf="hasBanners()" [banners]="banners"></app-banner>
-    <app-banner-card [title]="appName" [description]="cardDescription" [cards]="cards"></app-banner-card>
+<div class="dashboard-container">
 
-    <div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 0 15%;">
-        <h5 *ngFor="let detail of detailArr">{{detail}}</h5>
+  <!-- Welcome Banner (not logged in) -->
+  <ng-container *ngIf="!isLoggedIn">
+    <div class="welcome-banner">
+      <div class="welcome-content">
+        <h1>Welcome to <span class="brand">Krishi Business</span></h1>
+        <p>A virtual marketplace connecting farmers directly with retailers and wholesalers. Buy, sell, and bid on fresh farm produce.</p>
+      </div>
     </div>
+
+    <div class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="step-cards">
+        <div class="step-card">
+          <div class="step-icon">&#127807;</div>
+          <h3>List Your Product</h3>
+          <p>Farmers post product details, set price, and make products visible to buyers instantly.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">&#128176;</div>
+          <h3>Buyer Places Bid</h3>
+          <p>Buyers compete by offering the best price for fresh produce directly from the source.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">&#127942;</div>
+          <h3>Winning Bid Selected</h3>
+          <p>Farmers choose the best offer, ensuring they get the best value for their products.</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Dashboard (logged in) -->
+  <ng-container *ngIf="isLoggedIn">
+    <div class="dashboard-header">
+      <h2>Welcome back, <span class="user-name">{{ firstName }}</span>!</h2>
+      <span class="role-badge" [ngClass]="'role-' + userRole?.toLowerCase()">{{ userRole }}</span>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Loading dashboard...</span>
+    </div>
+
+    <ng-container *ngIf="!isLoading && dashboardData">
+
+      <!-- Admin Platform Stats -->
+      <ng-container *ngIf="isAdmin">
+        <h3 class="section-title">&#128202; Platform Overview</h3>
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-icon">&#128101;</div>
+            <div class="kpi-label">Total Users</div>
+            <div class="kpi-value">{{ dashboardData.totalUsers }}</div>
+          </div>
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon">&#128218;</div>
+            <div class="kpi-label">Total Products</div>
+            <div class="kpi-value">{{ dashboardData.totalFarmerProducts }}</div>
+          </div>
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-icon">&#10003;</div>
+            <div class="kpi-label">Products Sold</div>
+            <div class="kpi-value">{{ dashboardData.totalFarmerProductsSold }}</div>
+          </div>
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-icon">&#128200;</div>
+            <div class="kpi-label">Platform Revenue</div>
+            <div class="kpi-value">&#8377; {{ dashboardData.platformTotalRevenue | number:'1.0-0' }}</div>
+          </div>
+          <div class="kpi-card kpi-teal">
+            <div class="kpi-icon">&#127777;</div>
+            <div class="kpi-label">Total Bids</div>
+            <div class="kpi-value">{{ dashboardData.totalBids }}</div>
+          </div>
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon">&#128293;</div>
+            <div class="kpi-label">Accepted Bids</div>
+            <div class="kpi-value">{{ dashboardData.totalAcceptedBids }}</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Seller Stats -->
+      <ng-container *ngIf="isSeller">
+        <h3 class="section-title">&#127807; My Seller Stats</h3>
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-icon">&#128230;</div>
+            <div class="kpi-label">Products Listed</div>
+            <div class="kpi-value">{{ dashboardData.totalProductsListed }}</div>
+          </div>
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon">&#10003;</div>
+            <div class="kpi-label">Products Sold</div>
+            <div class="kpi-value">{{ dashboardData.totalProductsSold }}</div>
+          </div>
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-icon">&#8987;</div>
+            <div class="kpi-label">Products Unsold</div>
+            <div class="kpi-value">{{ dashboardData.totalProductsUnsold }}</div>
+          </div>
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-icon">&#128176;</div>
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value">&#8377; {{ dashboardData.totalRevenue | number:'1.0-0' }}</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Buyer Stats -->
+      <ng-container *ngIf="isBuyer">
+        <h3 class="section-title">&#128722; My Buyer Stats</h3>
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-icon">&#128203;</div>
+            <div class="kpi-label">Bids Placed</div>
+            <div class="kpi-value">{{ dashboardData.totalBidsPlaced }}</div>
+          </div>
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon">&#127942;</div>
+            <div class="kpi-label">Bids Accepted</div>
+            <div class="kpi-value">{{ dashboardData.totalBidsAccepted }}</div>
+          </div>
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-icon">&#8987;</div>
+            <div class="kpi-label">Bids Pending</div>
+            <div class="kpi-value">{{ dashboardData.totalBidsPending }}</div>
+          </div>
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-icon">&#128178;</div>
+            <div class="kpi-label">Total Spent</div>
+            <div class="kpi-value">&#8377; {{ dashboardData.totalAmountSpent | number:'1.0-0' }}</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Quick Actions -->
+      <h3 class="section-title">&#9889; Quick Actions</h3>
+      <div class="quick-actions">
+        <button mat-raised-button color="primary" (click)="navigateTo('products')" class="action-btn">
+          <mat-icon>storefront</mat-icon> Browse Products
+        </button>
+        <button mat-raised-button color="primary" *ngIf="isSeller" (click)="navigateTo('sell-products')" class="action-btn">
+          <mat-icon>add_shopping_cart</mat-icon> Sell Products
+        </button>
+        <button mat-raised-button color="accent" *ngIf="isBuyer" (click)="navigateTo('buy-products')" class="action-btn">
+          <mat-icon>shopping_basket</mat-icon> Buy Products
+        </button>
+        <button mat-raised-button (click)="navigateTo('transactions')" class="action-btn">
+          <mat-icon>receipt_long</mat-icon> Transactions
+        </button>
+        <button mat-raised-button (click)="navigateTo('reports')" class="action-btn">
+          <mat-icon>bar_chart</mat-icon> Reports
+        </button>
+        <button mat-raised-button *ngIf="isAdmin" (click)="navigateTo('user-management')" class="action-btn">
+          <mat-icon>manage_accounts</mat-icon> User Management
+        </button>
+        <button mat-raised-button *ngIf="isAdmin" (click)="navigateTo('category-analytics')" class="action-btn">
+          <mat-icon>analytics</mat-icon> Category Analytics
+        </button>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!isLoading && errorMessage" class="error-msg">
+      <mat-icon>error_outline</mat-icon> {{ errorMessage }}
+    </div>
+  </ng-container>
 </div>

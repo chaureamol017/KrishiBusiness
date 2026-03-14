@@ -10,6 +10,7 @@ export class UserAuthService {
   serverUrl: any = "http://localhost:8080";
   loginEndpoint: any = "/v1/user/validate";
   signupEndpoint: any = "/v1/user/signup"
+  forgotPasswordEndpoint: any = "/v1/user/password/forgot";
 
   constructor(
     private httpCllient: HttpClient,
@@ -26,6 +27,11 @@ export class UserAuthService {
     var url = this.serverUrl + this.signupEndpoint;
 
     return this.httpCllient.post(url, signUpDetails);
+  }
+
+  forgotPassword(emailId: string): Observable<any> {
+    const url = `${this.serverUrl}${this.forgotPasswordEndpoint}?emailId=${encodeURIComponent(emailId)}`;
+    return this.httpCllient.post(url, null);
   }
 
 }

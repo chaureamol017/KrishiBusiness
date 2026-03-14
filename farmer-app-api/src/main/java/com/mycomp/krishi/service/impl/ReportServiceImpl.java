@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +42,10 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public SellerReportResponse getSellerReport(Long userId) {
+	public SellerReportResponse getSellerReport(Long userId, Date startDate, Date endDate) {
 		SellerReportResponse response = new SellerReportResponse();
 
-		List<FarmerProduct> products = farmerProductRepository.findByUserId(userId);
+		List<FarmerProduct> products = farmerProductRepository.findByUserIdAndDateRange(userId, startDate, endDate);
 
 		long totalListed = products.size();
 		long totalSold = products.stream().filter(fp -> Boolean.TRUE.equals(fp.isSold())).count();
@@ -87,11 +88,11 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public BuyerReportResponse getBuyerReport(Long userId) {
+	public BuyerReportResponse getBuyerReport(Long userId, Date startDate, Date endDate) {
 		BuyerReportResponse response = new BuyerReportResponse();
 
-		List<FarmerProductBid> allBids = farmerProductBidRepository.findByBuyerUserId(userId);
-		List<FarmerProductBid> acceptedBids = farmerProductBidRepository.findByBuyerUserIdAndAcceptedIsTrue(userId);
+		List<FarmerProductBid> allBids = farmerProductBidRepository.findByBuyerUserIdAndDateRange(userId, startDate, endDate);
+		List<FarmerProductBid> acceptedBids = allBids.stream().filter(b -> Boolean.TRUE.equals(b.isAccepted())).toList();
 
 		long totalPlaced = allBids.size();
 		long totalAccepted = acceptedBids.size();

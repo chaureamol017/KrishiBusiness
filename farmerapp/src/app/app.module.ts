@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
@@ -18,6 +18,7 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { UserManagementModule } from './user-management/user-management.module';
 import { CategoryAnalyticsModule } from './category-analytics/category-analytics.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
+import { JwtInterceptor } from './services/jwt.interceptor';
 
 @NgModule({
   schemas: [
@@ -51,6 +52,7 @@ import { ChartsModule, ThemeService } from 'ng2-charts';
   providers: [
     LocalStorageService,
     ThemeService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

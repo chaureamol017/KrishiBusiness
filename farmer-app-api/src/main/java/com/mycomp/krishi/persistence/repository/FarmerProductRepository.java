@@ -18,6 +18,12 @@ public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Lo
     List<FarmerProduct> findByUserIdNot(Long userId);
     List<FarmerProduct> findByUserIdNotAndSoldIsFalseOrSoldIsNull(Long userId);
 
+    // Date-range filter for seller report
+    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId = :userId AND (:startDate IS NULL OR fp.addedOn >= :startDate) AND (:endDate IS NULL OR fp.addedOn <= :endDate)")
+    List<FarmerProduct> findByUserIdAndDateRange(@Param("userId") Long userId,
+                                                  @Param("startDate") Date startDate,
+                                                  @Param("endDate") Date endDate);
+
     // Search & Filter
     @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId <> :userId " +
            "AND (fp.sold IS NULL OR fp.sold = false) " +

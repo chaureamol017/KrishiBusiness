@@ -17,6 +17,8 @@ import com.mycomp.krishi.user.model.ResetPasswordRequestModel;
 import com.mycomp.krishi.user.model.SignupRequestModel;
 import com.mycomp.krishi.user.model.UserModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +72,26 @@ public class UserLoginSignupServiceImpl implements UserLoginSignupService {
 	public Map<String, Object> resetPassword(ResetPasswordRequestModel requestModel) {
 		final Map<String, Object> response = checkAndUpdatePassword(requestModel.getUserName(), null,
 				requestModel.getNewPassword(), true);
+		return response;
+	}
+
+	@Override
+	public Map<String, Object> forgotPassword(String emailId) {
+		final Map<String, Object> response = new HashMap<>();
+		response.put("success", false);
+
+		List<UserLogin> userLoginList = userLoginRepository.findByUserName(emailId);
+		if (userLoginList == null || userLoginList.isEmpty()) {
+			response.put("message", "No account found with that email address.");
+			return response;
+		}
+
+		String datePart = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		String newPassword = "KrishiApp_" + datePart;
+
+		UserLogin userLogin = userLoginList.get(0);
+		updatePassword(newPassword, response, userLogin);
+		response.put("defaultPassword", newPassword);
 		return response;
 	}
 

@@ -18,6 +18,10 @@ export class BuyerReportComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
+  // Date range - default last 30 days
+  startDate: Date;
+  endDate: Date;
+
   // Doughnut: Accepted vs Pending bids
   doughnutLabels: string[] = ['Accepted', 'Pending'];
   doughnutData: number[] = [0, 0];
@@ -36,13 +40,16 @@ export class BuyerReportComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const now = new Date();
+    this.endDate = new Date(now);
+    this.startDate = new Date(now.setDate(now.getDate() - 30));
     this.loadReport();
   }
 
   loadReport() {
     this.isLoading = true;
     this.errorMessage = '';
-    this.reportService.getBuyerReport().subscribe(
+    this.reportService.getBuyerReport(this.startDate, this.endDate).subscribe(
       response => {
         this.isLoading = false;
         if (response && response.success) {

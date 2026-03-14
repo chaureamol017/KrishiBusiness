@@ -26,5 +26,7 @@ public interface UserLoginSignupService {
     public Map<String, Object> changePassword(ChangePasswordRequestModel requestParams);
 
 	public Map<String, Object> resetPassword(ResetPasswordRequestModel model);
+
+    public Map<String, Object> forgotPassword(String emailId);
     
 }

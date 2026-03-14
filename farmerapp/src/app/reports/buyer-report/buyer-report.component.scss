@@ -1,3 +1,12 @@
+.date-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 0 8px;
+  margin-bottom: 8px;
+}
+
 .report-container {
   h3, h4 {
     margin: 16px 0 8px;
