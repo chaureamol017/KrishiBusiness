@@ -37,7 +37,7 @@ public interface FarmerProductBidRepository extends JpaRepository<FarmerProductB
     long countAllAcceptedBids();
 
     // Date-range filter for buyer report
-    @Query("SELECT fpb FROM FarmerProductBid fpb WHERE fpb.buyerUserId = :buyerUserId AND (:startDate IS NULL OR fpb.bidOn >= :startDate) AND (:endDate IS NULL OR fpb.bidOn <= :endDate)")
+    @Query("SELECT fpb FROM FarmerProductBid fpb WHERE fpb.buyerUserId = :buyerUserId AND (:startDate IS NULL OR fpb.bidOn IS NULL OR fpb.bidOn >= :startDate) AND (:endDate IS NULL OR fpb.bidOn IS NULL OR fpb.bidOn <= :endDate)")
     List<FarmerProductBid> findByBuyerUserIdAndDateRange(@Param("buyerUserId") Long buyerUserId,
                                                           @Param("startDate") Date startDate,
                                                           @Param("endDate") Date endDate);

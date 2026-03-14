@@ -26,13 +26,37 @@ export class BuyerReportComponent implements OnInit {
   doughnutLabels: string[] = ['Accepted', 'Pending'];
   doughnutData: number[] = [0, 0];
   doughnutColors = [{ backgroundColor: ['#4caf50', '#ff9800'] }];
-  doughnutOptions = { responsive: true, maintainAspectRatio: false };
+  doughnutOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const dataset = data.datasets[tooltipItem.datasetIndex];
+          const total = dataset.data.reduce((sum, val) => sum + val, 0);
+          const value = dataset.data[tooltipItem.index];
+          const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+          const label = data.labels[tooltipItem.index];
+          return ` ${label}: ${value} (${pct}%)`;
+        }
+      }
+    }
+  };
 
-  // Bar: Quoted price per product
+  // Bar: Quoted price per KG (normalized)
   barLabels: string[] = [];
-  barData: Array<any> = [{ data: [], label: 'Quoted Price/Unit (₹)' }];
+  barData: Array<any> = [{ data: [], label: 'Quoted Price/KG (₹)' }];
   barColors = [{ backgroundColor: '#7b1fa2' }];
-  barOptions = { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
+  barOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem) => ` ₹${Number(tooltipItem.yLabel).toFixed(2)} / KG`
+      }
+    }
+  };
 
   constructor(
     private reportService: ReportService,
@@ -70,13 +94,23 @@ export class BuyerReportComponent implements OnInit {
     );
   }
 
+  private normalizeToKg(price: number, unit: string): number {
+    const u = (unit || '').toLowerCase();
+    if (u === 'gram') return price * 1000;
+    if (u === 'ton') return price / 1000;
+    if (u === 'pound') return price / 0.453592;
+    return price; // Kilogram or unknown
+  }
+
   private buildCharts() {
     try {
       this.doughnutData = [this.report.totalBidsAccepted, this.report.totalBidsPending];
       const bids = this.report.bidDetails || [];
-      const top10 = [...bids].slice(0, 10);
+      // Exclude accepted (purchased) bids, show only pending
+      const pendingBids = bids.filter(b => !b.accepted);
+      const top10 = [...pendingBids].slice(0, 10);
       this.barLabels = top10.map(b => b.productName || 'Unknown');
-      this.barData = [{ data: top10.map(b => b.quotedPricePerUnit), label: 'Quoted Price/Unit (₹)' }];
+      this.barData = [{ data: top10.map(b => Math.round(this.normalizeToKg(b.quotedPricePerUnit, b.quantityUnit) * 100) / 100), label: 'Quoted Price/KG (₹)' }];
     } catch (e) {
       console.error('Chart build error:', e);
     }

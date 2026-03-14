@@ -24,6 +24,7 @@ export interface BidDetail {
   farmerProductId: number;
   productName: string;
   category: string;
+  quantityUnit: string;
   quotedPricePerUnit: number;
   bidOn: string;
   acceptedOn: string;

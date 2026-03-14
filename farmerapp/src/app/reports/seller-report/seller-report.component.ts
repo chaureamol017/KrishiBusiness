@@ -26,13 +26,42 @@ export class SellerReportComponent implements OnInit {
   doughnutLabels: string[] = ['Sold', 'Unsold'];
   doughnutData: number[] = [0, 0];
   doughnutColors = [{ backgroundColor: ['#4caf50', '#ff9800'] }];
-  doughnutOptions = { responsive: true, maintainAspectRatio: false };
+  doughnutOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const dataset = data.datasets[tooltipItem.datasetIndex];
+          const total = dataset.data.reduce((sum, val) => sum + val, 0);
+          const value = dataset.data[tooltipItem.index];
+          const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+          const label = data.labels[tooltipItem.index];
+          return ` ${label}: ${value} (${pct}%)`;
+        }
+      }
+    }
+  };
 
-  // Bar: Revenue per product
+  // Bar: Revenue per product (percentage)
   barLabels: string[] = [];
-  barData: Array<any> = [{ data: [], label: 'Total Value (₹)' }];
+  barData: Array<any> = [{ data: [], label: 'Revenue Share (%)' }];
   barColors = [{ backgroundColor: '#1976d2' }];
-  barOptions = { responsive: true, maintainAspectRatio: false, scales: { yAxes: [{ ticks: { beginAtZero: true } }] } };
+  barOptions: any = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: { yAxes: [{ ticks: { beginAtZero: true, max: 100 } }] },
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const pct = Number(tooltipItem.yLabel).toFixed(1);
+          const idx = tooltipItem.index;
+          const amount = data.datasets[0]._amounts ? data.datasets[0]._amounts[idx] : '';
+          return amount ? ` ₹${amount.toFixed(2)} (${pct}%)` : ` ${pct}%`;
+        }
+      }
+    }
+  };
 
   constructor(
     private reportService: ReportService,
@@ -77,8 +106,11 @@ export class SellerReportComponent implements OnInit {
       const top10 = [...details]
         .sort((a, b) => b.totalValue - a.totalValue)
         .slice(0, 10);
+      const totalRevenue = details.reduce((sum, p) => sum + p.totalValue, 0);
+      const amounts = top10.map(p => p.totalValue);
+      const percentages = top10.map(p => totalRevenue > 0 ? Math.round((p.totalValue / totalRevenue) * 1000) / 10 : 0);
       this.barLabels = top10.map(p => p.productName || 'Unknown');
-      this.barData = [{ data: top10.map(p => p.totalValue), label: 'Total Value (₹)' }];
+      this.barData = [{ data: percentages, label: 'Revenue Share (%)', _amounts: amounts }];
     } catch (e) {
       console.error('Chart build error:', e);
     }

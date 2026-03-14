@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,17 @@ import java.util.Optional;
 public class ReportServiceImpl implements ReportService {
 
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+
+	private Date endOfDay(Date date) {
+		if (date == null) return null;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+		return cal.getTime();
+	}
 
 	private final FarmerProductRepository farmerProductRepository;
 	private final FarmerProductBidRepository farmerProductBidRepository;
@@ -45,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
 	public SellerReportResponse getSellerReport(Long userId, Date startDate, Date endDate) {
 		SellerReportResponse response = new SellerReportResponse();
 
-		List<FarmerProduct> products = farmerProductRepository.findByUserIdAndDateRange(userId, startDate, endDate);
+		List<FarmerProduct> products = farmerProductRepository.findByUserIdAndDateRange(userId, startDate, endOfDay(endDate));
 
 		long totalListed = products.size();
 		long totalSold = products.stream().filter(fp -> Boolean.TRUE.equals(fp.isSold())).count();
@@ -91,7 +103,7 @@ public class ReportServiceImpl implements ReportService {
 	public BuyerReportResponse getBuyerReport(Long userId, Date startDate, Date endDate) {
 		BuyerReportResponse response = new BuyerReportResponse();
 
-		List<FarmerProductBid> allBids = farmerProductBidRepository.findByBuyerUserIdAndDateRange(userId, startDate, endDate);
+		List<FarmerProductBid> allBids = farmerProductBidRepository.findByBuyerUserIdAndDateRange(userId, startDate, endOfDay(endDate));
 		List<FarmerProductBid> acceptedBids = allBids.stream().filter(b -> Boolean.TRUE.equals(b.isAccepted())).toList();
 
 		long totalPlaced = allBids.size();
@@ -123,9 +135,11 @@ public class ReportServiceImpl implements ReportService {
 				FarmerProduct fp = fpOpt.get();
 				detail.setProductName(fp.getProduct() != null ? fp.getProduct().getName() : "");
 				detail.setCategory(fp.getProduct() != null ? fp.getProduct().getCategory() : "");
+				detail.setQuantityUnit(fp.getQuantityUnit() != null ? fp.getQuantityUnit() : "");
 			} else {
 				detail.setProductName("");
 				detail.setCategory("");
+				detail.setQuantityUnit("");
 			}
 
 			detail.setQuotedPricePerUnit(bid.getQuotedPricePerUnit());

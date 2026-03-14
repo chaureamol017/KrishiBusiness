@@ -62,6 +62,7 @@ public class BuyerReportResponse {
 		private Long farmerProductId;
 		private String productName;
 		private String category;
+		private String quantityUnit;
 		private double quotedPricePerUnit;
 		private String bidOn;
 		private String acceptedOn;
@@ -89,6 +90,14 @@ public class BuyerReportResponse {
 
 		public void setCategory(String category) {
 			this.category = category;
+		}
+
+		public String getQuantityUnit() {
+			return quantityUnit;
+		}
+
+		public void setQuantityUnit(String quantityUnit) {
+			this.quantityUnit = quantityUnit;
 		}
 
 		public double getQuotedPricePerUnit() {

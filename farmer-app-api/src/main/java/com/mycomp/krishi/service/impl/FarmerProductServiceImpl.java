@@ -24,6 +24,9 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 
 	@Override
 	public FarmerProductModel save(final FarmerProductModel model) {
+		if (model.getAddedOn() == null) {
+			model.setAddedOn(new Date());
+		}
 		final FarmerProduct entityToSave = modelAdapter.toEntityMinimal(model);
 		final FarmerProduct savedEntity = repository.save(entityToSave);
 
