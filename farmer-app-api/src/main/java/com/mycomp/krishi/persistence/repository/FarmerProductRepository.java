@@ -1,6 +1,7 @@
 package com.mycomp.krishi.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,27 +14,18 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Long> {
+public interface FarmerProductRepository extends JpaRepository<FarmerProduct, Long>, JpaSpecificationExecutor<FarmerProduct> {
     List<FarmerProduct> findByUserId(Long userId);
     List<FarmerProduct> findByUserIdNot(Long userId);
-    List<FarmerProduct> findByUserIdNotAndSoldIsFalseOrSoldIsNull(Long userId);
+
+    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId <> :userId AND (fp.sold IS NULL OR fp.sold = false)")
+    List<FarmerProduct> findAvailableForBuy(@Param("userId") Long userId);
 
     // Date-range filter for seller report
     @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId = :userId AND (:startDate IS NULL OR fp.addedOn >= :startDate) AND (:endDate IS NULL OR fp.addedOn <= :endDate)")
     List<FarmerProduct> findByUserIdAndDateRange(@Param("userId") Long userId,
                                                   @Param("startDate") Date startDate,
                                                   @Param("endDate") Date endDate);
-
-    // Search & Filter
-    @Query("SELECT fp FROM FarmerProduct fp WHERE fp.userId <> :userId " +
-           "AND (fp.sold IS NULL OR fp.sold = false) " +
-           "AND (:category IS NULL OR fp.product.category = :category) " +
-           "AND (:city IS NULL OR fp.city = :city) " +
-           "AND (:search IS NULL OR fp.product.name LIKE CONCAT('%', :search, '%') OR fp.description LIKE CONCAT('%', :search, '%'))")
-    List<FarmerProduct> searchProducts(@Param("userId") Long userId,
-                                       @Param("category") String category,
-                                       @Param("city") String city,
-                                       @Param("search") String search);
 
     // All products (for admin)
     @Query("SELECT fp FROM FarmerProduct fp WHERE fp.sold = true")

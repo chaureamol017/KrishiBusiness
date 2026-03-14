@@ -1,7 +1,11 @@
-.tab-bar {
-  display: flex;
-  gap: 8px;
-  padding: 16px;
+.transactions-tab-group {
+  ::ng-deep .mat-ink-bar {
+    background-color: #4caf50;
+  }
+  ::ng-deep .mat-tab-label-active {
+    color: #4caf50;
+    opacity: 1;
+  }
 }
 
 .loading-container {

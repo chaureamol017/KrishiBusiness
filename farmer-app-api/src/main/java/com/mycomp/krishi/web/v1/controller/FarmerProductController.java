@@ -8,7 +8,9 @@ import com.mycomp.krishi.web.v1.adapter.FarmerProductWebAdapter;
 import com.mycomp.krishi.web.v1.model.FarmerProductRequest;
 import com.mycomp.krishi.web.v1.model.FarmerProductResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,11 +78,11 @@ public class FarmerProductController {
 
 	@GetMapping(value = "search")
 	public ResponseEntity<List<FarmerProductResponse>> searchProducts(
-			@RequestParam("userId") Long userId,
-			@RequestParam(value = "category", required = false) String category,
-			@RequestParam(value = "city", required = false) String city,
-			@RequestParam(value = "search", required = false) String search) {
-		final List<FarmerProductModel> models = service.searchProducts(userId, category, city, search);
+			@RequestParam Map<String, String> params) {
+		Long userId = Long.parseLong(params.get("userId"));
+		Map<String, String> filters = new HashMap<>(params);
+		filters.remove("userId");
+		final List<FarmerProductModel> models = service.searchProducts(userId, filters);
 
 		return responseEntityAdapter.createResponseEntity(models, false);
 	}

@@ -22,6 +22,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSortModule} from '@angular/material/sort';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 
@@ -51,6 +52,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatSnackBarModule,
     MatCardModule,
     MatChipsModule,
+    MatTabsModule,
   ],
   exports: [
     MatButtonModule,
@@ -74,6 +76,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatSnackBarModule,
     MatCardModule,
     MatChipsModule,
+    MatTabsModule,
   ]
 })
 export class MaterialModule { }

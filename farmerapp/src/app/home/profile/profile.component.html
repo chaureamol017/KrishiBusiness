@@ -5,17 +5,16 @@
         <mat-icon>clear</mat-icon>
     </button>
 </mat-toolbar>
-<mat-toolbar>
-    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==0" (click)="updateProfileIndex(0)">My Details</a>
-    <!-- <span class="fill-remaining-space"></span> -->
-    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==1" (click)="updateProfileIndex(1)">Bank Details</a>
-    <!-- <span class="fill-remaining-space"></span> -->
-    <a mat-raised-button [class.profile-mat-item-selected]="profileIndex==2" (click)="updateProfileIndex(2)">Address Details</a>
-</mat-toolbar>
-
 <mat-dialog-content class="mat-typography">
-    <app-user-details *ngIf="profileIndex == 0" (closeProfileDialogForMe)="closeDialog()"></app-user-details>
-    <app-bank-details *ngIf="profileIndex == 1" (closeProfileDialogForMe)="closeDialog()"></app-bank-details>
-    <app-address-details *ngIf="profileIndex == 2" (closeProfileDialogForMe)="closeDialog()"></app-address-details>
-
+    <mat-tab-group class="profile-tab-group" [selectedIndex]="profileIndex" (selectedIndexChange)="updateProfileIndex($event)">
+        <mat-tab label="My Details">
+            <app-user-details (closeProfileDialogForMe)="closeDialog()"></app-user-details>
+        </mat-tab>
+        <mat-tab label="Bank Details">
+            <app-bank-details (closeProfileDialogForMe)="closeDialog()"></app-bank-details>
+        </mat-tab>
+        <mat-tab label="Address Details">
+            <app-address-details (closeProfileDialogForMe)="closeDialog()"></app-address-details>
+        </mat-tab>
+    </mat-tab-group>
 </mat-dialog-content>

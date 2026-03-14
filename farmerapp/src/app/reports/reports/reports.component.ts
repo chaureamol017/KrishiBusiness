@@ -14,7 +14,6 @@ export class ReportsComponent implements OnInit {
   showSellerReport = false;
   showBuyerReport = false;
   showAdminReport = false;
-  activeTab: string = '';
 
   constructor(private localStorageService: LocalStorageService) {}
 
@@ -26,21 +25,12 @@ export class ReportsComponent implements OnInit {
       this.showAdminReport = true;
       this.showSellerReport = true;
       this.showBuyerReport = true;
-      this.activeTab = 'admin';
-    } else if (role === 'BOTH') {
+    } else if (role === 'BOTH' || role === 'SELLER') {
+      // Sellers can also buy, so show both reports
       this.showSellerReport = true;
       this.showBuyerReport = true;
-      this.activeTab = 'seller';
-    } else if (role === 'SELLER') {
-      this.showSellerReport = true;
-      this.activeTab = 'seller';
     } else if (role === 'BUYER') {
       this.showBuyerReport = true;
-      this.activeTab = 'buyer';
     }
-  }
-
-  setActiveTab(tab: string) {
-    this.activeTab = tab;
   }
 }

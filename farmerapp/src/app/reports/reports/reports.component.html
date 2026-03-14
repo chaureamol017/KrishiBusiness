@@ -1,22 +1,21 @@
-<app-top-bar [name]="'Reports'"></app-top-bar>
+<mat-tab-group class="reports-tab-group" animationDuration="200ms">
 
-<div class="report-tabs">
-  <button mat-raised-button *ngIf="showAdminReport" [color]="activeTab === 'admin' ? 'primary' : ''"
-    (click)="setActiveTab('admin')">
-    Admin Overview
-  </button>
-  <button mat-raised-button *ngIf="showSellerReport" [color]="activeTab === 'seller' ? 'primary' : ''"
-    (click)="setActiveTab('seller')">
-    Seller Report
-  </button>
-  <button mat-raised-button *ngIf="showBuyerReport" [color]="activeTab === 'buyer' ? 'primary' : ''"
-    (click)="setActiveTab('buyer')">
-    Buyer Report
-  </button>
-</div>
+  <mat-tab *ngIf="showAdminReport" label="Admin Overview">
+    <div class="tab-content">
+      <app-admin-report></app-admin-report>
+    </div>
+  </mat-tab>
 
-<div class="report-content">
-  <app-admin-report *ngIf="activeTab === 'admin'"></app-admin-report>
-  <app-seller-report *ngIf="activeTab === 'seller'"></app-seller-report>
-  <app-buyer-report *ngIf="activeTab === 'buyer'"></app-buyer-report>
-</div>
+  <mat-tab *ngIf="showSellerReport" label="Seller Report">
+    <div class="tab-content">
+      <app-seller-report></app-seller-report>
+    </div>
+  </mat-tab>
+
+  <mat-tab *ngIf="showBuyerReport" label="Purchase Report">
+    <div class="tab-content">
+      <app-buyer-report></app-buyer-report>
+    </div>
+  </mat-tab>
+
+</mat-tab-group>

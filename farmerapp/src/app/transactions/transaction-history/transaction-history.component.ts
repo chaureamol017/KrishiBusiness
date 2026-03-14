@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatTabChangeEvent } from '@angular/material';
 import { Transaction } from '../../model/transaction.model';
 import { TransactionService } from '../../services/transaction.service';
 import { LocalStorageService } from '../../services/local-storage.service';
@@ -86,6 +86,24 @@ export class TransactionHistoryComponent implements OnInit {
     );
   }
 
+  get selectedTabIndex(): number {
+    const tabs: string[] = [];
+    if (this.showAllTab) tabs.push('all');
+    if (this.showSellerTab) tabs.push('seller');
+    if (this.showBuyerTab) tabs.push('buyer');
+    return Math.max(0, tabs.indexOf(this.activeTab));
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    const labelMap: { [key: string]: string } = {
+      'All Transactions': 'all',
+      'My Sales': 'seller',
+      'My Purchases': 'buyer'
+    };
+    const tab = labelMap[event.tab.textLabel];
+    if (tab) this.setActiveTab(tab);
+  }
+
   get showSellerTab(): boolean {
     const role = this.userRole ? this.userRole.toUpperCase() : '';
     return role === 'SELLER' || role === 'BOTH' || role === 'ADMIN';
@@ -93,7 +111,7 @@ export class TransactionHistoryComponent implements OnInit {
 
   get showBuyerTab(): boolean {
     const role = this.userRole ? this.userRole.toUpperCase() : '';
-    return role === 'BUYER' || role === 'BOTH' || role === 'ADMIN';
+    return role === 'BUYER' || role === 'BOTH' || role === 'ADMIN' || role === 'SELLER';
   }
 
   get showAllTab(): boolean {

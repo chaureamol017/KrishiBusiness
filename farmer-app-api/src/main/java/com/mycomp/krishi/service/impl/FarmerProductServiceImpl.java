@@ -3,12 +3,14 @@ package com.mycomp.krishi.service.impl;
 import com.mycomp.krishi.common.adapter.ModelAdapter;
 import com.mycomp.krishi.persistence.repository.FarmerProductRepository;
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
+import com.mycomp.krishi.persistence.specification.FarmerProductSpecification;
 import com.mycomp.krishi.service.adapter.FarmerProductModelAdapter;
 import com.mycomp.krishi.service.api.FarmerProductService;
 import com.mycomp.krishi.service.model.FarmerProductModel;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,14 +67,15 @@ public class FarmerProductServiceImpl implements FarmerProductService {
 
 	@Override
 	public List<FarmerProductModel> getForSeller(Long userId) {
-		final List<FarmerProduct> entities = repository.findByUserIdNotAndSoldIsFalseOrSoldIsNull(userId);
+		final List<FarmerProduct> entities = repository.findAvailableForBuy(userId);
 
 		return modelAdapter.toModel(entities);
 	}
 
 	@Override
-	public List<FarmerProductModel> searchProducts(Long userId, String category, String city, String search) {
-		final List<FarmerProduct> entities = repository.searchProducts(userId, category, city, search);
+	public List<FarmerProductModel> searchProducts(Long userId, Map<String, String> filters) {
+		final List<FarmerProduct> entities = repository.findAll(
+				FarmerProductSpecification.withFilters(userId, filters));
 
 		return modelAdapter.toModel(entities);
 	}

@@ -1,3 +1,16 @@
-.profile-mat-item-selected {
-    background-color: #3730F6;
+mat-dialog-content {
+    padding: 0;
+}
+
+.profile-tab-group {
+    ::ng-deep .mat-ink-bar {
+        background-color: #4caf50;
+    }
+    ::ng-deep .mat-tab-label-active {
+        color: #4caf50;
+        opacity: 1;
+    }
+    ::ng-deep .mat-tab-body-content {
+        padding: 16px 24px;
+    }
 }
