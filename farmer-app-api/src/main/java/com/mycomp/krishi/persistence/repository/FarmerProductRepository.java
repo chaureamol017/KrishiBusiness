@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 

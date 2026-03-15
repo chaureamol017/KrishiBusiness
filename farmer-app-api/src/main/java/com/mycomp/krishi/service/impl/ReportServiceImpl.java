@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -104,7 +105,7 @@ public class ReportServiceImpl implements ReportService {
 		BuyerReportResponse response = new BuyerReportResponse();
 
 		List<FarmerProductBid> allBids = farmerProductBidRepository.findByBuyerUserIdAndDateRange(userId, startDate, endOfDay(endDate));
-		List<FarmerProductBid> acceptedBids = allBids.stream().filter(b -> Boolean.TRUE.equals(b.isAccepted())).toList();
+		List<FarmerProductBid> acceptedBids = allBids.stream().filter(b -> Boolean.TRUE.equals(b.isAccepted())).collect(Collectors.toList());
 
 		long totalPlaced = allBids.size();
 		long totalAccepted = acceptedBids.size();
@@ -167,7 +168,7 @@ public class ReportServiceImpl implements ReportService {
 
 		List<FarmerProduct> allSold = farmerProductRepository.findAll().stream()
 				.filter(fp -> Boolean.TRUE.equals(fp.isSold()))
-				.toList();
+				.collect(Collectors.toList());
 		double platformRevenue = allSold.stream()
 				.mapToDouble(fp -> fp.getPricePerUnit() * fp.getQuantity())
 				.sum();

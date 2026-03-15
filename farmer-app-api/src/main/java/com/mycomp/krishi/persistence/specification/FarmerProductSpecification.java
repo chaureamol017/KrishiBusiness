@@ -1,9 +1,9 @@
 package com.mycomp.krishi.persistence.specification;
 
 import com.mycomp.krishi.persistence.entity.FarmerProduct;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

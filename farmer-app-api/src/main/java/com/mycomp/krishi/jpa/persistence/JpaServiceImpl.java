@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PessimisticLockScope;
-import jakarta.persistence.Query;
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PessimisticLockScope;
+import javax.persistence.Query;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class JpaServiceImpl implements JpaService {
 
     @PostConstruct
     public void setLockMode() {
-        entityManager.setProperty("jakarta.persistence.lock.scope", PessimisticLockScope.EXTENDED);
+        entityManager.setProperty("javax.persistence.lock.scope", PessimisticLockScope.EXTENDED);
     }
 
     @Override

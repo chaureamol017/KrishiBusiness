@@ -1,9 +1,11 @@
 package com.mycomp.krishi.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,7 +34,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String userName = jwtUtil.extractUserName(token);
             String role = jwtUtil.extractRole(token);
 
-            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+            List<SimpleGrantedAuthority> authorities = Lists.newArrayList(new SimpleGrantedAuthority("ROLE_" + role));
             UsernamePasswordAuthenticationToken auth =
                     new UsernamePasswordAuthenticationToken(userName, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
